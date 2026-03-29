@@ -1,0 +1,273 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" role="img" aria-label="HupfGaudi Vilshofen">
+
+  <!-- ═══ FARBSPRITZER ═══ -->
+  <ellipse cx="22" cy="148" rx="7" ry="11" fill="#ffcc00" transform="rotate(-20,22,148)"/>
+  <circle  cx="10" cy="178" r="5"  fill="#00b4d8"/>
+  <ellipse cx="30" cy="205" rx="5" ry="8"  fill="#ff5a1f" transform="rotate(15,30,205)"/>
+  <circle  cx="16" cy="228" r="4"  fill="#ffcc00"/>
+  <ellipse cx="478" cy="138" rx="7" ry="11" fill="#ff5a1f" transform="rotate(20,478,138)"/>
+  <circle  cx="490" cy="170" r="5"  fill="#ffcc00"/>
+  <ellipse cx="470" cy="198" rx="5" ry="8"  fill="#00b4d8" transform="rotate(-15,470,198)"/>
+  <circle  cx="484" cy="225" r="4"  fill="#ff5a1f"/>
+  <ellipse cx="162" cy="18" rx="5" ry="8" fill="#00b4d8" transform="rotate(5,162,18)"/>
+  <circle  cx="188" cy="10" r="4"  fill="#ffcc00"/>
+  <ellipse cx="318" cy="20" rx="5" ry="8" fill="#ff5a1f" transform="rotate(-5,318,20)"/>
+  <circle  cx="344" cy="12" r="4"  fill="#00b4d8"/>
+  <circle  cx="105" cy="335" r="6" fill="#ffcc00"/>
+  <circle  cx="395" cy="335" r="6" fill="#00b4d8"/>
+  <ellipse cx="92"  cy="362" rx="4" ry="7" fill="#ff5a1f" transform="rotate(-10,92,362)"/>
+  <ellipse cx="408" cy="358" rx="4" ry="7" fill="#ffcc00" transform="rotate(10,408,358)"/>
+
+  <!-- ═══ BURG – BODEN ═══ -->
+  <rect x="142" y="230" width="216" height="52" rx="5" fill="#ff5a1f" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="142" y="250" width="216" height="14" fill="#ffcc00" opacity="0.40"/>
+
+  <!-- ═══ BURG – REGENBOGENBOGEN ═══ -->
+  <path d="M142 282 Q250 110 358 282" fill="none" stroke="#1a1a2e" stroke-width="58" stroke-linecap="butt"/>
+  <path d="M142 282 Q250 110 358 282" fill="none" stroke="#ff5a1f"  stroke-width="52" stroke-linecap="butt"/>
+  <path d="M142 282 Q250 110 358 282" fill="none" stroke="#ffcc00"  stroke-width="36" stroke-linecap="butt"/>
+  <path d="M142 282 Q250 110 358 282" fill="none" stroke="#00b4d8"  stroke-width="22" stroke-linecap="butt"/>
+  <path d="M142 282 Q250 110 358 282" fill="none" stroke="#44dd44" stroke-width="9"  stroke-linecap="butt"/>
+
+  <!-- ═══ LINKER TURM ═══ -->
+  <rect x="106" y="125" width="68" height="157" rx="6" fill="#ff5a1f" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="106" y="148" width="68" height="13"  fill="#ffcc00" opacity="0.38"/>
+  <rect x="106" y="178" width="68" height="13"  fill="#ffcc00" opacity="0.38"/>
+  <rect x="106" y="208" width="68" height="13"  fill="#ffcc00" opacity="0.38"/>
+  <ellipse cx="140" cy="158" rx="11" ry="13" fill="white" opacity="0.20" stroke="#1a1a2e" stroke-width="1.5"/>
+  <rect x="103" y="93"  width="19" height="36" rx="4" fill="#ff5a1f" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="126" y="93"  width="19" height="36" rx="4" fill="#ff5a1f" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="149" y="93"  width="19" height="36" rx="4" fill="#ff5a1f" stroke="#1a1a2e" stroke-width="2"/>
+
+  <!-- ═══ RECHTER TURM ═══ -->
+  <rect x="326" y="125" width="68" height="157" rx="6" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="326" y="148" width="68" height="13"  fill="#ffcc00" opacity="0.38"/>
+  <rect x="326" y="178" width="68" height="13"  fill="#ffcc00" opacity="0.38"/>
+  <rect x="326" y="208" width="68" height="13"  fill="#ffcc00" opacity="0.38"/>
+  <ellipse cx="360" cy="158" rx="11" ry="13" fill="white" opacity="0.20" stroke="#1a1a2e" stroke-width="1.5"/>
+  <rect x="328" y="93"  width="19" height="36" rx="4" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="351" y="93"  width="19" height="36" rx="4" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="374" y="93"  width="19" height="36" rx="4" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2"/>
+
+  <!-- ═══ EINGANG ═══ -->
+  <path d="M204 282 Q250 248 296 282Z" fill="#1a1a2e"/>
+  <rect x="216" y="262" width="68" height="24" fill="#1a1a2e"/>
+  <!-- Mädchen im Eingang -->
+  <circle cx="250" cy="256" r="11" fill="#FFCB94" stroke="#1a1a2e" stroke-width="1.5"/>
+  <path d="M240,253 Q245,243 250,242 Q255,243 260,253 Q255,248 250,249 Q245,248 240,253Z" fill="#ffcc00" stroke="#1a1a2e" stroke-width="1"/>
+  <circle cx="246" cy="255" r="2.5" fill="#1a1a2e"/>
+  <circle cx="254" cy="255" r="2.5" fill="#1a1a2e"/>
+  <path d="M246,262 Q250,266 254,262" fill="none" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="244" y="268" width="12" height="10" rx="3" fill="#00b4d8" stroke="#1a1a2e" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- KIND 1 – oben links (Junge mit Mütze, Faust) -->
+  <!-- ══════════════════════════════════════════════ -->
+  <g transform="translate(78,152) rotate(-12)">
+    <!-- Beine -->
+    <line x1="-6" y1="13" x2="-22" y2="44" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-6" y1="13" x2="-22" y2="44" stroke="#FFCB94" stroke-width="7"  stroke-linecap="round"/>
+    <line x1="6"  y1="13" x2="20"  y2="42" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="6"  y1="13" x2="20"  y2="42" stroke="#FFCB94" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Linker Arm (hinten/unten) -->
+    <line x1="-13" y1="-18" x2="-28" y2="5"  stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-13" y1="-18" x2="-28" y2="5"  stroke="#00b4d8" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Körper -->
+    <rect x="-14" y="-25" width="28" height="28" rx="8" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2.5"/>
+    <!-- Shorts -->
+    <rect x="-13" y="2"   width="26" height="14" rx="5" fill="#ffcc00" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Rechter Arm (Faust hoch) -->
+    <line x1="13" y1="-18" x2="30" y2="-46" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="13" y1="-18" x2="30" y2="-46" stroke="#00b4d8" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Haare -->
+    <path d="M-10,-65 Q-13,-77 -4,-74 Q0,-79 4,-74 Q13,-77 10,-65" fill="#ffcc00" stroke="#1a1a2e" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Mütze -->
+    <path d="M-17,-59 Q-12,-75 0,-68 Q12,-75 17,-59 Q8,-54 0,-56 Q-8,-54 -17,-59Z" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2"/>
+    <rect x="-22" y="-61" width="9" height="6" rx="2" fill="#00b4d8" stroke="#1a1a2e" stroke-width="1.5"/>
+    <!-- Kopf -->
+    <circle cx="0" cy="-45" r="18" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2.5"/>
+    <!-- Wangen -->
+    <circle cx="-12" cy="-41" r="5" fill="#ff9999" opacity="0.42"/>
+    <circle cx="12"  cy="-41" r="5" fill="#ff9999" opacity="0.42"/>
+    <!-- Augen (zugekniffen = Bögen) -->
+    <path d="M-10,-49 Q-7,-54 -4,-49" fill="none" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M4,-49  Q7,-54  10,-49" fill="none" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Lachen -->
+    <path d="M-8,-36 Q0,-28 8,-36"   fill="#cc3333" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M-6,-36 Q0,-29 6,-36"   fill="white"/>
+    <!-- Hand links -->
+    <circle cx="-28" cy="5" r="7" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Faust rechts -->
+    <rect x="23" y="-54" width="15" height="12" rx="5" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Schuhe -->
+    <ellipse cx="-24" cy="46" rx="9" ry="5" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2" transform="rotate(-18,-24,46)"/>
+    <ellipse cx="22"  cy="44" rx="9" ry="5" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2" transform="rotate(14,22,44)"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- KIND 2 – oben rechts (Junge, Arme spread)    -->
+  <!-- ══════════════════════════════════════════════ -->
+  <g transform="translate(422,152) rotate(12)">
+    <!-- Beine -->
+    <line x1="-6" y1="13" x2="-20" y2="44" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-6" y1="13" x2="-20" y2="44" stroke="#FFCB94" stroke-width="7"  stroke-linecap="round"/>
+    <line x1="6"  y1="13" x2="22"  y2="42" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="6"  y1="13" x2="22"  y2="42" stroke="#FFCB94" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Linker Arm (Faust hoch-links) -->
+    <line x1="-13" y1="-18" x2="-30" y2="-44" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-13" y1="-18" x2="-30" y2="-44" stroke="#00b4d8" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Rechter Arm (seitlich-unten) -->
+    <line x1="13" y1="-18" x2="28" y2="4"   stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="13" y1="-18" x2="28" y2="4"   stroke="#00b4d8" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Körper -->
+    <rect x="-14" y="-25" width="28" height="28" rx="8" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2.5"/>
+    <!-- Shorts -->
+    <rect x="-13" y="2"   width="26" height="14" rx="5" fill="#ffcc00" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Haare (gelb, ohne Mütze) -->
+    <path d="M-14,-63 Q-8,-76 0,-72 Q8,-76 14,-63 Q8,-58 0,-60 Q-8,-58 -14,-63Z" fill="#ffcc00" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Kopf -->
+    <circle cx="0" cy="-45" r="18" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2.5"/>
+    <!-- Wangen -->
+    <circle cx="-12" cy="-41" r="5" fill="#ff9999" opacity="0.42"/>
+    <circle cx="12"  cy="-41" r="5" fill="#ff9999" opacity="0.42"/>
+    <!-- Augen (rund, offen) -->
+    <circle cx="-7" cy="-49" r="5"   fill="white" stroke="#1a1a2e" stroke-width="1.5"/>
+    <circle cx="7"  cy="-49" r="5"   fill="white" stroke="#1a1a2e" stroke-width="1.5"/>
+    <circle cx="-6" cy="-48" r="2.5" fill="#1a1a2e"/>
+    <circle cx="8"  cy="-48" r="2.5" fill="#1a1a2e"/>
+    <circle cx="-5" cy="-50" r="1"   fill="white"/>
+    <circle cx="9"  cy="-50" r="1"   fill="white"/>
+    <!-- Lachen -->
+    <path d="M-8,-36 Q0,-28 8,-36" fill="#cc3333" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M-6,-36 Q0,-29 6,-36" fill="white"/>
+    <!-- Faust links -->
+    <rect x="-38" y="-52" width="15" height="12" rx="5" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Hand rechts -->
+    <circle cx="28" cy="4" r="7" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Schuhe -->
+    <ellipse cx="-22" cy="46" rx="9" ry="5" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2" transform="rotate(-14,-22,46)"/>
+    <ellipse cx="24"  cy="44" rx="9" ry="5" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2" transform="rotate(18,24,44)"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- KIND 3 – unten links (Junge, Hosenträger)         -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <g transform="translate(60,255) rotate(-8)">
+    <!-- Beine -->
+    <line x1="-7"  y1="14" x2="-24" y2="48" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-7"  y1="14" x2="-24" y2="48" stroke="#FFCB94" stroke-width="7"  stroke-linecap="round"/>
+    <line x1="7"   y1="14" x2="24"  y2="46" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="7"   y1="14" x2="24"  y2="46" stroke="#FFCB94" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Beide Arme hoch -->
+    <line x1="-14" y1="-18" x2="-32" y2="-46" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-14" y1="-18" x2="-32" y2="-46" stroke="#00b4d8" stroke-width="7"  stroke-linecap="round"/>
+    <line x1="14"  y1="-18" x2="32"  y2="-46" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="14"  y1="-18" x2="32"  y2="-46" stroke="#00b4d8" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Körper -->
+    <rect x="-14" y="-25" width="28" height="28" rx="8" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2.5"/>
+    <!-- Hosenträger -->
+    <line x1="-5"  y1="-25" x2="-8"  y2="14" stroke="#2255bb" stroke-width="3.5"/>
+    <line x1="5"   y1="-25" x2="8"   y2="14" stroke="#2255bb" stroke-width="3.5"/>
+    <line x1="-8"  y1="-6"  x2="8"   y2="-6" stroke="#2255bb" stroke-width="3.5"/>
+    <!-- Shorts -->
+    <rect x="-13" y="2"   width="26" height="15" rx="5" fill="#ff5a1f" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Haare -->
+    <path d="M-14,-62 Q-8,-76 0,-72 Q8,-76 14,-62 Q8,-57 0,-59 Q-8,-57 -14,-62Z" fill="#ffcc00" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Kopf -->
+    <circle cx="0" cy="-45" r="18" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2.5"/>
+    <!-- Wangen -->
+    <circle cx="-12" cy="-41" r="5" fill="#ff9999" opacity="0.42"/>
+    <circle cx="12"  cy="-41" r="5" fill="#ff9999" opacity="0.42"/>
+    <!-- Augen -->
+    <circle cx="-7" cy="-49" r="5"   fill="white" stroke="#1a1a2e" stroke-width="1.5"/>
+    <circle cx="7"  cy="-49" r="5"   fill="white" stroke="#1a1a2e" stroke-width="1.5"/>
+    <circle cx="-6" cy="-48" r="2.5" fill="#1a1a2e"/>
+    <circle cx="8"  cy="-48" r="2.5" fill="#1a1a2e"/>
+    <circle cx="-5" cy="-50" r="1"   fill="white"/>
+    <circle cx="9"  cy="-50" r="1"   fill="white"/>
+    <!-- Lachen -->
+    <path d="M-8,-36 Q0,-28 8,-36" fill="#cc3333" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M-6,-36 Q0,-29 6,-36" fill="white"/>
+    <!-- Hände -->
+    <circle cx="-32" cy="-46" r="7" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2"/>
+    <circle cx="32"  cy="-46" r="7" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Schuhe -->
+    <ellipse cx="-26" cy="50" rx="9" ry="5" fill="#ff5a1f" stroke="#1a1a2e" stroke-width="2" transform="rotate(-22,-26,50)"/>
+    <ellipse cx="26"  cy="48" rx="9" ry="5" fill="#ff5a1f" stroke="#1a1a2e" stroke-width="2" transform="rotate(18,26,48)"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- KIND 4 – unten rechts (Mädchen, rote Haare)       -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <g transform="translate(440,255) rotate(8)">
+    <!-- Beine -->
+    <line x1="-7"  y1="14" x2="-22" y2="48" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-7"  y1="14" x2="-22" y2="48" stroke="#FFCB94" stroke-width="7"  stroke-linecap="round"/>
+    <line x1="7"   y1="14" x2="24"  y2="44" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="7"   y1="14" x2="24"  y2="44" stroke="#FFCB94" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Linker Arm (zurück-unten) -->
+    <line x1="-14" y1="-18" x2="-30" y2="4"  stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-14" y1="-18" x2="-30" y2="4"  stroke="#ffcc00" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Rechter Arm (hoch) -->
+    <line x1="14"  y1="-18" x2="30"  y2="-44" stroke="#1a1a2e" stroke-width="11" stroke-linecap="round"/>
+    <line x1="14"  y1="-18" x2="30"  y2="-44" stroke="#ffcc00" stroke-width="7"  stroke-linecap="round"/>
+    <!-- Körper -->
+    <rect x="-14" y="-25" width="28" height="28" rx="8" fill="#ffcc00" stroke="#1a1a2e" stroke-width="2.5"/>
+    <!-- Hosenträger (rot) -->
+    <line x1="-5"  y1="-25" x2="-8"  y2="14" stroke="#cc2200" stroke-width="4"/>
+    <line x1="5"   y1="-25" x2="8"   y2="14" stroke="#cc2200" stroke-width="4"/>
+    <line x1="-8"  y1="-6"  x2="8"   y2="-6" stroke="#cc2200" stroke-width="4"/>
+    <!-- Rock/Shorts -->
+    <rect x="-14" y="2"   width="28" height="15" rx="5" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Haare rot (Hauptvolumen) -->
+    <path d="M-16,-62 Q-12,-78 0,-74 Q12,-78 16,-62 Q10,-57 0,-59 Q-10,-57 -16,-62Z" fill="#cc2200" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Seitlicher Zopf -->
+    <path d="M15,-58 Q28,-54 30,-44 Q24,-40 17,-48 Q16,-54 15,-58Z" fill="#cc2200" stroke="#1a1a2e" stroke-width="1.5"/>
+    <!-- Kopf -->
+    <circle cx="0" cy="-45" r="18" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2.5"/>
+    <!-- Wangen -->
+    <circle cx="-12" cy="-41" r="5" fill="#ff9999" opacity="0.42"/>
+    <circle cx="12"  cy="-41" r="5" fill="#ff9999" opacity="0.42"/>
+    <!-- Augen (zugekniffen) -->
+    <path d="M-10,-49 Q-7,-54 -4,-49" fill="none" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M4,-49  Q7,-54  10,-49" fill="none" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Lachen -->
+    <path d="M-8,-36 Q0,-28 8,-36" fill="#cc3333" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M-6,-36 Q0,-29 6,-36" fill="white"/>
+    <!-- Hände -->
+    <circle cx="-30" cy="4"  r="7" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2"/>
+    <circle cx="30"  cy="-44" r="7" fill="#FFCB94" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Schuhe -->
+    <ellipse cx="-24" cy="50" rx="9" ry="5" fill="#cc2200" stroke="#1a1a2e" stroke-width="2" transform="rotate(-20,-24,50)"/>
+    <ellipse cx="26"  cy="46" rx="9" ry="5" fill="#cc2200" stroke="#1a1a2e" stroke-width="2" transform="rotate(16,26,46)"/>
+  </g>
+
+  <!-- ═══ HUPFGAUDI – 3D-TEXT ═══ -->
+  <!-- Schatten-Ebene -->
+  <text x="256" y="380"
+    font-family="'Arial Black','Arial Bold',Arial,sans-serif"
+    font-size="68" font-weight="900"
+    text-anchor="middle" letter-spacing="-1"
+    fill="#1a1a2e" opacity="0.35">HUPFGAUDI</text>
+  <!-- Haupttext mit Outline -->
+  <text x="250" y="373"
+    font-family="'Arial Black','Arial Bold',Arial,sans-serif"
+    font-size="68" font-weight="900"
+    text-anchor="middle" letter-spacing="-1"
+    stroke="#1a1a2e" stroke-width="6" paint-order="stroke fill">
+    <tspan fill="#ffcc00">HUPF</tspan><tspan fill="#00b4d8">GAUDI</tspan>
+  </text>
+
+  <!-- ═══ VILSHOFEN-BANNER ═══ -->
+  <rect x="76" y="388" width="348" height="52" rx="26" fill="#00b4d8" stroke="#1a1a2e" stroke-width="2.5"/>
+  <!-- Rote Endkappen (Banderole-Stil) -->
+  <circle cx="76"  cy="414" r="26" fill="#cc2200" stroke="#1a1a2e" stroke-width="2.5"/>
+  <circle cx="424" cy="414" r="26" fill="#cc2200" stroke="#1a1a2e" stroke-width="2.5"/>
+  <text x="250" y="422"
+    font-family="'Arial Black','Arial Bold',Arial,sans-serif"
+    font-size="20" font-weight="800"
+    fill="white" text-anchor="middle"
+    stroke="#1a1a2e" stroke-width="1.5" paint-order="stroke fill"
+    letter-spacing="5">VILSHOFEN</text>
+
+</svg>
