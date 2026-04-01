@@ -75,7 +75,7 @@
       { "@type": "Question", "name": "Liefern Sie auch?",
         "acceptedAnswer": { "@type": "Answer", "text": "Aktuell bieten wir Selbstabholung in Vilshofen (Alkofen) an. Sprechen Sie uns auf Lieferoptionen an." }},
       { "@type": "Question", "name": "Gibt es eine Kaution?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Ja, 100 € Kaution werden zurückerstattet, sofern ein Videobeweis vorliegt, dass die Hüpfburg ausgekehrt und gereinigt wurde." }}
+        "acceptedAnswer": { "@type": "Answer", "text": "Ja, bei Abholung wird eine Kaution von 150 € erhoben. Diese wird vollständig zurückerstattet, wenn die Hüpfburg sauber zurückgegeben, ausgekehrt und gereinigt wurde und ein kurzer Videobeweis vorliegt." }}
     ]
   }
   </script>
@@ -83,6 +83,9 @@
 <body>
 
   <!-- Accessibility: Skip Link -->
+  <!-- Konfetti -->
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
   <a href="#huepfburgen" class="skip-link">Zum Hauptinhalt springen</a>
 
   <!-- ═══════════ HEADER ═══════════ -->
@@ -163,7 +166,7 @@
               <li>👶 2–10 Jahre</li>
               <li>🔹 Große Sprungfläche</li>
             </ul>
-            <span class="card-badge">99 € / Tag</span>
+            <span class="card-badge">109 € / Tag</span>
           </div>
 
           <div class="card">
@@ -176,20 +179,7 @@
               <li>👶 3–12 Jahre</li>
               <li>🔹 Integrierte Rutsche</li>
             </ul>
-            <span class="card-badge">129 € / Tag</span>
-          </div>
-
-          <div class="card">
-            <img src="https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/c4ba1256-c635-44a4-8fae-798508ed6ca3/image.png" alt="Paw Patrol Hüpfburg" class="card-img" loading="lazy" />
-            <h3>Paw Patrol Hüpfburg</h3>
-            <p>Die Lieblingshelfer als Hüpfburg! Mit 3D-Figuren der beliebten TV-Serie und integrierter Rutsche – ein Traum für jeden Fan.</p>
-            <ul class="card-meta">
-              <li>📐 4,0 × 4,0 × 3,1 m</li>
-              <li>⚖️ ca. 87 kg</li>
-              <li>👶 3–12 Jahre</li>
-              <li>🔹 3D-Figuren & Rutsche</li>
-            </ul>
-            <span class="card-badge">129 € / Tag</span>
+            <span class="card-badge">139 € / Tag</span>
           </div>
 
           <div class="card">
@@ -202,7 +192,7 @@
               <li>👶 3–12 Jahre</li>
               <li>🔹 Magisches Design & Rutsche</li>
             </ul>
-            <span class="card-badge">129 € / Tag</span>
+            <span class="card-badge">139 € / Tag</span>
           </div>
 
           <div class="card">
@@ -215,7 +205,7 @@
               <li>👶 3–12 Jahre</li>
               <li>🔹 Groß & mit Rutsche</li>
             </ul>
-            <span class="card-badge">139 € / Tag</span>
+            <span class="card-badge">149 € / Tag</span>
           </div>
 
           <div class="card">
@@ -228,7 +218,7 @@
               <li>👶 3–12 Jahre</li>
               <li>🔹 Sportdesign & Rutsche</li>
             </ul>
-            <span class="card-badge">139 € / Tag</span>
+            <span class="card-badge">149 € / Tag</span>
           </div>
 
           <div class="card">
@@ -241,7 +231,7 @@
               <li>👶 3–12 Jahre</li>
               <li>🔹 Kletterturm, Tunnel & Rutsche</li>
             </ul>
-            <span class="card-badge">159 € / Tag</span>
+            <span class="card-badge">169 € / Tag</span>
           </div>
 
           <div class="card">
@@ -254,7 +244,7 @@
               <li>👨‍👩‍👧 Kinder & Erwachsene</li>
               <li>🔹 Elegantes Design & Rutsche</li>
             </ul>
-            <span class="card-badge">179 € / Tag</span>
+            <span class="card-badge">189 € / Tag</span>
           </div>
 
         </div>
@@ -282,7 +272,7 @@
           <span>✅ Gebläse inklusive</span>
           <span>✅ Unterlegplane inklusive</span>
           <span>✅ Aufbauanleitung inklusive</span>
-          <span>✅ Keine Lieferkosten</span>
+          <span>🚗 Selbstabholung oder 🚚 Lieferung mit Auf- & Abbau gegen Gebühr</span>
         </div>
 
         <div class="price-cards-grid">
@@ -296,15 +286,15 @@
             <div class="price-card-body">
               <div class="price-option">
                 <span class="price-label">☀️ Tagespreis</span>
-                <span class="price-amount">99 €</span>
+                <span class="price-amount">109 €</span>
                 <span class="price-sub">pro Tag</span>
               </div>
               <div class="price-divider"></div>
               <div class="price-option price-option--weekend">
                 <span class="price-label">🎉 Wochenende <small>Fr–So</small></span>
-                <span class="price-amount">257 €</span>
-                <span class="price-sub">statt 3× 99 € = 297 €</span>
-                <span class="price-save">40 € sparen!</span>
+                <span class="price-amount">267 €</span>
+                <span class="price-sub">statt 3× 109 € = 327 €</span>
+                <span class="price-save">60 € sparen!</span>
               </div>
             </div>
             <a href="#kontakt" class="price-cta">Jetzt anfragen</a>
@@ -319,38 +309,15 @@
             <div class="price-card-body">
               <div class="price-option">
                 <span class="price-label">☀️ Tagespreis</span>
-                <span class="price-amount">129 €</span>
+                <span class="price-amount">139 €</span>
                 <span class="price-sub">pro Tag</span>
               </div>
               <div class="price-divider"></div>
               <div class="price-option price-option--weekend">
                 <span class="price-label">🎉 Wochenende <small>Fr–So</small></span>
-                <span class="price-amount">347 €</span>
-                <span class="price-sub">statt 3× 129 € = 387 €</span>
-                <span class="price-save">40 € sparen!</span>
-              </div>
-            </div>
-            <a href="#kontakt" class="price-cta">Jetzt anfragen</a>
-          </div>
-
-          <div class="price-card">
-            <div class="price-card-header">
-              <span class="price-card-icon">🐾</span>
-              <h3>Paw Patrol Hüpfburg</h3>
-              <p class="price-card-meta">4×4×3,1 m · 3–12 Jahre</p>
-            </div>
-            <div class="price-card-body">
-              <div class="price-option">
-                <span class="price-label">☀️ Tagespreis</span>
-                <span class="price-amount">129 €</span>
-                <span class="price-sub">pro Tag</span>
-              </div>
-              <div class="price-divider"></div>
-              <div class="price-option price-option--weekend">
-                <span class="price-label">🎉 Wochenende <small>Fr–So</small></span>
-                <span class="price-amount">347 €</span>
-                <span class="price-sub">statt 3× 129 € = 387 €</span>
-                <span class="price-save">40 € sparen!</span>
+                <span class="price-amount">357 €</span>
+                <span class="price-sub">statt 3× 139 € = 417 €</span>
+                <span class="price-save">60 € sparen!</span>
               </div>
             </div>
             <a href="#kontakt" class="price-cta">Jetzt anfragen</a>
@@ -365,15 +332,15 @@
             <div class="price-card-body">
               <div class="price-option">
                 <span class="price-label">☀️ Tagespreis</span>
-                <span class="price-amount">129 €</span>
+                <span class="price-amount">139 €</span>
                 <span class="price-sub">pro Tag</span>
               </div>
               <div class="price-divider"></div>
               <div class="price-option price-option--weekend">
                 <span class="price-label">🎉 Wochenende <small>Fr–So</small></span>
-                <span class="price-amount">347 €</span>
-                <span class="price-sub">statt 3× 129 € = 387 €</span>
-                <span class="price-save">40 € sparen!</span>
+                <span class="price-amount">357 €</span>
+                <span class="price-sub">statt 3× 139 € = 417 €</span>
+                <span class="price-save">60 € sparen!</span>
               </div>
             </div>
             <a href="#kontakt" class="price-cta">Jetzt anfragen</a>
@@ -388,15 +355,15 @@
             <div class="price-card-body">
               <div class="price-option">
                 <span class="price-label">☀️ Tagespreis</span>
-                <span class="price-amount">139 €</span>
+                <span class="price-amount">149 €</span>
                 <span class="price-sub">pro Tag</span>
               </div>
               <div class="price-divider"></div>
               <div class="price-option price-option--weekend">
                 <span class="price-label">🎉 Wochenende <small>Fr–So</small></span>
-                <span class="price-amount">377 €</span>
-                <span class="price-sub">statt 3× 139 € = 417 €</span>
-                <span class="price-save">40 € sparen!</span>
+                <span class="price-amount">387 €</span>
+                <span class="price-sub">statt 3× 149 € = 447 €</span>
+                <span class="price-save">60 € sparen!</span>
               </div>
             </div>
             <a href="#kontakt" class="price-cta">Jetzt anfragen</a>
@@ -411,15 +378,15 @@
             <div class="price-card-body">
               <div class="price-option">
                 <span class="price-label">☀️ Tagespreis</span>
-                <span class="price-amount">139 €</span>
+                <span class="price-amount">149 €</span>
                 <span class="price-sub">pro Tag</span>
               </div>
               <div class="price-divider"></div>
               <div class="price-option price-option--weekend">
                 <span class="price-label">🎉 Wochenende <small>Fr–So</small></span>
-                <span class="price-amount">377 €</span>
-                <span class="price-sub">statt 3× 139 € = 417 €</span>
-                <span class="price-save">40 € sparen!</span>
+                <span class="price-amount">387 €</span>
+                <span class="price-sub">statt 3× 149 € = 447 €</span>
+                <span class="price-save">60 € sparen!</span>
               </div>
             </div>
             <a href="#kontakt" class="price-cta">Jetzt anfragen</a>
@@ -435,15 +402,15 @@
             <div class="price-card-body">
               <div class="price-option">
                 <span class="price-label">☀️ Tagespreis</span>
-                <span class="price-amount">159 €</span>
+                <span class="price-amount">169 €</span>
                 <span class="price-sub">pro Tag</span>
               </div>
               <div class="price-divider"></div>
               <div class="price-option price-option--weekend">
                 <span class="price-label">🎉 Wochenende <small>Fr–So</small></span>
-                <span class="price-amount">437 €</span>
-                <span class="price-sub">statt 3× 159 € = 477 €</span>
-                <span class="price-save">40 € sparen!</span>
+                <span class="price-amount">447 €</span>
+                <span class="price-sub">statt 3× 169 € = 507 €</span>
+                <span class="price-save">60 € sparen!</span>
               </div>
             </div>
             <a href="#kontakt" class="price-cta">Jetzt anfragen</a>
@@ -458,15 +425,15 @@
             <div class="price-card-body">
               <div class="price-option">
                 <span class="price-label">☀️ Tagespreis</span>
-                <span class="price-amount">179 €</span>
+                <span class="price-amount">189 €</span>
                 <span class="price-sub">pro Tag</span>
               </div>
               <div class="price-divider"></div>
               <div class="price-option price-option--weekend">
                 <span class="price-label">🎉 Wochenende <small>Fr–So</small></span>
-                <span class="price-amount">497 €</span>
-                <span class="price-sub">statt 3× 179 € = 537 €</span>
-                <span class="price-save">40 € sparen!</span>
+                <span class="price-amount">507 €</span>
+                <span class="price-sub">statt 3× 189 € = 567 €</span>
+                <span class="price-save">60 € sparen!</span>
               </div>
             </div>
             <a href="#kontakt" class="price-cta">Jetzt anfragen</a>
@@ -474,7 +441,42 @@
 
         </div>
 
-        <p class="price-hint">* Kaution: 100 € · Rückerstattung bei Vorlage eines Videobeweises (Hüpfburg ausgekehrt & gereinigt) · Kleinunternehmer nach § 19 UStG – keine MwSt.</p>
+        <!-- Lieferung & Kaution Info-Boxen -->
+        <div class="extra-info-grid">
+
+          <div class="extra-info-box extra-info-box--delivery">
+            <div class="extra-info-icon">🚚</div>
+            <h3>Lieferung</h3>
+            <div class="extra-info-row">
+              <span>Im Umkreis von 20 km</span>
+              <strong>100 €</strong>
+            </div>
+            <div class="extra-info-row">
+              <span>Weitere Entfernung</span>
+              <strong>1,50 € / km</strong>
+            </div>
+            <p class="extra-info-desc">Lieferung beinhaltet Transport, Auf- und Abbau der Hüpfburg sowie eine Einweisung zur sicheren Nutzung. Eine leichte Reinigung ist ebenfalls inklusive.</p>
+            <div class="extra-info-warning">
+              <strong>Starke Verschmutzung</strong> (z. B. Matsch, Essen oder Getränke):<br />
+              50 – 100 € Reinigungsgebühr
+            </div>
+          </div>
+
+          <div class="extra-info-box extra-info-box--kaution">
+            <div class="extra-info-icon">🔒</div>
+            <h3>Kaution bei Abholung</h3>
+            <div class="extra-info-amount">150 €</div>
+            <p class="extra-info-desc">Die Kaution wird <strong>vollständig zurückerstattet</strong>, wenn:</p>
+            <ul class="extra-info-list">
+              <li>die Hüpfburg sauber zurückgegeben wird</li>
+              <li>sie ausgekehrt und gereinigt wurde</li>
+              <li>ein kurzer Videobeweis vorliegt</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <p class="price-hint">* Kleinunternehmer nach § 19 UStG – keine MwSt.</p>
       </div>
     </section>
 
@@ -664,7 +666,7 @@
 
           <details class="faq-item">
             <summary>Gibt es eine Kaution?</summary>
-            <p>Ja, wir erheben eine Kaution von <strong>100 €</strong>. Diese wird vollständig zurückerstattet, sofern ein <strong>Videobeweis</strong> vorliegt, der zeigt, dass die Hüpfburg ausgekehrt und gereinigt wurde.</p>
+            <p>Ja, bei Abholung wird eine Kaution von <strong>150 €</strong> erhoben. Diese wird vollständig zurückerstattet, wenn die Hüpfburg sauber zurückgegeben und ausgekehrt wurde und ein <strong>kurzer Videobeweis</strong> vorliegt.</p>
           </details>
 
         </div>
@@ -1034,6 +1036,79 @@
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') close();
       });
+    })();
+  </script>
+
+  <!-- ── Konfetti-Effekt beim Laden ── -->
+  <script>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      let W, H, pieces = [], running = true;
+
+      const colors = ['#ff5a1f','#ffcc00','#00b4d8','#ff8c42','#e04a0f','#2dc87a','#ff69b4','#9b59b6'];
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // 120 Konfetti-Stücke erzeugen
+      for (let i = 0; i < 120; i++) {
+        pieces.push({
+          x: Math.random() * W,
+          y: Math.random() * -H,
+          w: 6 + Math.random() * 6,
+          h: 4 + Math.random() * 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: 2 + Math.random() * 4,
+          drift: (Math.random() - 0.5) * 2,
+          rotation: Math.random() * 360,
+          spin: (Math.random() - 0.5) * 8,
+          opacity: 1,
+          delay: Math.random() * 600
+        });
+      }
+
+      const start = performance.now();
+      const fadeStart = 3000;
+      const totalDuration = 5000;
+
+      function draw(now) {
+        const elapsed = now - start;
+        if (elapsed > totalDuration) {
+          canvas.remove();
+          return;
+        }
+
+        ctx.clearRect(0, 0, W, H);
+
+        const globalFade = elapsed > fadeStart ? 1 - (elapsed - fadeStart) / (totalDuration - fadeStart) : 1;
+
+        pieces.forEach(p => {
+          if (elapsed < p.delay) return;
+
+          p.y += p.speed;
+          p.x += p.drift;
+          p.rotation += p.spin;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.globalAlpha = globalFade;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+
+        requestAnimationFrame(draw);
+      }
+
+      requestAnimationFrame(draw);
     })();
   </script>
 </body>
