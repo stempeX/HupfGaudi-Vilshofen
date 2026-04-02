@@ -100,6 +100,7 @@
       <a href="#warum">Warum wir?</a>
       <a href="#faq">FAQ</a>
       <a href="#sicherheit">Sicherheit</a>
+      <a href="#kontakt">Kontakt</a>
       <span class="nav-divider" aria-hidden="true"></span>
       <a href="impressum.html" class="nav-legal">⚖️ Impressum</a>
       <a href="Mietvertrag_NEU.pdf" download class="nav-contract">📄 Mietvertrag</a>
@@ -894,7 +895,7 @@
                 </button>
               </div>
               <p class="form-success" id="formSuccess" role="status" aria-live="polite">
-                ✅ Vielen Dank für deine Anfrage! Wir melden uns so schnell wie möglich bei dir.
+                ✅ Deine Anfrage wird über WhatsApp gesendet! Falls sich WhatsApp nicht öffnet, schreib uns direkt: <a href="https://wa.me/4915128861367" target="_blank" style="color:var(--primary);font-weight:700">WhatsApp öffnen</a>
               </p>
             </form>
           </div>
@@ -967,15 +968,35 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // ── Kontaktformular ──
+    // ── Kontaktformular → WhatsApp ──
     document.getElementById('kontaktForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const name  = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
+      const name     = document.getElementById('name').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const telefon  = document.getElementById('telefon').value.trim();
+      const datum    = document.getElementById('datum').value;
+      const burg     = document.getElementById('burg').value;
+      const nachricht = document.getElementById('nachricht').value.trim();
+
       if (!name || !email) {
         alert('Bitte Name und E-Mail ausfüllen.');
         return;
       }
+
+      // WhatsApp-Nachricht zusammenbauen
+      let msg = '📋 *Neue Hüpfburg-Anfrage*\n\n';
+      msg += '👤 *Name:* ' + name + '\n';
+      msg += '✉️ *E-Mail:* ' + email + '\n';
+      if (telefon) msg += '📱 *Telefon:* ' + telefon + '\n';
+      if (datum) msg += '📅 *Wunschdatum:* ' + datum + '\n';
+      if (burg) msg += '🏰 *Hüpfburg:* ' + burg + '\n';
+      if (nachricht) msg += '\n💬 *Nachricht:*\n' + nachricht;
+
+      // WhatsApp öffnen
+      const waURL = 'https://wa.me/4915128861367?text=' + encodeURIComponent(msg);
+      window.open(waURL, '_blank');
+
+      // Erfolgsmeldung anzeigen
       this.querySelectorAll('input, textarea, select, button').forEach(el => el.disabled = true);
       const success = document.getElementById('formSuccess');
       success.style.display = 'block';
