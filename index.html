@@ -893,6 +893,17 @@
                   <option>🚚 Lieferung im Umkreis 20 km (100 €)</option>
                 </select>
               </div>
+              <div class="form-group" style="margin-bottom:20px">
+                <label for="untergrund">Aufstellplatz</label>
+                <select id="untergrund" name="untergrund">
+                  <option value="">Bitte wählen…</option>
+                  <option>🌿 Rasen</option>
+                  <option>🧱 Pflaster / Gehweg</option>
+                  <option>🏠 Halle / Innenbereich</option>
+                  <option>🪨 Schotter / Kies</option>
+                  <option>❓ Sonstiges (bitte in Nachricht angeben)</option>
+                </select>
+              </div>
               <div class="form-group" style="margin-bottom:24px">
                 <label for="nachricht">Nachricht</label>
                 <textarea id="nachricht" name="nachricht" placeholder="Wo findet das Event statt? Wie viele Kinder? Weitere Wünsche?"></textarea>
@@ -984,8 +995,9 @@
       const telefon  = document.getElementById('telefon').value.trim();
       const datum    = document.getElementById('datum').value;
       const burg     = document.getElementById('burg').value;
-      const lieferung = document.getElementById('lieferung').value;
-      const nachricht = document.getElementById('nachricht').value.trim();
+      const lieferung  = document.getElementById('lieferung').value;
+      const untergrund = document.getElementById('untergrund').value;
+      const nachricht  = document.getElementById('nachricht').value.trim();
 
       if (!name || !email) {
         alert('Bitte Name und E-Mail ausfüllen.');
@@ -1000,6 +1012,7 @@
       if (datum) msg += '📅 *Wunschdatum:* ' + datum + '\n';
       if (burg) msg += '🏰 *Hüpfburg:* ' + burg + '\n';
       if (lieferung) msg += '🚗 *Abholung/Lieferung:* ' + lieferung + '\n';
+      if (untergrund) msg += '📍 *Aufstellplatz:* ' + untergrund + '\n';
       if (nachricht) msg += '\n💬 *Nachricht:*\n' + nachricht;
 
       // WhatsApp öffnen
