@@ -235,7 +235,188 @@ section { padding: 90px 20px; }
   text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 56px;
 }
 
-/* ════════════ HÜPFBURGEN-CARDS ════════════ */
+/* ════════════ VERFÜGBARKEIT ════════════ */
+.avail-check { margin-top: 10px; }
+
+.avail-input-wrap {
+  display: flex; align-items: flex-end; gap: 14px;
+  flex-wrap: wrap; justify-content: center;
+  background: var(--weiss); padding: 28px;
+  border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.avail-input-wrap label {
+  font-weight: 800; color: var(--dark); font-size: 1rem;
+  width: 100%; text-align: center; margin-bottom: 4px;
+}
+.avail-date-input {
+  padding: 14px 20px; border: 2px solid var(--primary);
+  border-radius: 10px; font-size: 1.1rem; font-family: inherit;
+  font-weight: 700; min-width: 200px; text-align: center;
+}
+.avail-date-input:focus {
+  outline: none; box-shadow: 0 0 0 3px rgba(255,90,31,.2);
+}
+.avail-btn { font-size: 1.1rem !important; padding: 14px 32px !important; }
+
+.avail-loading {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; padding: 40px; color: #666; font-weight: 600;
+}
+.avail-spinner {
+  width: 28px; height: 28px; border: 3px solid #eee;
+  border-top-color: var(--primary); border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.avail-results { margin-top: 32px; }
+.avail-results h3 {
+  text-align: center; font-size: 1.2rem; font-weight: 900;
+  color: var(--dark); margin-bottom: 24px;
+}
+
+.avail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.avail-card {
+  background: var(--weiss); border-radius: 12px;
+  padding: 20px 16px; text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+  border: 2px solid transparent;
+  transition: transform .2s;
+}
+.avail-card:hover { transform: translateY(-3px); }
+.avail-card--free { border-color: #2dc87a; }
+.avail-card--booked { border-color: #e0e0e0; opacity: .65; }
+
+.avail-card-img {
+  width: 100%; height: 120px;
+  object-fit: contain; border-radius: 8px;
+  margin-bottom: 10px; background: #f9f9f9;
+}
+.avail-card--booked .avail-card-img { filter: grayscale(100%); opacity: .5; }
+.avail-card strong {
+  display: block; font-size: .95rem; color: var(--dark); margin-bottom: 4px;
+}
+.avail-card-price {
+  display: block; font-size: .85rem; color: var(--primary);
+  font-weight: 800; margin-bottom: 8px;
+}
+.avail-card-status {
+  display: block; font-size: .88rem; font-weight: 700; margin-bottom: 10px;
+}
+.avail-card--free .avail-card-status { color: #1a7a44; }
+.avail-card--booked .avail-card-status { color: #999; }
+
+.avail-card-btn {
+  display: inline-block; padding: 7px 18px;
+  background: var(--primary); color: var(--weiss);
+  border-radius: 50px; font-size: .82rem; font-weight: 700;
+  transition: background .2s;
+}
+.avail-card-btn:hover { background: #e04a0f; color: var(--weiss); }
+
+.avail-hint {
+  text-align: center; margin-top: 18px;
+  color: #888; font-size: .85rem; font-weight: 600;
+}
+
+.avail-error {
+  margin-top: 24px; padding: 18px;
+  background: #fff3e0; border-left: 4px solid #ff9800;
+  border-radius: 0 12px 12px 0; text-align: center;
+}
+.avail-error a { color: var(--primary); font-weight: 700; }
+
+/* ════════════ COMBO-KARTEN (Hüpfburgen + Preise) ════════════ */
+.combo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px; scroll-margin-top: 80px;
+}
+
+.combo-card {
+  background: var(--weiss); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: transform .3s, box-shadow .3s;
+  position: relative;
+}
+.combo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px rgba(0,0,0,.14);
+}
+.combo-card--featured { border: 2px solid var(--primary); }
+
+.combo-badge {
+  background: linear-gradient(90deg, var(--primary), #ff8c42);
+  color: var(--weiss); text-align: center;
+  font-size: .82rem; font-weight: 800; padding: 6px;
+}
+
+.combo-img {
+  width: 100%; height: 180px;
+  object-fit: contain; background: #f9f9f9;
+  cursor: zoom-in;
+}
+
+.combo-info { padding: 18px 20px 10px; }
+.combo-info h3 { font-size: 1.15rem; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+.combo-info p { font-size: .88rem; color: #555; margin-bottom: 10px; line-height: 1.5; }
+
+.combo-meta {
+  list-style: none; display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+.combo-meta li { font-size: .8rem; color: #666; font-weight: 600; }
+
+.combo-prices {
+  padding: 14px 20px 20px; margin-top: auto;
+  border-top: 1.5px solid #f0f0f0;
+}
+
+.combo-price-main, .combo-price-weekend {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 0;
+}
+.combo-price-weekend {
+  background: linear-gradient(135deg, #fff8e7, #fff3d0);
+  border-radius: 8px; padding: 8px 12px; margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.combo-price-label { font-size: .85rem; font-weight: 700; color: #555; }
+.combo-price-value { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
+.combo-price-weekend .combo-price-value { color: #d44000; }
+
+.combo-save {
+  width: 100%; font-size: .75rem; font-weight: 800;
+  color: #1a7a44; background: #e6f9e6;
+  border-radius: 50px; padding: 2px 10px;
+  display: inline-block; margin-top: 4px; text-align: center;
+}
+
+.combo-cta {
+  display: block; margin-top: 12px;
+  background: linear-gradient(135deg, var(--primary), #ff8c42);
+  color: var(--weiss); text-align: center;
+  border-radius: 50px; padding: 10px;
+  font-weight: 800; font-size: .92rem;
+  transition: transform .2s, box-shadow .2s;
+}
+.combo-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255,90,31,.35);
+  color: var(--weiss);
+}
+
+@media (max-width: 768px) {
+  .combo-grid { grid-template-columns: 1fr; }
+}
+
+/* ════════════ HÜPFBURGEN-CARDS (alt) ════════════ */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -374,7 +555,11 @@ section { padding: 90px 20px; }
   border-bottom: 1.5px solid #f0f0f0;
   text-align: center;
 }
-.price-card-icon { font-size: 2.4rem; display: block; margin-bottom: 8px; }
+.price-card-img {
+  width: 100%; height: 130px;
+  object-fit: contain; border-radius: 8px;
+  margin-bottom: 10px; background: #f9f9f9;
+}
 .price-card-header h3 {
   font-size: 1.05rem; font-weight: 800; color: var(--dark); margin-bottom: 4px;
 }
