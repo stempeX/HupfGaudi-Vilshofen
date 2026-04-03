@@ -94,17 +94,9 @@
       <img src="img/logo.jpg" alt="HupfGaudi Vilshofen Logo" class="header-logo" />
     </a>
     <nav id="nav" role="navigation" aria-label="Hauptnavigation">
-      <a href="#verfuegbarkeit">Verfügbarkeit</a>
       <a href="#huepfburgen">Hüpfburgen & Preise</a>
       <a href="#ablauf">Ablauf</a>
       <a href="#warum">Warum wir?</a>
-      <a href="#faq">FAQ</a>
-      <a href="#sicherheit">Sicherheit</a>
-      <a href="#kontakt">Kontakt</a>
-      <span class="nav-divider" aria-hidden="true"></span>
-      <a href="impressum.html" class="nav-legal">⚖️ Impressum</a>
-      <a href="Mietvertrag_NEU.pdf" download class="nav-contract">📄 Mietvertrag</a>
-      <a href="#kontakt" class="nav-cta">🎈 Jetzt anfragen</a>
     </nav>
     <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -128,11 +120,8 @@
           HupfGaudi Vilshofen –<br />
           Hüpfburgen für <span class="hero-highlight">strahlende Kinderaugen!</span>
         </h1>
-        <p>
-          Ob Kindergeburtstag, Familienfest, Schulevent oder Firmenfeier – mit unseren farbenfrohen Hüpfburgen wird jede Veranstaltung zum unvergesslichen Erlebnis! Unsere hochwertigen und geprüften Hüpfburgen in fantasievollen Designs wie z. B. dem beliebten Einhorn mit Regenbogen sorgen für strahlende Kinderaugen und unendliche Hüpffreude.
-        </p>
         <div class="hero-btns">
-          <a href="#kontakt" class="btn btn-primary">🎈 Jetzt anfragen</a>
+          <a href="javascript:void(0)" onclick="openModal('modal-kontakt')" class="btn btn-primary">🎈 Jetzt anfragen</a>
           <a href="#huepfburgen" class="btn btn-secondary">Unsere Burgen entdecken</a>
         </div>
         <div class="hero-badges" aria-label="Unsere Vorteile">
@@ -150,6 +139,40 @@
         <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
       </svg>
     </div>
+
+    <!-- ═══════════ VERFÜGBARKEIT ═══════════ -->
+    <section id="verfuegbarkeit">
+      <div class="container" style="max-width:800px">
+        <h2 class="section-title">📅 Verfügbarkeit prüfen</h2>
+        <p class="section-subtitle">Wähle deinen Zeitraum – wir zeigen dir sofort, welche Hüpfburgen frei sind!</p>
+
+        <div class="avail-check">
+          <div class="avail-input-wrap">
+            <div class="avail-date-group">
+              <label for="avail-from">Von:</label>
+              <input type="date" id="avail-from" class="avail-date-input" />
+            </div>
+            <div class="avail-date-group">
+              <label for="avail-to">Bis:</label>
+              <input type="date" id="avail-to" class="avail-date-input" />
+            </div>
+            <button id="avail-btn" class="btn btn-primary avail-btn">🔍 Verfügbarkeit prüfen</button>
+          </div>
+
+          <div id="avail-loading" class="avail-loading" style="display:none"><div class="avail-spinner"></div><p>Verfügbarkeit wird geprüft…</p></div>
+
+          <div id="avail-results" class="avail-results" style="display:none">
+            <h3 id="avail-results-title"></h3>
+            <div id="avail-grid" class="avail-grid"></div>
+            <p class="avail-hint">✅ = Verfügbar · ❌ = Bereits gebucht</p>
+          </div>
+
+          <div id="avail-error" class="avail-error" style="display:none">
+            <p>⚠️ Die Verfügbarkeit konnte nicht abgerufen werden. Bitte kontaktiere uns direkt per <a href="https://wa.me/4915128861367">WhatsApp</a> oder <a href="tel:+4915128861367">Telefon</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ═══════════ HÜPFBURGEN & PREISE (kombiniert) ═══════════ -->
     <section id="huepfburgen">
@@ -397,44 +420,6 @@
       </svg>
     </div>
 
-    <!-- ═══════════ VERFÜGBARKEIT ═══════════ -->
-    <section id="verfuegbarkeit">
-      <div class="container" style="max-width:800px">
-        <h2 class="section-title">📅 Verfügbarkeit prüfen</h2>
-        <p class="section-subtitle">Wähle dein Wunschdatum – wir zeigen dir sofort, welche Hüpfburgen verfügbar sind!</p>
-
-        <div class="avail-check">
-          <div class="avail-input-wrap">
-            <label for="avail-date">Wunschdatum wählen:</label>
-            <input type="date" id="avail-date" class="avail-date-input" />
-            <button id="avail-btn" class="btn btn-primary avail-btn">🔍 Verfügbarkeit prüfen</button>
-          </div>
-
-          <div id="avail-loading" class="avail-loading" style="display:none">
-            <div class="avail-spinner"></div>
-            <p>Verfügbarkeit wird geprüft…</p>
-          </div>
-
-          <div id="avail-results" class="avail-results" style="display:none">
-            <h3 id="avail-results-title"></h3>
-            <div id="avail-grid" class="avail-grid"></div>
-            <p class="avail-hint">✅ = Verfügbar · ❌ = Bereits gebucht</p>
-          </div>
-
-          <div id="avail-error" class="avail-error" style="display:none">
-            <p>⚠️ Die Verfügbarkeit konnte nicht abgerufen werden. Bitte kontaktiere uns direkt per <a href="https://wa.me/4915128861367">WhatsApp</a> oder <a href="tel:+4915128861367">Telefon</a>.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Wellen-Trenner -->
-    <div class="wave-divider" style="background:#fff" aria-hidden="true">
-      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="80">
-        <path d="M0,20 C360,80 1080,0 1440,50 L1440,80 L0,80 Z" fill="#ffffff"/>
-      </svg>
-    </div>
-
     <!-- ═══════════ ABLAUF ═══════════ -->
     <section id="ablauf">
       <div class="container">
@@ -572,304 +557,110 @@
       </div>
     </section>
 
-    <!-- Wellen-Trenner -->
-    <div class="wave-divider" style="background:#ffffff" aria-hidden="true">
-      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="80">
-        <path d="M0,20 C360,80 1080,0 1440,50 L1440,80 L0,80 Z" fill="#fff8e7"/>
-      </svg>
-    </div>
-
-    <!-- ═══════════ FAQ ═══════════ -->
-    <section id="faq" style="background:#fff8e7">
-      <div class="container faq-container">
-        <h2 class="section-title">❓ Häufige Fragen</h2>
-        <p class="section-subtitle">Alles, was du wissen musst – auf einen Blick</p>
-
-        <div class="faq-list">
-
-          <details class="faq-item">
-            <summary>Was ist im Mietpreis enthalten?</summary>
-            <p>Im Preis ab 99 € sind Gebläse, Unterlegplane und eine detaillierte Aufbauanleitung immer inklusive. Es gibt keine versteckten Zusatzkosten.</p>
-          </details>
-
-          <details class="faq-item">
-            <summary>Wie groß muss die Fläche für die Hüpfburg sein?</summary>
-            <p>Je nach Modell benötigst du ca. 5×5 m bis 7×4 m Fläche. Wir beraten dich gerne, welche Burg für deine Örtlichkeit am besten passt.</p>
-          </details>
-
-          <details class="faq-item">
-            <summary>Liefern Sie die Hüpfburg auch zu uns?</summary>
-            <p>Aktuell bieten wir einen Selbstabholer-Service an. Die Abholung erfolgt bequem bei uns in Vilshofen (Alkofen). Bei Bedarf sprich uns gerne auf Lieferoptionen an!</p>
-          </details>
-
-          <details class="faq-item">
-            <summary>Sind die Hüpfburgen für draußen und drinnen geeignet?</summary>
-            <p>Ja! Alle unsere Burgen sind sowohl für den Innen- als auch Außenbereich geeignet. Bei Wind über Windstärke 4 (ca. 7 m/s) sollte die Burg aus Sicherheitsgründen abgebaut werden.</p>
-          </details>
-
-          <details class="faq-item">
-            <summary>Wie lange im Voraus muss ich buchen?</summary>
-            <p>Wir empfehlen mindestens 2–3 Wochen im Voraus zu buchen, besonders in der Hauptsaison Mai–September. Kurzfristige Anfragen nehmen wir gerne entgegen – Verfügbarkeit vorausgesetzt.</p>
-          </details>
-
-          <details class="faq-item">
-            <summary>Gibt es eine Kaution?</summary>
-            <p>Ja, bei Abholung wird eine Kaution von <strong>150 €</strong> erhoben. Diese wird vollständig zurückerstattet, wenn die Hüpfburg sauber zurückgegeben und ausgekehrt wurde und ein <strong>kurzer Videobeweis</strong> vorliegt.</p>
-          </details>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Wellen-Trenner -->
-    <div class="wave-divider" style="background:#fff8e7" aria-hidden="true">
-      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="80">
-        <path d="M0,20 C360,80 1080,0 1440,50 L1440,80 L0,80 Z" fill="#ffffff"/>
-      </svg>
-    </div>
-
-    <!-- ═══════════ SICHERHEITSHINWEISE ═══════════ -->
-    <section id="sicherheit">
+    <!-- ═══════════ BUTTON-LEISTE ═══════════ -->
+    <section class="bottom-buttons-section">
       <div class="container">
-        <h2 class="section-title">🛡️ Sicherheitshinweise</h2>
-        <p class="section-subtitle">Bitte lies diese Hinweise sorgfältig – für einen sicheren und sorgenfreien Hüpfspaß!</p>
-
-        <div class="sicher-grid">
-
-          <div class="sicher-card">
-            <div class="sicher-icon" aria-hidden="true">👀</div>
-            <h3>Aufsichtspflicht</h3>
-            <ul>
-              <li>Die Hüpfburg darf nur unter <strong>ständiger Aufsicht</strong> von Erwachsenen betrieben werden.</li>
-              <li>Kinder unter 3 Jahren dürfen die Hüpfburg <strong>nicht</strong> benutzen.</li>
-              <li>Es darf immer nur <strong>eine Altersgruppe</strong> gleichzeitig hüpfen (keine großen und kleinen Kinder gemeinsam).</li>
-              <li>Die Aufsichtsperson darf die Hüpfburg während des Betriebs <strong>nicht verlassen</strong>.</li>
-            </ul>
-          </div>
-
-          <div class="sicher-card">
-            <div class="sicher-icon" aria-hidden="true">🧒</div>
-            <h3>Personenanzahl & Gewicht</h3>
-            <ul>
-              <li>Die <strong>maximale Personenanzahl</strong> je nach Modell beachten (siehe Aufkleber an der Burg).</li>
-              <li>Das <strong>Maximalgewicht pro Person</strong> beträgt 80 kg.</li>
-              <li>Erwachsene dürfen die Hüpfburg grundsätzlich <strong>nicht benutzen</strong> (Ausnahme: Hochzeits-Hüpfburg).</li>
-              <li>Bei Überlastung sofort Kinder aus der Burg bitten.</li>
-            </ul>
-          </div>
-
-          <div class="sicher-card">
-            <div class="sicher-icon" aria-hidden="true">⚠️</div>
-            <h3>Verbotene Verhaltensweisen</h3>
-            <ul>
-              <li><strong>Kein</strong> Raufen, Schubsen oder Springen auf andere Personen.</li>
-              <li><strong>Keine</strong> spitzen Gegenstände, Schuhe mit Absätzen oder Schmuck in der Burg.</li>
-              <li><strong>Kein</strong> Essen, Trinken oder Kaugummi in der Hüpfburg.</li>
-              <li><strong>Keine</strong> Haustiere in oder neben der Hüpfburg.</li>
-              <li><strong>Nicht</strong> gegen die Seitenwände lehnen oder hängen.</li>
-            </ul>
-          </div>
-
-          <div class="sicher-card">
-            <div class="sicher-icon" aria-hidden="true">🌬️</div>
-            <h3>Wetterbedingungen</h3>
-            <ul>
-              <li>Bei <strong>Windstärke 4</strong> (ca. 20 km/h / 7 m/s) oder mehr muss die Hüpfburg sofort <strong>abgebaut werden</strong>.</li>
-              <li>Bei <strong>Gewitter</strong> oder starkem Regen Betrieb sofort einstellen.</li>
-              <li>Die Hüpfburg darf <strong>nicht bei Frost</strong> oder Schnee betrieben werden.</li>
-              <li>Direkte Sonneneinstrahlung kann die Oberfläche heiß machen – bei Bedarf abkühlen lassen.</li>
-            </ul>
-          </div>
-
-          <div class="sicher-card">
-            <div class="sicher-icon" aria-hidden="true">🔧</div>
-            <h3>Aufbau & Betrieb</h3>
-            <ul>
-              <li>Die Hüpfburg muss auf einem <strong>ebenen, hindernisfreien Untergrund</strong> aufgestellt werden.</li>
-              <li>Das <strong>Gebläse</strong> muss während des gesamten Betriebs laufen – niemals abschalten!</li>
-              <li>Mindestabstand zu Bäumen, Zäunen und anderen Hindernissen: <strong>1 Meter</strong> auf allen Seiten.</li>
-              <li>Die <strong>Unterlegplane</strong> muss immer ausgelegt sein, um die Burg zu schützen.</li>
-              <li>Das Luftgebläse <strong>niemals abdecken</strong> oder blockieren.</li>
-            </ul>
-          </div>
-
-          <div class="sicher-card">
-            <div class="sicher-icon" aria-hidden="true">⚡</div>
-            <h3>Strom & Stromkabel</h3>
-            <ul>
-              <li>Das Gebläse benötigt eine <strong>normale Haushaltssteckdose</strong> (230 V / 16 A).</li>
-              <li>Stromkabel müssen <strong>sicher verlegt</strong> werden – keine Stolpergefahr!</li>
-              <li>Verlängerungskabel mit <strong>mindestens 1,5 mm²</strong> Querschnitt verwenden.</li>
-              <li>Bei Stromausfall alle Kinder <strong>sofort und ruhig</strong> aus der Burg führen.</li>
-            </ul>
-          </div>
-
-          <div class="sicher-card">
-            <div class="sicher-icon" aria-hidden="true">🧹</div>
-            <h3>Reinigung & Rückgabe</h3>
-            <ul>
-              <li>Die Hüpfburg vor der Rückgabe <strong>vollständig entleeren</strong> und trocken abwischen.</li>
-              <li>Groben Schmutz, Blätter und Gras <strong>entfernen</strong>.</li>
-              <li>Hüpfburg nur <strong>trocken zusammenfalten</strong> – niemals nass einpacken (Schimmelgefahr!).</li>
-              <li>Beschädigungen bitte <strong>sofort melden</strong> – wir finden gemeinsam eine Lösung.</li>
-            </ul>
-          </div>
-
-          <div class="sicher-card sicher-card--highlight">
-            <div class="sicher-icon" aria-hidden="true">📋</div>
-            <h3>Haftung & Verantwortung</h3>
-            <ul>
-              <li>Mit der Anmietung übernimmt der <strong>Mieter die volle Verantwortung</strong> für die sichere Nutzung.</li>
-              <li>Die Nutzung erfolgt auf <strong>eigene Gefahr</strong>.</li>
-              <li>HupfGaudi Vilshofen haftet nicht für Schäden, die durch <strong>unsachgemäße Nutzung</strong> entstehen.</li>
-              <li>Bei Fragen stehen wir jederzeit unter <a href="tel:+4915128861367">+49 151 28861367</a> zur Verfügung.</li>
-            </ul>
-          </div>
-
-        </div>
-
-        <div class="sicher-hinweis">
-          <span aria-hidden="true">ℹ️</span>
-          <p>Die vollständige Aufbauanleitung und alle Sicherheitshinweise werden bei der Abholung mitgegeben. Bei Unklarheiten ruf uns bitte <strong>vor</strong> dem Aufbau an!</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Wellen-Trenner -->
-    <div class="wave-divider" style="background:#ffffff" aria-hidden="true">
-      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="80">
-        <path d="M0,40 C360,0 1080,80 1440,20 L1440,80 L0,80 Z" fill="#fff8e7"/>
-      </svg>
-    </div>
-
-    <!-- ═══════════ KONTAKT ═══════════ -->
-    <section id="kontakt">
-      <div class="container">
-        <h2 class="section-title">📞 Kontakt & Anfrage</h2>
-        <p class="section-subtitle">Schreib uns – wir melden uns schnell zurück!</p>
-
-        <div class="kontakt-wrap">
-
-          <div class="kontakt-info">
-            <h3>So erreichst du uns</h3>
-            <p>Hast du Fragen zu unseren Hüpfburgen oder möchtest direkt buchen? Ruf uns einfach an oder schreib uns eine Nachricht!</p>
-
-            <div class="kontakt-detail">
-              <span class="icon" aria-hidden="true">📍</span>
-              <span>Böcklbacher Str. 7, 94474 Vilshofen (Alkofen)</span>
-            </div>
-            <div class="kontakt-detail">
-              <span class="icon" aria-hidden="true">📱</span>
-              <a href="tel:+4915128861367">+49 151 28861367</a>
-            </div>
-            <div class="kontakt-detail">
-              <span class="icon" aria-hidden="true">✉️</span>
-              <a href="mailto:hupfgaudi@gmail.com">hupfgaudi@gmail.com</a>
-            </div>
-            <div class="kontakt-detail">
-              <span class="icon" aria-hidden="true">🕐</span>
-              <span>Mo–Sa: 8:00 – 20:00 Uhr</span>
-            </div>
-
-            <a href="https://wa.me/4915128861367?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20H%C3%BCpfburg."
-               class="whatsapp-inline" target="_blank" rel="noopener noreferrer">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.85L0 24l6.335-1.508A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.373l-.36-.214-3.727.977.994-3.635-.234-.374A9.818 9.818 0 1112 21.818z"/>
-              </svg>
-              Direkt auf WhatsApp schreiben
-            </a>
-
-            <a href="Mietvertrag_NEU.pdf" download class="download-btn" target="_blank">
-              <span class="download-btn-icon">📄</span>
-              <span>
-                <strong>Mietvertrag herunterladen</strong>
-                <small>PDF · Bitte vor der Abholung ausfüllen</small>
-              </span>
-            </a>
-
-            <div class="kontakt-box-highlight">
-              <div style="font-size:2rem;margin-bottom:8px" aria-hidden="true">🚗</div>
-              <strong>Selbstabholer-Service</strong>
-              <p>Abholung in Vilshofen (Alkofen) – Gebläse, Unterlegplane & Anleitung inklusive!</p>
-            </div>
-          </div>
-
-          <div>
-            <form id="kontaktForm" novalidate>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="name">Dein Name *</label>
-                  <input type="text" id="name" name="name" placeholder="Max Mustermann" required autocomplete="name" />
-                </div>
-                <div class="form-group">
-                  <label for="email">E-Mail *</label>
-                  <input type="email" id="email" name="email" placeholder="deine@email.de" required autocomplete="email" />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="telefon">Telefon</label>
-                  <input type="tel" id="telefon" name="telefon" placeholder="+49 151 28861367" autocomplete="tel" />
-                </div>
-                <div class="form-group">
-                  <label for="datum">Gewünschtes Datum</label>
-                  <input type="date" id="datum" name="datum" />
-                </div>
-              </div>
-              <div class="form-group" style="margin-bottom:20px">
-                <label for="burg">Hüpfburg</label>
-                <select id="burg" name="burg">
-                  <option value="">Bitte wählen…</option>
-                  <option>Ritterburg Hopsala (99 €)</option>
-                  <option>Alien Hüpfburg (139 €)</option>
-                  <option>Einhorn Hüpfburg „Rosalie" (139 €)</option>
-                  <option>Feuerwehr Hüpfburg (149 €)</option>
-                  <option>Fußballstar Hüpfburg (149 €)</option>
-                  <option>Meerjungfrau Hüpfburg (169 €)</option>
-                  <option>Hochzeit Hüpfburg (189 €)</option>
-                  <option>Ich bin noch unsicher</option>
-                </select>
-              </div>
-              <div class="form-group" style="margin-bottom:20px">
-                <label for="lieferung">Abholung oder Lieferung?</label>
-                <select id="lieferung" name="lieferung">
-                  <option value="">Bitte wählen…</option>
-                  <option>🚗 Selbstabholung in Vilshofen (kostenlos)</option>
-                  <option>🚚 Lieferung im Umkreis 20 km (100 €)</option>
-                </select>
-              </div>
-              <div class="form-group" style="margin-bottom:20px">
-                <label for="untergrund">Aufstellplatz</label>
-                <select id="untergrund" name="untergrund">
-                  <option value="">Bitte wählen…</option>
-                  <option>🌿 Rasen</option>
-                  <option>🧱 Pflaster / Gehweg</option>
-                  <option>🏠 Halle / Innenbereich</option>
-                  <option>🪨 Schotter / Kies</option>
-                  <option>❓ Sonstiges (bitte in Nachricht angeben)</option>
-                </select>
-              </div>
-              <div class="form-group" style="margin-bottom:24px">
-                <label for="nachricht">Nachricht</label>
-                <textarea id="nachricht" name="nachricht" placeholder="Wo findet das Event statt? Wie viele Kinder? Weitere Wünsche?"></textarea>
-              </div>
-              <div class="form-submit">
-                <button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;">
-                  🎉 Anfrage absenden
-                </button>
-              </div>
-              <p class="form-success" id="formSuccess" role="status" aria-live="polite">
-                ✅ Deine Anfrage wird über WhatsApp gesendet! Falls sich WhatsApp nicht öffnet, schreib uns direkt: <a href="https://wa.me/4915128861367" target="_blank" style="color:var(--primary);font-weight:700">WhatsApp öffnen</a>
-              </p>
-            </form>
-          </div>
-
+        <div class="bottom-buttons">
+          <button class="bottom-btn" onclick="openModal('modal-faq')">❓ FAQ</button>
+          <button class="bottom-btn" onclick="openModal('modal-sicherheit')">🛡️ Sicherheit</button>
+          <button class="bottom-btn" onclick="openModal('modal-kontakt')">📞 Kontakt</button>
+          <button class="bottom-btn" onclick="openModal('modal-impressum')">⚖️ Impressum</button>
         </div>
       </div>
     </section>
 
   </main>
+
+  <!-- ═══════════ MODAL: FAQ ═══════════ -->
+  <div id="modal-faq" class="modal" role="dialog" aria-modal="true" aria-label="Häufige Fragen">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modal-faq')">✕</button>
+      <h2 class="section-title">❓ Häufige Fragen</h2>
+      <div class="faq-list">
+        <details class="faq-item"><summary>Was ist im Mietpreis enthalten?</summary><p>Im Preis ab 99 € sind Gebläse, Unterlegplane und eine detaillierte Aufbauanleitung immer inklusive. Es gibt keine versteckten Zusatzkosten.</p></details>
+        <details class="faq-item"><summary>Wie groß muss die Fläche für die Hüpfburg sein?</summary><p>Je nach Modell benötigst du ca. 5×5 m bis 7×4 m Fläche. Wir beraten dich gerne, welche Burg für deine Örtlichkeit am besten passt.</p></details>
+        <details class="faq-item"><summary>Liefern Sie die Hüpfburg auch zu uns?</summary><p>Aktuell bieten wir einen Selbstabholer-Service an. Die Abholung erfolgt bequem bei uns in Vilshofen (Alkofen). Bei Bedarf sprich uns gerne auf Lieferoptionen an!</p></details>
+        <details class="faq-item"><summary>Sind die Hüpfburgen für draußen und drinnen geeignet?</summary><p>Ja! Alle unsere Burgen sind sowohl für den Innen- als auch Außenbereich geeignet. Bei Wind über Windstärke 4 (ca. 7 m/s) sollte die Burg aus Sicherheitsgründen abgebaut werden.</p></details>
+        <details class="faq-item"><summary>Wie lange im Voraus muss ich buchen?</summary><p>Wir empfehlen mindestens 2–3 Wochen im Voraus zu buchen, besonders in der Hauptsaison Mai–September. Kurzfristige Anfragen nehmen wir gerne entgegen – Verfügbarkeit vorausgesetzt.</p></details>
+        <details class="faq-item"><summary>Gibt es eine Kaution?</summary><p>Ja, bei Abholung wird eine Kaution von <strong>150 €</strong> erhoben. Diese wird vollständig zurückerstattet, wenn die Hüpfburg sauber zurückgegeben und ausgekehrt wurde und ein <strong>kurzer Videobeweis</strong> vorliegt.</p></details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL: SICHERHEIT ═══════════ -->
+  <div id="modal-sicherheit" class="modal" role="dialog" aria-modal="true" aria-label="Sicherheitshinweise">
+    <div class="modal-content modal-content--wide">
+      <button class="modal-close" onclick="closeModal('modal-sicherheit')">✕</button>
+      <h2 class="section-title">🛡️ Sicherheitshinweise</h2>
+      <p style="text-align:center;color:#666;margin-bottom:28px">Bitte lies diese Hinweise sorgfältig!</p>
+      <div class="sicher-grid">
+        <div class="sicher-card"><div class="sicher-icon">👀</div><h3>Aufsichtspflicht</h3><ul><li>Die Hüpfburg darf nur unter <strong>ständiger Aufsicht</strong> von Erwachsenen betrieben werden.</li><li>Kinder unter 3 Jahren dürfen die Hüpfburg <strong>nicht</strong> benutzen.</li><li>Es darf immer nur <strong>eine Altersgruppe</strong> gleichzeitig hüpfen.</li><li>Die Aufsichtsperson darf die Hüpfburg während des Betriebs <strong>nicht verlassen</strong>.</li></ul></div>
+        <div class="sicher-card"><div class="sicher-icon">🧒</div><h3>Personenanzahl & Gewicht</h3><ul><li>Die <strong>maximale Personenanzahl</strong> je nach Modell beachten.</li><li>Das <strong>Maximalgewicht pro Person</strong> beträgt 80 kg.</li><li>Erwachsene dürfen die Hüpfburg grundsätzlich <strong>nicht benutzen</strong> (Ausnahme: Hochzeits-Hüpfburg).</li></ul></div>
+        <div class="sicher-card"><div class="sicher-icon">⚠️</div><h3>Verbotene Verhaltensweisen</h3><ul><li><strong>Kein</strong> Raufen, Schubsen oder Springen auf andere Personen.</li><li><strong>Keine</strong> spitzen Gegenstände, Schuhe mit Absätzen oder Schmuck.</li><li><strong>Kein</strong> Essen, Trinken oder Kaugummi in der Hüpfburg.</li><li><strong>Keine</strong> Haustiere in oder neben der Hüpfburg.</li></ul></div>
+        <div class="sicher-card"><div class="sicher-icon">🌬️</div><h3>Wetterbedingungen</h3><ul><li>Bei <strong>Windstärke 4</strong> oder mehr sofort <strong>abbauen</strong>.</li><li>Bei <strong>Gewitter</strong> oder starkem Regen Betrieb einstellen.</li><li>Die Hüpfburg darf <strong>nicht bei Frost</strong> oder Schnee betrieben werden.</li></ul></div>
+        <div class="sicher-card"><div class="sicher-icon">🔧</div><h3>Aufbau & Betrieb</h3><ul><li><strong>Ebener, hindernisfreier Untergrund</strong> erforderlich.</li><li>Das <strong>Gebläse</strong> muss während des gesamten Betriebs laufen.</li><li>Mindestabstand zu Hindernissen: <strong>1 Meter</strong> auf allen Seiten.</li><li>Die <strong>Unterlegplane</strong> muss immer ausgelegt sein.</li></ul></div>
+        <div class="sicher-card"><div class="sicher-icon">⚡</div><h3>Strom & Stromkabel</h3><ul><li>Normale <strong>Haushaltssteckdose</strong> (230 V / 16 A) erforderlich.</li><li>Stromkabel <strong>sicher verlegen</strong> – keine Stolpergefahr!</li><li>Bei Stromausfall Kinder <strong>sofort und ruhig</strong> aus der Burg führen.</li></ul></div>
+        <div class="sicher-card"><div class="sicher-icon">🧹</div><h3>Reinigung & Rückgabe</h3><ul><li>Vor Rückgabe <strong>vollständig entleeren</strong> und trocken abwischen.</li><li>Hüpfburg nur <strong>trocken zusammenfalten</strong> (Schimmelgefahr!).</li><li>Beschädigungen bitte <strong>sofort melden</strong>.</li></ul></div>
+        <div class="sicher-card sicher-card--highlight"><div class="sicher-icon">📋</div><h3>Haftung & Verantwortung</h3><ul><li>Der <strong>Mieter übernimmt die volle Verantwortung</strong>.</li><li>Nutzung auf <strong>eigene Gefahr</strong>.</li><li>Bei Fragen: <a href="tel:+4915128861367">+49 151 28861367</a></li></ul></div>
+      </div>
+      <div class="sicher-hinweis" style="margin-top:24px"><span>ℹ️</span><p>Aufbauanleitung und Sicherheitshinweise werden bei der Abholung mitgegeben.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL: KONTAKT ═══════════ -->
+  <div id="modal-kontakt" class="modal" role="dialog" aria-modal="true" aria-label="Kontakt">
+    <div class="modal-content modal-content--wide">
+      <button class="modal-close" onclick="closeModal('modal-kontakt')">✕</button>
+      <h2 class="section-title">📞 Kontakt & Anfrage</h2>
+      <div class="kontakt-wrap">
+        <div class="kontakt-info">
+          <h3>So erreichst du uns</h3>
+          <p>Ruf uns an oder schreib uns eine Nachricht!</p>
+          <div class="kontakt-detail"><span class="icon">📍</span><span>Böcklbacher Str. 7, 94474 Vilshofen (Alkofen)</span></div>
+          <div class="kontakt-detail"><span class="icon">📱</span><a href="tel:+4915128861367">+49 151 28861367</a></div>
+          <div class="kontakt-detail"><span class="icon">✉️</span><a href="mailto:hupfgaudi@gmail.com">hupfgaudi@gmail.com</a></div>
+          <div class="kontakt-detail"><span class="icon">🕐</span><span>Mo–Sa: 8:00 – 20:00 Uhr</span></div>
+          <a href="https://wa.me/4915128861367?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20H%C3%BCpfburg." class="whatsapp-inline" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.85L0 24l6.335-1.508A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.373l-.36-.214-3.727.977.994-3.635-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
+            Direkt auf WhatsApp schreiben
+          </a>
+          <a href="Mietvertrag_NEU.pdf" download class="download-btn" target="_blank"><span class="download-btn-icon">📄</span><span><strong>Mietvertrag herunterladen</strong><small>PDF · Bitte vor der Abholung ausfüllen</small></span></a>
+        </div>
+        <div>
+          <form id="kontaktForm" novalidate>
+            <div class="form-row"><div class="form-group"><label for="name">Dein Name *</label><input type="text" id="name" name="name" placeholder="Max Mustermann" required autocomplete="name" /></div><div class="form-group"><label for="email">E-Mail *</label><input type="email" id="email" name="email" placeholder="deine@email.de" required autocomplete="email" /></div></div>
+            <div class="form-row"><div class="form-group"><label for="telefon">Telefon</label><input type="tel" id="telefon" name="telefon" placeholder="+49 151 28861367" autocomplete="tel" /></div><div class="form-group"><label for="datum">Gewünschtes Datum</label><input type="date" id="datum" name="datum" /></div></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="burg">Hüpfburg</label><select id="burg" name="burg"><option value="">Bitte wählen…</option><option>Ritterburg Hopsala (99 €)</option><option>Alien Hüpfburg (139 €)</option><option>Einhorn Hüpfburg „Rosalie" (139 €)</option><option>Feuerwehr Hüpfburg (149 €)</option><option>Fußballstar Hüpfburg (149 €)</option><option>Meerjungfrau Hüpfburg (169 €)</option><option>Hochzeit Hüpfburg (189 €)</option><option>Ich bin noch unsicher</option></select></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="lieferung">Abholung oder Lieferung?</label><select id="lieferung" name="lieferung"><option value="">Bitte wählen…</option><option>🚗 Selbstabholung in Vilshofen (kostenlos)</option><option>🚚 Lieferung im Umkreis 20 km (100 €)</option></select></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="untergrund">Aufstellplatz</label><select id="untergrund" name="untergrund"><option value="">Bitte wählen…</option><option>🌿 Rasen</option><option>🧱 Pflaster / Gehweg</option><option>🏠 Halle / Innenbereich</option><option>🪨 Schotter / Kies</option><option>❓ Sonstiges (bitte in Nachricht angeben)</option></select></div>
+            <div class="form-group" style="margin-bottom:24px"><label for="nachricht">Nachricht</label><textarea id="nachricht" name="nachricht" placeholder="Wo findet das Event statt? Wie viele Kinder? Weitere Wünsche?"></textarea></div>
+            <div class="form-submit"><button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;">🎉 Anfrage absenden</button></div>
+            <p class="form-success" id="formSuccess" role="status" aria-live="polite">✅ Deine Anfrage wird über WhatsApp gesendet! Falls sich WhatsApp nicht öffnet, schreib uns direkt: <a href="https://wa.me/4915128861367" target="_blank" style="color:var(--primary);font-weight:700">WhatsApp öffnen</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL: IMPRESSUM ═══════════ -->
+  <div id="modal-impressum" class="modal" role="dialog" aria-modal="true" aria-label="Impressum">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modal-impressum')">✕</button>
+      <h2 class="section-title">⚖️ Impressum, Datenschutz & AGB</h2>
+      <div style="text-align:center;margin-bottom:24px">
+        <a href="impressum.html#impressum" class="bottom-btn" style="display:inline-block;margin:4px">📋 Impressum</a>
+        <a href="impressum.html#datenschutz" class="bottom-btn" style="display:inline-block;margin:4px">🔒 Datenschutz</a>
+        <a href="impressum.html#agb" class="bottom-btn" style="display:inline-block;margin:4px">📄 AGB</a>
+      </div>
+      <div style="padding:20px;background:#f8f8f8;border-radius:12px">
+        <h3 style="margin-bottom:10px">Angaben gemäß § 5 TMG</h3>
+        <p><strong>HupfGaudi Vilshofen</strong><br>Inhaber: Christoph Gutsmidl<br>Böcklbacher Str. 7<br>94474 Vilshofen an der Donau</p>
+        <p style="margin-top:12px"><strong>Kontakt:</strong><br>Tel: <a href="tel:+4915128861367">0151 / 28861367</a><br>E-Mail: <a href="mailto:hupfgaudi@gmail.com">hupfgaudi@gmail.com</a></p>
+        <p style="margin-top:12px"><strong>Umsatzsteuer:</strong> Kleinunternehmer nach § 19 UStG</p>
+        <p style="margin-top:16px;text-align:center"><a href="impressum.html" class="combo-cta" style="display:inline-block;padding:10px 28px">Vollständiges Impressum, Datenschutz & AGB →</a></p>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════════ FOOTER ═══════════ -->
   <footer role="contentinfo">
@@ -882,10 +673,10 @@
       ✉️ <a href="mailto:hupfgaudi@gmail.com" style="color:var(--secondary)">hupfgaudi@gmail.com</a>
     </p>
     <div class="footer-links">
-      <a href="impressum.html#impressum">Impressum</a>
+      <a href="javascript:void(0)" onclick="openModal('modal-impressum')">Impressum</a>
       <a href="impressum.html#datenschutz">Datenschutz</a>
       <a href="impressum.html#agb">AGB</a>
-      <a href="#kontakt">Kontakt</a>
+      <a href="javascript:void(0)" onclick="openModal('modal-kontakt')">Kontakt</a>
     </div>
     <p style="margin-top:16px;font-size:0.8rem;opacity:.5">© <span id="currentYear"></span> HupfGaudi Vilshofen. Alle Rechte vorbehalten.</p>
   </footer>
@@ -975,7 +766,16 @@
     // ── Datum: keine Vergangenheitsdaten ──
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('datum').min = today;
-    document.getElementById('avail-date').min = today;
+    document.getElementById('avail-from').min = today;
+    document.getElementById('avail-to').min = today;
+
+    // Von-Datum ändert automatisch das Min des Bis-Datums
+    document.getElementById('avail-from').addEventListener('change', function() {
+      document.getElementById('avail-to').min = this.value;
+      if (document.getElementById('avail-to').value && document.getElementById('avail-to').value < this.value) {
+        document.getElementById('avail-to').value = this.value;
+      }
+    });
 
     // ── Verfügbarkeitsprüfung (SuperSaaS API) ──
     const SUPERSAAS = {
@@ -1004,9 +804,10 @@
     };
 
     document.getElementById('avail-btn').addEventListener('click', async function () {
-      const dateInput = document.getElementById('avail-date');
-      const date = dateInput.value;
-      if (!date) { alert('Bitte ein Datum wählen.'); return; }
+      const fromDate = document.getElementById('avail-from').value;
+      const toDate   = document.getElementById('avail-to').value;
+      if (!fromDate || !toDate) { alert('Bitte Von- und Bis-Datum wählen.'); return; }
+      if (toDate < fromDate) { alert('Das Bis-Datum muss nach dem Von-Datum liegen.'); return; }
 
       const loading = document.getElementById('avail-loading');
       const results = document.getElementById('avail-results');
@@ -1019,43 +820,48 @@
       error.style.display   = 'none';
 
       try {
-        // Buchungen für den gewählten Tag abrufen
-        const nextDay = new Date(date + 'T00:00');
-        nextDay.setDate(nextDay.getDate() + 1);
-        const to = nextDay.toISOString().split('T')[0];
+        // Buchungen für den gesamten Zeitraum abrufen
+        const endPlusOne = new Date(toDate + 'T00:00');
+        endPlusOne.setDate(endPlusOne.getDate() + 1);
+        const apiTo = endPlusOne.toISOString().split('T')[0];
 
-        // Lokaler Proxy (kein API-Key im Browser) oder direkt SuperSaaS
         const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
         const url = isLocal
-          ? '/api/bookings?from=' + date + '&to=' + to
+          ? '/api/bookings?from=' + fromDate + '&to=' + apiTo
           : 'https://www.supersaas.com/api/bookings.json'
             + '?schedule_id=' + SUPERSAAS.scheduleId
             + '&account=' + SUPERSAAS.account
             + '&api_key=' + SUPERSAAS.apiKey
-            + '&from=' + date + '&to=' + to;
+            + '&from=' + fromDate + '&to=' + apiTo;
 
         const res = await fetch(url);
         if (!res.ok) throw new Error('API Fehler');
         const bookings = await res.json();
 
-        // Finde gebuchte Ressourcen für diesen Tag
+        // Alle Tage im Zeitraum durchgehen
+        const rangeStart = new Date(fromDate + 'T00:00');
+        const rangeEnd   = new Date(toDate + 'T00:00');
         const bookedNames = new Set();
-        const selectedDate = new Date(date + 'T00:00');
+
         bookings.forEach(b => {
           if (b.deleted) return;
           const bStart = new Date(b.start);
           const bEnd   = new Date(b.finish);
-          // Prüfe ob die Buchung den gewählten Tag überlappt
-          if (bStart <= selectedDate && bEnd > selectedDate ||
-              b.start.startsWith(date)) {
+          // Prüfe ob die Buchung irgendeinen Tag im Zeitraum überlappt
+          if (bStart <= rangeEnd && bEnd >= rangeStart) {
             bookedNames.add(b.res_name);
           }
         });
 
-        const formatted = new Date(date + 'T00:00').toLocaleDateString('de-DE', {
-          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-        });
-        title.textContent = 'Verfügbarkeit am ' + formatted;
+        // Anzahl Tage berechnen
+        const diffTime = rangeEnd - rangeStart;
+        const days = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+        const fmtFrom = rangeStart.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+        const fmtTo   = rangeEnd.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+        title.textContent = days === 1
+          ? 'Verfügbarkeit am ' + fmtFrom
+          : 'Verfügbarkeit vom ' + fmtFrom + ' bis ' + fmtTo + ' (' + days + ' Tage)';
 
         grid.innerHTML = '';
         SUPERSAAS.allResources.forEach(name => {
@@ -1065,9 +871,9 @@
           const imgSrc = SUPERSAAS.images[name] || '';
           card.innerHTML = (imgSrc ? '<img src="' + imgSrc + '" alt="' + name + '" class="avail-card-img" loading="lazy" />' : '')
             + '<strong>' + name + '</strong>'
-            + '<span class="avail-card-price">' + (SUPERSAAS.prices[name] || '') + '</span>'
+            + '<span class="avail-card-price">' + (SUPERSAAS.prices[name] || '') + ' / Tag</span>'
             + '<span class="avail-card-status">' + (available ? '✅ Verfügbar' : '❌ Gebucht') + '</span>'
-            + (available ? '<a href="#kontakt" class="avail-card-btn">Jetzt anfragen</a>' : '');
+            + (available ? '<a href="javascript:void(0)" onclick="openModal(\'modal-kontakt\')" class="avail-card-btn">Jetzt anfragen</a>' : '');
           grid.appendChild(card);
         });
 
@@ -1102,6 +908,33 @@
         observer.observe(el);
       });
     }
+  </script>
+
+  <!-- ── Modal-Funktionen ── -->
+  <script>
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // Nav schließen (mobile)
+      const nav = document.getElementById('nav');
+      if (nav) nav.classList.remove('open');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // Klick außerhalb schließt Modal
+    document.querySelectorAll('.modal').forEach(m => {
+      m.addEventListener('click', (e) => {
+        if (e.target === m) closeModal(m.id);
+      });
+    });
+    // ESC schließt alle Modals
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal.active').forEach(m => closeModal(m.id));
+      }
+    });
   </script>
 
   <!-- ── Lightbox (muss vor dem Script stehen) ── -->
