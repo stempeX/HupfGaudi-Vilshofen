@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mietvertrag Partyzubehör – HupfGaudi Vilshofen</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', Arial, sans-serif;
+      color: #333; line-height: 1.6;
+      max-width: 800px; margin: 0 auto;
+      padding: 40px 30px;
+    }
+
+    .header {
+      text-align: center; border-bottom: 3px solid #ff5a1f;
+      padding-bottom: 20px; margin-bottom: 30px;
+    }
+    .header h1 { font-size: 1.6rem; font-weight: 900; color: #1a1a2e; }
+    .header p { font-size: .9rem; color: #666; margin-top: 4px; }
+    .header .logo { font-size: 1.3rem; font-weight: 900; color: #ff5a1f; margin-bottom: 8px; }
+    .header .logo span { color: #ffcc00; }
+
+    h2 {
+      font-size: 1.1rem; font-weight: 800; color: #1a1a2e;
+      margin: 28px 0 10px; border-left: 4px solid #ff5a1f;
+      padding-left: 12px;
+    }
+
+    p, li { font-size: .92rem; margin-bottom: 6px; }
+    ul { padding-left: 20px; margin-bottom: 12px; }
+
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; margin: 20px 0;
+    }
+
+    .party-box {
+      border: 1.5px solid #ddd; border-radius: 10px;
+      padding: 16px; background: #fafafa;
+    }
+    .party-box h3 {
+      font-size: .95rem; font-weight: 800; color: #ff5a1f;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      display: flex; align-items: baseline; gap: 8px;
+      margin-bottom: 10px; font-size: .9rem;
+    }
+    .field label { font-weight: 700; white-space: nowrap; min-width: 140px; }
+    .field .line {
+      flex: 1; border-bottom: 1.5px dotted #999;
+      min-height: 18px;
+    }
+
+    .checkbox-field {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 8px; font-size: .9rem;
+    }
+    .checkbox {
+      width: 18px; height: 18px;
+      border: 2px solid #333; border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .highlight-box {
+      background: #fff8e7; border: 1.5px solid #ffcc00;
+      border-radius: 10px; padding: 16px; margin: 16px 0;
+    }
+
+    .warning-box {
+      background: #fff3e0; border-left: 4px solid #ff9800;
+      border-radius: 0 10px 10px 0; padding: 14px 16px;
+      margin: 16px 0; font-size: .88rem;
+    }
+
+    .signature-area {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; margin-top: 40px; padding-top: 20px;
+      border-top: 2px solid #eee;
+    }
+    .signature-block { text-align: center; }
+    .signature-block .sig-line {
+      border-bottom: 1.5px solid #333;
+      height: 60px; margin-bottom: 6px;
+    }
+    .signature-block p { font-size: .82rem; color: #666; }
+
+    .footer-note {
+      margin-top: 30px; padding-top: 16px;
+      border-top: 1px solid #eee;
+      font-size: .78rem; color: #888; text-align: center;
+    }
+
+    .print-btn {
+      display: block; margin: 20px auto;
+      padding: 12px 40px; background: #ff5a1f; color: #fff;
+      border: none; border-radius: 50px; font-size: 1rem;
+      font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+    .print-btn:hover { background: #e04a0f; }
+
+    @media print {
+      .print-btn { display: none; }
+      body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn" onclick="window.print()">🖨️ Mietvertrag drucken / als PDF speichern</button>
+
+  <div class="header">
+    <div class="logo">Hupf<span>Gaudi</span> Vilshofen</div>
+    <h1>Mietvertrag – Partyzubehör</h1>
+    <p>Böcklbacher Str. 7 · 94474 Vilshofen (Alkofen) · Tel: 0151 / 28861367 · hupfgaudi@gmail.com</p>
+  </div>
+
+  <h2>1. Vertragsparteien</h2>
+
+  <div class="two-col">
+    <div class="party-box">
+      <h3>Vermieter</h3>
+      <p><strong>HupfGaudi Vilshofen</strong></p>
+      <p>Christoph Gutsmidl</p>
+      <p>Böcklbacher Str. 7</p>
+      <p>94474 Vilshofen an der Donau</p>
+      <p>Tel: 0151 / 28861367</p>
+      <p>E-Mail: hupfgaudi@gmail.com</p>
+    </div>
+    <div class="party-box">
+      <h3>Mieter</h3>
+      <div class="field"><label>Name:</label><div class="line"></div></div>
+      <div class="field"><label>Adresse:</label><div class="line"></div></div>
+      <div class="field"><label>PLZ / Ort:</label><div class="line"></div></div>
+      <div class="field"><label>Telefon:</label><div class="line"></div></div>
+      <div class="field"><label>E-Mail:</label><div class="line"></div></div>
+      <div class="field"><label>Ausweis-Nr.:</label><div class="line"></div></div>
+    </div>
+  </div>
+
+  <h2>2. Mietgegenstand</h2>
+
+  <p>Folgendes wird vermietet bzw. erworben (bitte ankreuzen):</p>
+
+  <div style="margin:14px 0">
+    <p style="font-weight:800;margin:8px 0 4px">Popcornmaschine:</p>
+    <div class="checkbox-field"><div class="checkbox"></div> <strong>Popcornmaschine</strong> – Leihgabe, Tagesmiete: 49 €</div>
+    <div class="checkbox-field"><div class="checkbox"></div> <strong>Komplett-Paket Popcorn</strong> – Maschine (Leihgabe) + Zutatenpaket (Kaufartikel, 50 Portionen) – 79 €</div>
+    <p style="font-weight:800;margin:12px 0 4px">Zuckerwattemaschine:</p>
+    <div class="checkbox-field"><div class="checkbox"></div> <strong>Zuckerwattemaschine</strong> – Leihgabe, Tagesmiete: 35 €</div>
+    <div class="checkbox-field"><div class="checkbox"></div> <strong>Komplett-Paket Zuckerwatte</strong> – Maschine (Leihgabe) + Zutatenset (Kaufartikel: 3×230 g Aromazucker Erdbeer/Vanille/Kaugummi + 50 Stäbe) – 55 €</div>
+  </div>
+
+  <h2>3. Mietdauer</h2>
+
+  <div class="two-col">
+    <div class="field"><label>Abholdatum:</label><div class="line"></div></div>
+    <div class="field"><label>Rückgabedatum:</label><div class="line"></div></div>
+  </div>
+  <div class="field"><label>Abholzeit:</label><div class="line"></div></div>
+  <div class="field"><label>Rückgabezeit:</label><div class="line"></div></div>
+
+  <p style="margin-top:10px">Bei verspäteter Rückgabe kann ein Aufschlag von <strong>20 € pro angefangener Stunde</strong> berechnet werden.</p>
+
+  <h2>4. Mietpreis & Zahlung</h2>
+
+  <div class="field"><label>Mietpreis gesamt:</label><div class="line"></div> €</div>
+  <p>Die Zahlung erfolgt <strong>bar bei Abholung</strong>. Andere Zahlungsarten nach Absprache.</p>
+  <p>Kleinunternehmer gemäß § 19 UStG – keine Umsatzsteuer wird ausgewiesen.</p>
+
+  <h2>5. Kaution</h2>
+
+  <div class="highlight-box">
+    <p><strong>Kaution für Partyzubehör: 100 €</strong></p>
+    <p>Die Kaution wird in bar bei Abholung erhoben und bei ordnungsgemäßer Rückgabe vollständig zurückerstattet.</p>
+    <p style="margin-top:8px"><strong>Voraussetzungen für die Rückerstattung:</strong></p>
+    <ul>
+      <li>Die Popcornmaschine wird <strong>sauber und gereinigt</strong> zurückgegeben</li>
+      <li>Alle Teile der Maschine sind <strong>vollständig vorhanden</strong> und unbeschädigt</li>
+      <li>Die Rückgabe erfolgt <strong>fristgerecht</strong> zum vereinbarten Termin</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <strong>Reinigungsgebühr:</strong> Wird die Popcorn- oder Zuckerwattemaschine verschmutzt zurückgegeben, berechnen wir eine Reinigungsgebühr von <strong>25 €</strong> pro Gerät, die von der Kaution einbehalten wird.
+  </div>
+
+  <h2>6. Pflichten des Mieters</h2>
+
+  <ul>
+    <li>Der Mieter verpflichtet sich, das Mietgerät <strong>sorgsam und bestimmungsgemäß</strong> zu nutzen.</li>
+    <li>Die Popcornmaschine darf nur in <strong>trockenen, geschützten Innenräumen</strong> oder unter einem Dach betrieben werden.</li>
+    <li>Das Gerät darf <strong>nicht unbeaufsichtigt</strong> in Betrieb sein – insbesondere in der Nähe von Kindern.</li>
+    <li>Es dürfen <strong>nur die mitgelieferten Zutaten</strong> oder handelsüblicher Popcornmais verwendet werden. Keine Butter, Schokolade oder andere Substanzen in die Maschine geben.</li>
+    <li>Die Popcornmaschine ist nach Gebrauch <strong>gründlich zu reinigen</strong> (Kessel, Glasgehäuse, Auffangschale).</li>
+    <li>Das Gerät darf <strong>nicht weitervermietet</strong> oder an Dritte überlassen werden.</li>
+  </ul>
+
+  <h2>7. Rückgabe & Zustand</h2>
+
+  <div class="highlight-box">
+    <p><strong>Hinweis:</strong> Das Zutatenpaket (Popcornmais, Öl, Vanillezucker, Tüten) ist ein <strong>Kaufartikel</strong> und geht in das Eigentum des Mieters über. Eine Rückgabe der Zutaten erfolgt nicht.</p>
+  </div>
+
+  <p><strong>Popcornmaschine</strong> – Rückgabe in folgendem Zustand:</p>
+  <ul>
+    <li><strong>Popcornkessel</strong> – gereinigt, frei von Maisresten und Ölrückständen</li>
+    <li><strong>Glasgehäuse / Haube</strong> – innen und außen abgewischt</li>
+    <li><strong>Auffangschale / Schublade</strong> – geleert und gereinigt</li>
+    <li><strong>Kabel</strong> – ordentlich aufgewickelt</li>
+    <li><strong>Alle Teile</strong> – vollständig und unbeschädigt</li>
+  </ul>
+
+  <p style="margin-top:14px"><strong>Zuckerwattemaschine</strong> – Rückgabe in folgendem Zustand:</p>
+  <ul>
+    <li><strong>Spinnkopf / Heizelement</strong> – gereinigt, frei von Zuckerresten</li>
+    <li><strong>Auffangschale</strong> – gereinigt und trocken</li>
+    <li><strong>Gehäuse / Schutzhaube</strong> – innen und außen abgewischt</li>
+    <li><strong>Kabel</strong> – ordentlich aufgewickelt</li>
+    <li><strong>Alle Teile</strong> – vollständig und unbeschädigt</li>
+  </ul>
+
+  <h2>8. Haftung & Schäden</h2>
+
+  <ul>
+    <li>Der Mieter haftet für <strong>alle Schäden</strong>, die während der Mietdauer durch unsachgemäße Nutzung, Fahrlässigkeit oder Missachtung der Bedienungsanleitung entstehen.</li>
+    <li>Bei <strong>Verlust oder Totalschaden</strong> haftet der Mieter für den Wiederbeschaffungswert des Geräts.</li>
+    <li>Normale Verschleißerscheinungen gehen nicht zu Lasten des Mieters.</li>
+    <li>Der Mieter ist verpflichtet, Schäden <strong>unverzüglich</strong> dem Vermieter zu melden.</li>
+    <li>Die Nutzung des Partyzubehörs erfolgt auf <strong>eigene Gefahr</strong> des Mieters.</li>
+  </ul>
+
+  <h2>9. Stornierung</h2>
+
+  <ul>
+    <li>Stornierung bis <strong>7 Tage vor</strong> dem Mietzeitraum: kostenlos</li>
+    <li>Stornierung <strong>3–6 Tage vor</strong> dem Mietzeitraum: 30 % des Mietpreises</li>
+    <li>Stornierung <strong>weniger als 3 Tage</strong> vor dem Mietzeitraum: 50 % des Mietpreises</li>
+  </ul>
+
+  <h2>10. Personalausweis</h2>
+
+  <p>Der Mieter legt bei Abholung einen <strong>gültigen Personalausweis</strong> vor. Der Vermieter fertigt ein Foto des Ausweises zur Identitätssicherung an. Dieses wird nicht an Dritte weitergegeben und nach Abschluss des Mietverhältnisses gelöscht.</p>
+
+  <h2>11. Datenschutz</h2>
+
+  <p>Die im Rahmen dieses Mietvertrags erhobenen personenbezogenen Daten werden ausschließlich zur Vertragsabwicklung verwendet und gemäß der DSGVO verarbeitet. Weitere Informationen: <strong>hupfgaudi-vilshofen.de/impressum</strong></p>
+
+  <h2>12. Schlussbestimmungen</h2>
+
+  <ul>
+    <li>Es gilt das Recht der Bundesrepublik Deutschland.</li>
+    <li>Gerichtsstand ist, soweit gesetzlich zulässig, Vilshofen an der Donau.</li>
+    <li>Sollten einzelne Bestimmungen unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</li>
+    <li>Änderungen und Ergänzungen dieses Vertrags bedürfen der Schriftform.</li>
+  </ul>
+
+  <div class="highlight-box">
+    <p><strong>Bestätigung des Mieters:</strong></p>
+    <p>Mit meiner Unterschrift bestätige ich, dass ich das Partyzubehör in einwandfreiem Zustand erhalten habe, die Bedienungsanleitung gelesen habe und die Bedingungen dieses Mietvertrags sowie die geltenden AGB und die Datenschutzerklärung von HupfGaudi Vilshofen anerkenne.</p>
+  </div>
+
+  <div class="field" style="margin-top:20px"><label>Mietpreis bezahlt:</label><div class="line"></div> €</div>
+  <div class="field"><label>Kaution erhalten:</label><div class="line"></div> € (bar)</div>
+  <div class="field"><label>Ausweis-Foto:</label> <div class="checkbox" style="display:inline-block;vertical-align:middle"></div> <span style="margin-left:8px">erstellt</span></div>
+
+  <div class="signature-area">
+    <div class="signature-block">
+      <div class="sig-line"></div>
+      <p>Ort, Datum</p>
+    </div>
+    <div class="signature-block">
+      <div class="sig-line"></div>
+      <p>Unterschrift Mieter</p>
+    </div>
+  </div>
+
+  <div class="signature-area" style="margin-top:20px">
+    <div class="signature-block">
+      <div class="sig-line"></div>
+      <p>Ort, Datum</p>
+    </div>
+    <div class="signature-block">
+      <div class="sig-line"></div>
+      <p>Unterschrift Vermieter</p>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <p>HupfGaudi Vilshofen · Christoph Gutsmidl · Böcklbacher Str. 7 · 94474 Vilshofen · Kleinunternehmer nach § 19 UStG</p>
+    <p>Stand: April 2026 · Dieses Dokument ist in zweifacher Ausfertigung zu unterschreiben (je ein Exemplar für Mieter und Vermieter).</p>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">🖨️ Mietvertrag drucken / als PDF speichern</button>
+
+</body>
+</html>

@@ -695,6 +695,7 @@ section { padding: 90px 20px; }
   border-top: 4px solid var(--primary);
 }
 .extra-info-box--delivery { border-top-color: var(--accent); }
+.extra-info-box--popcorn  { border-top-color: #ff6b9d; }
 .extra-info-box--kaution  { border-top-color: var(--secondary); }
 
 .extra-info-icon { font-size: 2.2rem; margin-bottom: 8px; }
