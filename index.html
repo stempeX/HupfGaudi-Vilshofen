@@ -838,13 +838,25 @@
       window.open(waURL, '_blank');
 
       // E-Mail senden (fire-and-forget)
+      const formData = { name, email, telefon, datum, burg, lieferung, extras, untergrund, nachricht };
       try {
         fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, telefon, datum, burg, lieferung, extras, untergrund, nachricht })
+          body: JSON.stringify(formData)
         }).catch(() => {});
       } catch(e) {}
+
+      // SuperSaaS Buchung anlegen (fire-and-forget)
+      if (datum && burg) {
+        try {
+          fetch('/api/create-booking', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          }).catch(() => {});
+        } catch(e) {}
+      }
 
       // Erfolgsmeldung anzeigen
       this.querySelectorAll('input, textarea, select, button').forEach(el => el.disabled = true);

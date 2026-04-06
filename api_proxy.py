@@ -3,10 +3,11 @@ CORS-Proxy für SuperSaaS API + E-Mail-Versand bei Kontaktanfragen.
 Startet auf Port 8081.
 """
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs, quote
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import urllib.request
+import urllib.error
 import smtplib
 import json
 import os
@@ -48,6 +49,8 @@ class ProxyHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         if self.path.startswith('/api/send-email'):
             self._send_email()
+        elif self.path.startswith('/api/create-booking'):
+            self._create_booking()
         else:
             self.send_response(404)
             self.end_headers()
@@ -189,6 +192,140 @@ class ProxyHandler(SimpleHTTPRequestHandler):
 
         except Exception as e:
             print(f'E-Mail-Fehler: {e}')
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    # ── SuperSaaS Buchung anlegen ──
+
+    RESOURCE_MAP = {
+        'Ritterburg Hopsala': 1151497,
+        'Alien': 1177924,
+        'Einhorn': 1151496,
+        'Einhorn Rosalie': 1151496,
+        'Feuerwehr': 1151498,
+        'Fußballstar': 1151499,
+        'Meerjungfrau': 1177923,
+        'Hochzeit': 1177925,
+        'Hochzeitsburg': 1177925,
+        'Popcornmaschine': 1205013,
+        'Popcorn': 1205013,
+        'Zuckerwattemaschine': 1205014,
+        'Zuckerwattenmaschine': 1205014,
+        'Zuckerwatte': 1205014,
+        'Icecream Roll': 1205015,
+        'Ice Cream Roll Maschine': 1205015,
+        'Ice Cream Roll': 1205015,
+    }
+
+    def _find_resource_id(self, text):
+        """Findet die resource_id anhand eines Textfragments."""
+        text_lower = text.lower()
+        for name, rid in self.RESOURCE_MAP.items():
+            if name.lower() in text_lower:
+                return rid
+        return None
+
+    def _create_supersaas_booking(self, resource_id, name, email, telefon, datum, untergrund, info):
+        """Erstellt eine einzelne Buchung in SuperSaaS."""
+        start = f'{datum} 08:00:00'
+        finish = f'{datum} 19:00:00'
+
+        payload = json.dumps({
+            'booking': {
+                'start': start,
+                'finish': finish,
+                'resource_id': resource_id,
+                'full_name': name,
+                'email': email,
+                'mobile': telefon,
+                'address': untergrund or 'Nicht angegeben',
+                'field_1_r': untergrund,
+                'field_2_r': info,
+            }
+        }).encode('utf-8')
+
+        url = (f'https://www.supersaas.com/api/bookings.json'
+               f'?schedule_id={SCHEDULE_ID}'
+               f'&account={SUPERSAAS_ACCOUNT}'
+               f'&api_key={SUPERSAAS_API_KEY}')
+
+        req = urllib.request.Request(url, data=payload, method='POST')
+        req.add_header('Content-Type', 'application/json')
+        with urllib.request.urlopen(req) as response:
+            return response.read()
+
+    def _create_booking(self):
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            data = json.loads(body)
+
+            name       = data.get('name', '')
+            email      = data.get('email', '')
+            telefon    = data.get('telefon', '')
+            datum      = data.get('datum', '')
+            burg       = data.get('burg', '')
+            lieferung  = data.get('lieferung', '')
+            extras     = data.get('extras', [])
+            untergrund = data.get('untergrund', '')
+            nachricht  = data.get('nachricht', '')
+
+            if not datum:
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'Kein Datum angegeben'}).encode())
+                return
+
+            results = []
+
+            # Hüpfburg-Buchung anlegen
+            if burg:
+                resource_id = self._find_resource_id(burg)
+                if resource_id:
+                    info = f'{lieferung or "Selbstabholung"}'
+                    if nachricht:
+                        info += f' | {nachricht}'
+                    try:
+                        self._create_supersaas_booking(
+                            resource_id, name, email, telefon, datum, untergrund, info
+                        )
+                        results.append(f'Huepfburg gebucht: {burg}')
+                        print(f'SuperSaaS Buchung: {burg} am {datum} fuer {name}')
+                    except urllib.error.HTTPError as e:
+                        err_body = e.read().decode('utf-8', errors='replace')
+                        results.append(f'Huepfburg-Fehler: {e} - {err_body}')
+                        print(f'SuperSaaS Fehler (Huepfburg): {e} - {err_body}')
+                    except Exception as e:
+                        results.append(f'Huepfburg-Fehler: {e}')
+                        print(f'SuperSaaS Fehler (Huepfburg): {e}')
+
+            # Extras buchen (Popcorn, Zuckerwatte, Icecream Roll)
+            for extra in extras:
+                resource_id = self._find_resource_id(extra)
+                if resource_id:
+                    try:
+                        self._create_supersaas_booking(
+                            resource_id, name, email, telefon, datum, untergrund, extra
+                        )
+                        results.append(f'Extra gebucht: {extra}')
+                        print(f'SuperSaaS Buchung: {extra} am {datum} fuer {name}')
+                    except Exception as e:
+                        results.append(f'Extra-Fehler: {e}')
+                        print(f'SuperSaaS Fehler (Extra): {e}')
+
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True, 'results': results}).encode())
+
+        except Exception as e:
+            print(f'Booking-Fehler: {e}')
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
