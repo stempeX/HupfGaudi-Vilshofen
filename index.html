@@ -669,7 +669,16 @@
             <div class="form-row"><div class="form-group"><label for="telefon">Telefon</label><input type="tel" id="telefon" name="telefon" placeholder="+49 151 28861367" autocomplete="tel" /></div><div class="form-group"><label for="datum">Gewünschtes Datum</label><input type="date" id="datum" name="datum" /></div></div>
             <div class="form-group" style="margin-bottom:20px"><label for="burg">Hüpfburg</label><select id="burg" name="burg"><option value="">Bitte wählen…</option><option>Ritterburg Hopsala (75 €)</option><option>Alien Hüpfburg (139 €)</option><option>Einhorn Hüpfburg „Rosalie" (139 €)</option><option>Feuerwehr Hüpfburg (149 €)</option><option>Fußballstar Hüpfburg (149 €)</option><option>Meerjungfrau Hüpfburg (219 €)</option><option>Hochzeit Hüpfburg (179 €)</option><option>Ich bin noch unsicher</option></select></div>
             <div class="form-group" style="margin-bottom:20px"><label for="lieferung">Abholung oder Lieferung?</label><select id="lieferung" name="lieferung"><option value="">Bitte wählen…</option><option>🚗 Selbstabholung in Vilshofen (kostenlos)</option><option>🚚 Lieferung im Umkreis 20 km (100 €)</option></select></div>
-            <div class="form-group" style="margin-bottom:20px"><label for="popcorn">🎉 Partyzubehör dazu?</label><select id="popcorn" name="popcorn"><option value="">Nein, danke</option><option>🍿 Popcornmaschine (49 €)</option><option>🍿 Popcorn Komplett-Paket (79 €)</option><option>🍭 Zuckerwattemaschine (35 €)</option><option>🍭 Zuckerwatte Komplett-Paket (55 €)</option><option>🍦 Icecream Roll Maschine (49 €)</option><option>🍦 Icecream Roll Komplett-Paket (65 €)</option><option>Mehrere Extras – bitte im Nachrichtenfeld Details angeben</option></select></div>
+            <div class="form-group" style="margin-bottom:20px"><label>🎉 Partyzubehör dazu? <small style="color:#888;font-weight:400">(Mehrfachauswahl möglich)</small></label>
+              <div class="extras-checkboxes" id="extrasCheckboxes">
+                <label class="extras-cb"><input type="checkbox" name="extras" value="🍿 Popcornmaschine (49 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍿</span><span class="extras-cb-text"><strong>Popcornmaschine</strong><small>Nur Maschine</small></span><span class="extras-cb-price">49 €</span></label>
+                <label class="extras-cb"><input type="checkbox" name="extras" value="🍿 Popcorn Komplett-Paket (79 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍿</span><span class="extras-cb-text"><strong>Popcorn Komplett</strong><small>Maschine + Zutaten</small></span><span class="extras-cb-price">79 €</span></label>
+                <label class="extras-cb"><input type="checkbox" name="extras" value="🍭 Zuckerwattemaschine (35 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍭</span><span class="extras-cb-text"><strong>Zuckerwattemaschine</strong><small>Nur Maschine</small></span><span class="extras-cb-price">35 €</span></label>
+                <label class="extras-cb"><input type="checkbox" name="extras" value="🍭 Zuckerwatte Komplett-Paket (55 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍭</span><span class="extras-cb-text"><strong>Zuckerwatte Komplett</strong><small>Maschine + Zutaten</small></span><span class="extras-cb-price">55 €</span></label>
+                <label class="extras-cb"><input type="checkbox" name="extras" value="🍦 Icecream Roll Maschine (49 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍦</span><span class="extras-cb-text"><strong>Icecream Roll</strong><small>Nur Maschine</small></span><span class="extras-cb-price">49 €</span></label>
+                <label class="extras-cb"><input type="checkbox" name="extras" value="🍦 Icecream Roll Komplett-Paket (65 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍦</span><span class="extras-cb-text"><strong>Icecream Roll Komplett</strong><small>Maschine + Becher & Löffel</small></span><span class="extras-cb-price">65 €</span></label>
+              </div>
+            </div>
             <div class="form-group" style="margin-bottom:20px"><label for="untergrund">Aufstellplatz</label><select id="untergrund" name="untergrund"><option value="">Bitte wählen…</option><option>🌿 Rasen</option><option>🧱 Pflaster / Gehweg</option><option>🏠 Halle / Innenbereich</option><option>🪨 Schotter / Kies</option><option>❓ Sonstiges (bitte in Nachricht angeben)</option></select></div>
             <div class="form-group" style="margin-bottom:24px"><label for="nachricht">Nachricht</label><textarea id="nachricht" name="nachricht" placeholder="Wo findet das Event statt? Wie viele Kinder? Weitere Wünsche?"></textarea></div>
             <div class="form-submit"><button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;">🎉 Anfrage absenden</button></div>
@@ -803,7 +812,7 @@
       const datum    = document.getElementById('datum').value;
       const burg     = document.getElementById('burg').value;
       const lieferung  = document.getElementById('lieferung').value;
-      const popcorn    = document.getElementById('popcorn').value;
+      const extras     = [...document.querySelectorAll('#extrasCheckboxes input:checked')].map(cb => cb.value);
       const untergrund = document.getElementById('untergrund').value;
       const nachricht  = document.getElementById('nachricht').value.trim();
 
@@ -820,13 +829,22 @@
       if (datum) msg += '📅 *Wunschdatum:* ' + datum + '\n';
       if (burg) msg += '🏰 *Hüpfburg:* ' + burg + '\n';
       if (lieferung) msg += '🚗 *Abholung/Lieferung:* ' + lieferung + '\n';
-      if (popcorn) msg += '🍿 *Popcornmaschine:* ' + popcorn + '\n';
+      if (extras.length) msg += '🎉 *Partyzubehör:*\n' + extras.map(e => '  • ' + e).join('\n') + '\n';
       if (untergrund) msg += '📍 *Aufstellplatz:* ' + untergrund + '\n';
       if (nachricht) msg += '\n💬 *Nachricht:*\n' + nachricht;
 
       // WhatsApp öffnen
       const waURL = 'https://wa.me/4915128861367?text=' + encodeURIComponent(msg);
       window.open(waURL, '_blank');
+
+      // E-Mail senden (fire-and-forget)
+      try {
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, telefon, datum, burg, lieferung, extras, untergrund, nachricht })
+        }).catch(() => {});
+      } catch(e) {}
 
       // Erfolgsmeldung anzeigen
       this.querySelectorAll('input, textarea, select, button').forEach(el => el.disabled = true);
@@ -855,7 +873,7 @@
       scheduleId: 795126,
       apiKey: 'VClzqXLcmH6QLYs2Ksr_8A',
       prices: {
-        'Ritterburg Hopsala': '75 €', 'Alien': '139 €', 'Popcornmaschine': '49 €', 'Zuckerwattemaschine': '35 €', 'Icecream Roll Maschine': '49 €',
+        'Ritterburg Hopsala': '75 €', 'Alien': '139 €', 'Popcornmaschine': '49 €', 'Zuckerwattenmaschine': '35 €', 'Ice Cream Roll Maschine': '49 €',
         'Einhorn Rosalie': '139 €', 'Feuerwehr': '149 €',
         'Fußballstar': '149 €', 'Meerjungfrau': '219 €',
         'Hochzeitsburg': '179 €', 'Paw Patrol': '—'
@@ -869,13 +887,17 @@
         'Meerjungfrau': 'https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9abdbab3-65f9-4fb0-846a-997c09765c65/l0,t135,w1080,h1080/image-768x768.png',
         'Hochzeitsburg': 'https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/1d8aa97d-fbc4-4550-acd7-49bdc215a979/image.png',
         'Popcornmaschine': 'img/Popcornmaschine.avif',
-        'Zuckerwattemaschine': 'img/Zuckerwattemaschine.webp',
-        'Icecream Roll Maschine': 'img/icecream-roll-maschine.jpg'
+        'Zuckerwattenmaschine': 'img/Zuckerwattemaschine.webp',
+        'Ice Cream Roll Maschine': 'img/icecream-roll-maschine.jpg'
+      },
+      // Mapping: Anzeigename → SuperSaaS-Name (falls unterschiedlich)
+      apiNames: {
+        'Meerjungfrau': 'Arielle'
       },
       allResources: [
         'Ritterburg Hopsala', 'Alien', 'Einhorn Rosalie',
         'Feuerwehr', 'Fußballstar', 'Meerjungfrau', 'Hochzeitsburg',
-        'Popcornmaschine', 'Zuckerwattemaschine', 'Icecream Roll Maschine'
+        'Popcornmaschine', 'Zuckerwattenmaschine', 'Ice Cream Roll Maschine'
       ]
     };
 
@@ -941,7 +963,8 @@
 
         grid.innerHTML = '';
         SUPERSAAS.allResources.forEach(name => {
-          const available = !bookedNames.has(name);
+          const apiName = SUPERSAAS.apiNames[name] || name;
+          const available = !bookedNames.has(apiName);
           const card = document.createElement('div');
           card.className = 'avail-card' + (available ? ' avail-card--free' : ' avail-card--booked');
           const imgSrc = SUPERSAAS.images[name] || '';
