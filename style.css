@@ -372,7 +372,7 @@ section { padding: 90px 20px; }
 /* ════════════ COMBO-KARTEN (Hüpfburgen + Preise) ════════════ */
 .combo-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px; scroll-margin-top: 80px;
 }
 
@@ -450,8 +450,16 @@ section { padding: 90px 20px; }
   color: var(--weiss);
 }
 
+.extras-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 960px) {
+  .extras-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 768px) {
   .combo-grid { grid-template-columns: 1fr; }
+  .extras-grid { grid-template-columns: 1fr; }
 }
 
 /* ════════════ HÜPFBURGEN-CARDS (alt) ════════════ */
