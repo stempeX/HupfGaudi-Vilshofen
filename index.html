@@ -96,8 +96,8 @@
     <nav id="nav" role="navigation" aria-label="Hauptnavigation">
       <a href="#huepfburgen">Hüpfburgen & Preise</a>
       <a href="#partyzubehoer">Partyzubehör</a>
-      <a href="#ablauf">Ablauf</a>
-      <a href="#warum">Warum HupfGaudi?</a>
+      <a href="javascript:void(0)" onclick="openModal('modal-ablauf')">Ablauf</a>
+      <a href="javascript:void(0)" onclick="openModal('modal-warum')">Warum HupfGaudi?</a>
     </nav>
     <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -383,7 +383,7 @@
         <div class="combo-grid extras-grid">
           <div class="combo-card combo-card--featured">
             <div class="combo-badge">🍿 Neu! Extras dazubuchen</div>
-            <img src="img/Popcornmaschine.avif" alt="Popcornmaschine mieten" class="combo-img" style="background:#fff" loading="lazy" />
+            <img src="img/Popcornmaschine.avif" alt="Popcornmaschine" class="combo-img card-img" style="background:#fff" loading="lazy" />
             <div class="combo-info">
               <h3>Popcornmaschine</h3>
               <p>Frisches Popcorn – der Duft begeistert Kinder & Erwachsene!</p>
@@ -416,7 +416,7 @@
 
           <div class="combo-card combo-card--featured">
             <div class="combo-badge">🍭 Neu! Extras dazubuchen</div>
-            <img src="img/Zuckerwattemaschine.webp" alt="Zuckerwattemaschine mieten" class="combo-img" style="background:#fff" loading="lazy" />
+            <img src="img/Zuckerwattemaschine.webp" alt="Zuckerwattemaschine" class="combo-img card-img" style="background:#fff" loading="lazy" />
             <div class="combo-info">
               <h3>Zuckerwattemaschine</h3>
               <p>Fluffige Zuckerwatte wie auf dem Jahrmarkt – ein Highlight für jede Party!</p>
@@ -448,7 +448,7 @@
 
           <div class="combo-card combo-card--featured">
             <div class="combo-badge">🍦 Neu! Extras dazubuchen</div>
-            <img src="img/icecream-roll-maschine.jpg" alt="Icecream Roll Maschine mieten" class="combo-img" style="background:#fff" loading="lazy" />
+            <img src="img/icecream-roll-maschine.jpg" alt="Icecream Roll Maschine" class="combo-img card-img" style="background:#fff" loading="lazy" />
             <div class="combo-info">
               <h3>Icecream Roll Maschine</h3>
               <p>Eisrollen wie vom Streetfood-Markt – ein absoluter Hingucker auf jeder Party!</p>
@@ -538,102 +538,6 @@
     <div class="wave-divider" style="background:#fff8e7" aria-hidden="true">
       <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="80">
         <path d="M0,60 C480,0 960,80 1440,20 L1440,80 L0,80 Z" fill="#ffffff"/>
-      </svg>
-    </div>
-
-    <!-- ═══════════ ABLAUF ═══════════ -->
-    <section id="ablauf">
-      <div class="container">
-        <h2 class="section-title">📋 So läuft's ab</h2>
-        <p class="section-subtitle">Einfach, schnell und unkompliziert – in 4 Schritten zum Spaß!</p>
-        <div class="steps">
-
-          <div class="step">
-            <div class="step-num" aria-hidden="true">1</div>
-            <h3>Anfragen</h3>
-            <p>Schreib uns über das Kontaktformular oder ruf uns direkt an. Wir beraten dich gerne!</p>
-          </div>
-
-          <div class="step">
-            <div class="step-num" aria-hidden="true">2</div>
-            <h3>Buchen</h3>
-            <p>Wähle deine Wunsch-Hüpfburg und deinen Termin – wir bestätigen schnell und unkompliziert.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-num" aria-hidden="true">3</div>
-            <h3>Abholen</h3>
-            <p>Hol die Burg und das Zubehör bei uns in Vilshofen (Alkofen) ab. Bitte bringe den <strong>ausgefüllten Mietvertrag</strong> und deinen <strong>Personalausweis</strong> (für ein Foto) mit.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-num" aria-hidden="true">4</div>
-            <h3>Gaudi haben</h3>
-            <p>Aufbauen, aufblasen, loshüpfen – und am nächsten Tag einfach wieder zurückbringen. Fertig!</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Wellen-Trenner -->
-    <div class="wave-divider" style="background:#ffffff" aria-hidden="true">
-      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="80">
-        <path d="M0,0 C360,60 1080,0 1440,40 L1440,80 L0,80 Z" fill="#fff8e7"/>
-      </svg>
-    </div>
-
-    <!-- ═══════════ WARUM HUPFGAUDI ═══════════ -->
-    <section id="warum" style="background:#fff8e7">
-      <div class="container">
-        <h2 class="section-title">🌟 Warum HupfGaudi?</h2>
-        <p class="section-subtitle">Wir machen deinen Anlass unvergesslich – versprochen!</p>
-        <div class="usp-grid">
-
-          <div class="usp-item">
-            <span class="usp-icon" aria-hidden="true">🛡️</span>
-            <h3>EN 14960-1:2019 geprüft</h3>
-            <p>Alle Hüpfburgen erfüllen die Norm EN 14960-1:2019 – regelmäßig gereinigt und stets einsatzbereit. Sicherheit steht bei uns an erster Stelle!</p>
-          </div>
-
-          <div class="usp-item">
-            <span class="usp-icon" aria-hidden="true">💶</span>
-            <h3>Faire Preise ab 99 €</h3>
-            <p>Tagesmieten ab nur 99 € – transparent kalkuliert ohne versteckte Zusatzkosten. Gebläse, Unterlegplane und Anleitung sind immer inklusive!</p>
-          </div>
-
-          <div class="usp-item">
-            <span class="usp-icon" aria-hidden="true">🚗</span>
-            <h3>Selbstabholer-Service</h3>
-            <p>Einfach bei uns in Vilshofen (Alkofen) abholen. Die Burgen passen in größere PKW oder Kombis – ganz bequem und flexibel.</p>
-          </div>
-
-          <div class="usp-item">
-            <span class="usp-icon" aria-hidden="true">🎨</span>
-            <h3>Wow-Designs</h3>
-            <p>Einhorn, Feuerwehr, Ritterburg und mehr – unsere fantasievollen Designs begeistern Kinder und garantieren strahlende Kinderaugen!</p>
-          </div>
-
-          <div class="usp-item">
-            <span class="usp-icon" aria-hidden="true">😊</span>
-            <h3>Persönlicher Service</h3>
-            <p>Wir sind ein lokales Unternehmen aus Vilshofen – immer persönlich erreichbar, freundlich und zuverlässig.</p>
-          </div>
-
-          <div class="usp-item">
-            <span class="usp-icon" aria-hidden="true">🎂</span>
-            <h3>Für jeden Anlass</h3>
-            <p>Kindergeburtstag, Familienfest, Schulevent oder Firmenfeier – wir haben für jeden Event die passende Hüpfburg!</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Wellen-Trenner -->
-    <div class="wave-divider" style="background:#fff8e7" aria-hidden="true">
-      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="80">
-        <path d="M0,40 C360,0 1080,80 1440,30 L1440,80 L0,80 Z" fill="#ffffff"/>
       </svg>
     </div>
 
@@ -772,6 +676,38 @@
             <p class="form-success" id="formSuccess" role="status" aria-live="polite">✅ Deine Anfrage wird über WhatsApp gesendet! Falls sich WhatsApp nicht öffnet, schreib uns direkt: <a href="https://wa.me/4915128861367" target="_blank" style="color:var(--primary);font-weight:700">WhatsApp öffnen</a></p>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL: ABLAUF ═══════════ -->
+  <div id="modal-ablauf" class="modal" role="dialog" aria-modal="true" aria-label="Ablauf">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modal-ablauf')">✕</button>
+      <h2 class="section-title">📋 So läuft's ab</h2>
+      <p style="text-align:center;color:#666;margin-bottom:28px">Einfach, schnell und unkompliziert – in 4 Schritten zum Spaß!</p>
+      <div class="steps" style="flex-direction:column;align-items:center">
+        <div class="step" style="max-width:100%"><div class="step-num">1</div><h3>Anfragen</h3><p>Schreib uns über das Kontaktformular oder ruf uns direkt an. Wir beraten dich gerne!</p></div>
+        <div class="step" style="max-width:100%"><div class="step-num">2</div><h3>Buchen</h3><p>Wähle deine Wunsch-Hüpfburg und deinen Termin – wir bestätigen schnell und unkompliziert.</p></div>
+        <div class="step" style="max-width:100%"><div class="step-num">3</div><h3>Abholen</h3><p>Hol die Burg und das Zubehör bei uns in Vilshofen (Alkofen) ab. Bitte bringe den <strong>ausgefüllten Mietvertrag</strong> und deinen <strong>Personalausweis</strong> (für ein Foto) mit.</p></div>
+        <div class="step" style="max-width:100%"><div class="step-num">4</div><h3>Gaudi haben</h3><p>Aufbauen, aufblasen, loshüpfen – und am nächsten Tag einfach wieder zurückbringen. Fertig!</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL: WARUM HUPFGAUDI ═══════════ -->
+  <div id="modal-warum" class="modal" role="dialog" aria-modal="true" aria-label="Warum HupfGaudi">
+    <div class="modal-content modal-content--wide">
+      <button class="modal-close" onclick="closeModal('modal-warum')">✕</button>
+      <h2 class="section-title">🌟 Warum HupfGaudi?</h2>
+      <p style="text-align:center;color:#666;margin-bottom:28px">Wir machen deinen Anlass unvergesslich – versprochen!</p>
+      <div class="usp-grid">
+        <div class="usp-item"><span class="usp-icon">🛡️</span><h3>EN 14960-1:2019 geprüft</h3><p>Alle Hüpfburgen erfüllen die Norm EN 14960-1:2019 – regelmäßig gereinigt und stets einsatzbereit. Sicherheit steht bei uns an erster Stelle!</p></div>
+        <div class="usp-item"><span class="usp-icon">💶</span><h3>Faire Preise ab 75 €</h3><p>Tagesmieten ab nur 75 € – transparent kalkuliert ohne versteckte Zusatzkosten. Gebläse, Unterlegplane und Anleitung sind immer inklusive!</p></div>
+        <div class="usp-item"><span class="usp-icon">🚗</span><h3>Selbstabholer-Service</h3><p>Einfach bei uns in Vilshofen (Alkofen) abholen. Die Burgen passen in größere PKW oder Kombis – ganz bequem und flexibel.</p></div>
+        <div class="usp-item"><span class="usp-icon">🎨</span><h3>Wow-Designs</h3><p>Einhorn, Feuerwehr, Ritterburg und mehr – unsere fantasievollen Designs begeistern Kinder und garantieren strahlende Kinderaugen!</p></div>
+        <div class="usp-item"><span class="usp-icon">😊</span><h3>Persönlicher Service</h3><p>Wir sind ein lokales Unternehmen aus Vilshofen – immer persönlich erreichbar, freundlich und zuverlässig.</p></div>
+        <div class="usp-item"><span class="usp-icon">🎂</span><h3>Für jeden Anlass</h3><p>Kindergeburtstag, Familienfest, Schulevent oder Firmenfeier – wir haben für jeden Event die passende Hüpfburg!</p></div>
       </div>
     </div>
   </div>
