@@ -1,0 +1,57 @@
+{
+  "Ritterburg Hopsala": {
+    "priceWeekday": 75,
+    "priceWeekend": 126,
+    "saveWeekend": 99
+  },
+  "Alien": {
+    "priceWeekday": 139,
+    "priceWeekend": 318,
+    "saveWeekend": 99
+  },
+  "Einhorn Rosalie": {
+    "priceWeekday": 139,
+    "priceWeekend": 318,
+    "saveWeekend": 99
+  },
+  "Feuerwehr": {
+    "priceWeekday": 149,
+    "priceWeekend": 348,
+    "saveWeekend": 99
+  },
+  "Fußballstar": {
+    "priceWeekday": 149,
+    "priceWeekend": 348,
+    "saveWeekend": 99
+  },
+  "Meerjungfrau": {
+    "priceWeekday": 219,
+    "priceWeekend": 497,
+    "saveWeekend": 160
+  },
+  "Hochzeitsburg": {
+    "priceWeekday": 179,
+    "priceWeekend": 468,
+    "saveWeekend": 69
+  },
+  "Popcornmaschine": {
+    "priceWeekday": 49,
+    "priceWeekend": 79,
+    "saveWeekend": 68
+  },
+  "Zuckerwattenmaschine": {
+    "priceWeekday": 35,
+    "priceWeekend": 55,
+    "saveWeekend": 50
+  },
+  "Ice Cream Roll Maschine": {
+    "priceWeekday": 49,
+    "priceWeekend": 65,
+    "saveWeekend": 82
+  },
+  "Paw Patrol": {
+    "priceWeekday": 149,
+    "priceWeekend": 149,
+    "saveWeekend": 298
+  }
+}

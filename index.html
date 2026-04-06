@@ -190,7 +190,7 @@
 
         <div id="preise" class="combo-grid">
 
-          <div class="combo-card">
+          <div class="combo-card" data-product="Ritterburg Hopsala">
             <img src="https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/17b03c36-5d1a-478e-9a02-f8ebd2e70e9b/image.png" alt="Ritterburg Hopsala" class="combo-img card-img" loading="lazy" />
             <div class="combo-info">
               <h3>Ritterburg Hopsala</h3>
@@ -216,7 +216,7 @@
             </div>
           </div>
 
-          <div class="combo-card">
+          <div class="combo-card" data-product="Alien">
             <img src="https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9139d95d-2272-4b9a-8d67-c8d38ae06c48/image.png" alt="Alien Hüpfburg" class="combo-img card-img" loading="lazy" />
             <div class="combo-info">
               <h3>Alien Hüpfburg</h3>
@@ -242,7 +242,7 @@
             </div>
           </div>
 
-          <div class="combo-card">
+          <div class="combo-card" data-product="Einhorn Rosalie">
             <img src="https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/09ec4e04-1e2e-4702-bc83-2e39eb7cff16/image.png" alt="Einhorn Rosalie" class="combo-img card-img" loading="lazy" />
             <div class="combo-info">
               <h3>Einhorn Hüpfburg „Rosalie"</h3>
@@ -268,7 +268,7 @@
             </div>
           </div>
 
-          <div class="combo-card">
+          <div class="combo-card" data-product="Feuerwehr">
             <img src="https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/552882bf-eacf-4b68-8d9b-aba392b2099b/image.png" alt="Feuerwehr Hüpfburg" class="combo-img card-img" loading="lazy" />
             <div class="combo-info">
               <h3>Feuerwehr Hüpfburg</h3>
@@ -294,7 +294,7 @@
             </div>
           </div>
 
-          <div class="combo-card">
+          <div class="combo-card" data-product="Fußballstar">
             <img src="https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/a70ba2fb-c9b3-48a7-987a-b2f84bdc419a/image.png" alt="Fußballstar Hüpfburg" class="combo-img card-img" loading="lazy" />
             <div class="combo-info">
               <h3>Fußballstar Hüpfburg</h3>
@@ -320,7 +320,7 @@
             </div>
           </div>
 
-          <div class="combo-card combo-card--featured">
+          <div class="combo-card combo-card--featured" data-product="Meerjungfrau">
             <div class="combo-badge">⭐ Bestseller</div>
             <img src="https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9abdbab3-65f9-4fb0-846a-997c09765c65/l0,t135,w1080,h1080/image-768x768.png" alt="Meerjungfrau Hüpfburg" class="combo-img card-img" loading="lazy" />
             <div class="combo-info">
@@ -347,7 +347,7 @@
             </div>
           </div>
 
-          <div class="combo-card">
+          <div class="combo-card" data-product="Hochzeitsburg">
             <img src="https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/1d8aa97d-fbc4-4550-acd7-49bdc215a979/image.png" alt="Hochzeit Hüpfburg" class="combo-img card-img" loading="lazy" />
             <div class="combo-info">
               <h3>Hochzeit Hüpfburg</h3>
@@ -381,7 +381,7 @@
 
         <!-- Popcorn Add-on (wie eine Hüpfburg-Karte) -->
         <div class="combo-grid extras-grid">
-          <div class="combo-card combo-card--featured">
+          <div class="combo-card combo-card--featured" data-product="Popcornmaschine">
             <div class="combo-badge">🍿 Neu! Extras dazubuchen</div>
             <img src="img/Popcornmaschine.avif" alt="Popcornmaschine" class="combo-img card-img" style="background:#fff" loading="lazy" />
             <div class="combo-info">
@@ -414,7 +414,7 @@
             </div>
           </div>
 
-          <div class="combo-card combo-card--featured">
+          <div class="combo-card combo-card--featured" data-product="Zuckerwattenmaschine">
             <div class="combo-badge">🍭 Neu! Extras dazubuchen</div>
             <img src="img/Zuckerwattemaschine.webp" alt="Zuckerwattemaschine" class="combo-img card-img" style="background:#fff" loading="lazy" />
             <div class="combo-info">
@@ -446,7 +446,7 @@
             </div>
           </div>
 
-          <div class="combo-card combo-card--featured">
+          <div class="combo-card combo-card--featured" data-product="Ice Cream Roll Maschine">
             <div class="combo-badge">🍦 Neu! Extras dazubuchen</div>
             <img src="img/icecream-roll-maschine.jpg" alt="Icecream Roll Maschine" class="combo-img card-img" style="background:#fff" loading="lazy" />
             <div class="combo-info">
@@ -1260,6 +1260,81 @@
 
       requestAnimationFrame(draw);
     })();
+  </script>
+
+  <!-- ── Dynamische Preise aus prices.json ── -->
+  <script>
+  (async function() {
+    try {
+      let res;
+      try {
+        res = await fetch('http://localhost:8081/api/prices');
+      } catch(e) {
+        res = await fetch('prices.json');
+      }
+      if (!res.ok) return;
+      const prices = await res.json();
+
+      // Mapping: data-product Name → Homepage-Anzeigenamen für Dropdown
+      const dropdownMap = {
+        'Ritterburg Hopsala': 'Ritterburg Hopsala',
+        'Alien': 'Alien Hüpfburg',
+        'Einhorn Rosalie': 'Einhorn Hüpfburg „Rosalie"',
+        'Feuerwehr': 'Feuerwehr Hüpfburg',
+        'Fußballstar': 'Fußballstar Hüpfburg',
+        'Meerjungfrau': 'Meerjungfrau Hüpfburg',
+        'Hochzeitsburg': 'Hochzeit Hüpfburg'
+      };
+
+      // 1. Produktkarten aktualisieren
+      document.querySelectorAll('[data-product]').forEach(card => {
+        const name = card.dataset.product;
+        const p = prices[name];
+        if (!p) return;
+
+        const priceEls = card.querySelectorAll('.combo-price-value');
+        const saveEl = card.querySelector('.combo-save');
+
+        // Hüpfburgen: [0]=Tag, [1]=Wochenende
+        // Extras: [0]=Nur Maschine, [1]=Extra Zutaten, [2]=Komplett (im combo-price-weekend)
+        if (card.closest('.extras-grid')) {
+          // Extras: erster Preis = Nur Maschine, letzter im Weekend-Block = Komplett
+          if (priceEls[0]) priceEls[0].textContent = p.priceWeekday + ' €';
+          const weekendVal = card.querySelector('.combo-price-weekend .combo-price-value');
+          if (weekendVal) weekendVal.textContent = p.priceWeekend + ' €';
+          if (saveEl && p.saveWeekend) saveEl.textContent = p.saveWeekend + ' € sparen';
+        } else {
+          // Hüpfburgen
+          if (priceEls[0]) priceEls[0].textContent = p.priceWeekday + ' €';
+          if (priceEls[1]) priceEls[1].textContent = p.priceWeekend + ' €';
+          if (saveEl && p.saveWeekend) saveEl.textContent = p.saveWeekend + ' € sparen';
+        }
+      });
+
+      // 2. SUPERSAAS.prices aktualisieren
+      if (window.SUPERSAAS && SUPERSAAS.prices) {
+        Object.entries(prices).forEach(([name, p]) => {
+          if (SUPERSAAS.prices[name] !== undefined) {
+            SUPERSAAS.prices[name] = p.priceWeekday + ' €';
+          }
+        });
+      }
+
+      // 3. Kontaktformular-Dropdown aktualisieren
+      const burgSelect = document.getElementById('burg');
+      if (burgSelect) {
+        burgSelect.querySelectorAll('option').forEach(opt => {
+          Object.entries(dropdownMap).forEach(([key, display]) => {
+            if (opt.textContent.includes(display)) {
+              const p = prices[key];
+              if (p) opt.textContent = display + ' (' + p.priceWeekday + ' €)';
+            }
+          });
+        });
+      }
+
+    } catch(e) { /* prices.json nicht verfügbar – Standardpreise bleiben */ }
+  })();
   </script>
 </body>
 </html>

@@ -29,6 +29,8 @@ SUPERSAAS_ACCOUNT = 'Hupfgaudi-Vilshofen'
 SUPERSAAS_API_KEY = 'VClzqXLcmH6QLYs2Ksr_8A'
 SCHEDULE_ID = '795126'
 
+PRICES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'prices.json')
+
 SMTP_HOST = os.environ.get('SMTP_HOST', 'smtp.gmail.com')
 SMTP_PORT = int(os.environ.get('SMTP_PORT', '465'))
 SMTP_USER = os.environ.get('SMTP_USER', 'hupfgaudi@gmail.com')
@@ -43,6 +45,8 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._proxy_bookings()
         elif self.path.startswith('/api/free'):
             self._proxy_free()
+        elif self.path.startswith('/api/prices'):
+            self._get_prices()
         else:
             super().do_GET()
 
@@ -51,13 +55,14 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._send_email()
         elif self.path.startswith('/api/create-booking'):
             self._create_booking()
+        elif self.path.startswith('/api/prices'):
+            self._save_prices()
         else:
             self.send_response(404)
             self.end_headers()
 
     def do_OPTIONS(self):
         self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
@@ -91,13 +96,11 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                 data = response.read()
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(data)
         except Exception as e:
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
 
@@ -186,7 +189,6 @@ class ProxyHandler(SimpleHTTPRequestHandler):
 
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({'success': True}).encode())
 
@@ -194,7 +196,6 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             print(f'E-Mail-Fehler: {e}')
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
 
@@ -276,7 +277,6 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             if not datum:
                 self.send_response(400)
                 self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
                 self.wfile.write(json.dumps({'error': 'Kein Datum angegeben'}).encode())
                 return
@@ -320,7 +320,6 @@ class ProxyHandler(SimpleHTTPRequestHandler):
 
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({'success': True, 'results': results}).encode())
 
@@ -328,7 +327,41 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             print(f'Booking-Fehler: {e}')
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    # ── Preise lesen/speichern ──
+
+    def _get_prices(self):
+        try:
+            with open(PRICES_FILE, 'r', encoding='utf-8') as f:
+                data = f.read()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(data.encode('utf-8'))
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    def _save_prices(self):
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            prices = json.loads(body)
+            with open(PRICES_FILE, 'w', encoding='utf-8') as f:
+                json.dump(prices, f, ensure_ascii=False, indent=2)
+            print(f'Preise aktualisiert: {PRICES_FILE}')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True}).encode())
+        except Exception as e:
+            print(f'Preis-Fehler: {e}')
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
 
