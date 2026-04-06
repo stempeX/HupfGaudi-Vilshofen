@@ -104,17 +104,52 @@
     }
     .print-btn:hover { background: #e04a0f; }
 
+    .mode-bar { display:flex; gap:8px; justify-content:center; margin-bottom:20px; }
+    .mode-btn { padding:10px 20px; border:2px solid #ddd; border-radius:10px; background:#fff; font-size:.9rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all .2s; }
+    .mode-btn.active { border-color:#ff5a1f; background:#fff8f5; color:#ff5a1f; }
+    .mode-btn:hover { border-color:#ff5a1f; }
+    .dinput { flex:1; border:none; border-bottom:1.5px solid #ccc; padding:6px 4px; font-size:.9rem; font-family:inherit; background:transparent; outline:none; min-width:0; }
+    .dinput:focus { border-bottom-color:#ff5a1f; }
+    .dcheck { display:flex; align-items:flex-start; gap:8px; margin-bottom:10px; font-size:.88rem; cursor:pointer; }
+    .dcheck input[type="checkbox"] { width:18px; height:18px; margin-top:2px; accent-color:#ff5a1f; flex-shrink:0; }
+    .sig-section { margin:20px 0; }
+    .sig-canvas { display:block; width:100%; max-width:500px; height:150px; border:2px solid #ddd; border-radius:10px; cursor:crosshair; background:#fafafa; touch-action:none; }
+    .sig-clear { margin-top:6px; padding:6px 16px; border:1px solid #ddd; border-radius:6px; background:#fff; cursor:pointer; font-size:.82rem; font-family:inherit; }
+    .submit-section { text-align:center; margin:24px 0; }
+    .submit-btn { padding:14px 40px; background:linear-gradient(135deg,#ff5a1f,#ffcc00); color:#fff; border:none; border-radius:12px; font-size:1.1rem; font-weight:800; cursor:pointer; font-family:inherit; transition:transform .15s; }
+    .submit-btn:hover { transform:translateY(-2px); }
+    .submit-btn:disabled { opacity:.5; cursor:wait; }
+    .submit-status { margin-top:10px; font-weight:600; }
+    .digital-success { text-align:center; padding:60px 20px; }
+    .digital-success-icon { font-size:64px; margin-bottom:16px; }
+    .digital-success h2 { color:#059669; margin-bottom:10px; }
+    .print-only { display:none; }
     @media print {
-      .print-btn { display: none; }
+      .print-btn, .mode-bar, .sig-section, .submit-section, .digital-success { display:none !important; }
+      .print-only { display:grid !important; }
       body { padding: 20px; }
+      .dinput { border-bottom:1.5px dotted #999 !important; }
+      .dcheck input[type="checkbox"] { -webkit-appearance:none; width:18px; height:18px; border:2px solid #333; border-radius:3px; }
     }
   </style>
 </head>
 <body>
 
-  <button class="print-btn" onclick="window.print()">🖨️ Mietvertrag drucken / als PDF speichern</button>
+  <div id="mode-bar" class="mode-bar">
+    <button class="mode-btn active" id="mode-digital" onclick="setMode('digital')">✏️ Digital ausfüllen & absenden</button>
+    <button class="mode-btn" id="mode-print" onclick="setMode('print')">🖨️ Ausdrucken & per Hand ausfüllen</button>
+  </div>
 
-  <div class="header">
+  <button class="print-btn" id="print-btn" style="display:none" onclick="window.print()">🖨️ Mietvertrag drucken / als PDF speichern</button>
+
+  <div id="digital-success" class="digital-success" style="display:none">
+    <div class="digital-success-icon">✅</div>
+    <h2>Mietvertrag erfolgreich abgesendet!</h2>
+    <p>Vielen Dank! Dein Mietvertrag wurde an HupfGaudi Vilshofen übermittelt.</p>
+    <p style="margin-top:12px">Bitte bringe zur Abholung deinen <strong>Personalausweis</strong> mit.</p>
+  </div>
+
+  <div id="contract-form" class="header">
     <div class="logo">Hupf<span>Gaudi</span> Vilshofen</div>
     <h1>Mietvertrag – Partyzubehör</h1>
     <p>Böcklbacher Str. 7 · 94474 Vilshofen (Alkofen) · Tel: 0151 / 28861367 · hupfgaudi@gmail.com</p>
@@ -134,12 +169,11 @@
     </div>
     <div class="party-box">
       <h3>Mieter</h3>
-      <div class="field"><label>Name:</label><div class="line"></div></div>
-      <div class="field"><label>Adresse:</label><div class="line"></div></div>
-      <div class="field"><label>PLZ / Ort:</label><div class="line"></div></div>
-      <div class="field"><label>Telefon:</label><div class="line"></div></div>
-      <div class="field"><label>E-Mail:</label><div class="line"></div></div>
-      <div class="field"><label>Ausweis-Nr.:</label><div class="line"></div></div>
+      <div class="field"><label>Name: *</label><input class="dinput" id="cp-name" required></div>
+      <div class="field"><label>Adresse: *</label><input class="dinput" id="cp-adresse" required></div>
+      <div class="field"><label>PLZ / Ort: *</label><input class="dinput" id="cp-ort" required></div>
+      <div class="field"><label>Telefon: *</label><input class="dinput" id="cp-telefon" type="tel" required></div>
+      <div class="field"><label>E-Mail: *</label><input class="dinput" id="cp-email" type="email" required></div>
     </div>
   </div>
 
@@ -147,32 +181,30 @@
 
   <p>Folgendes wird vermietet bzw. erworben (bitte ankreuzen):</p>
 
-  <div style="margin:14px 0">
+  <div style="margin:14px 0" id="cp-equipment">
     <p style="font-weight:800;margin:8px 0 4px">Popcornmaschine:</p>
-    <div class="checkbox-field"><div class="checkbox"></div> <strong>Popcornmaschine</strong> – Leihgabe, Tagesmiete: 49 €</div>
-    <div class="checkbox-field"><div class="checkbox"></div> <strong>Komplett-Paket Popcorn</strong> – Maschine (Leihgabe) + Zutatenpaket (Kaufartikel, 50 Portionen) – 79 €</div>
+    <label class="dcheck"><input type="checkbox" name="cp-item" value="Popcornmaschine (49 €)"> <strong>Popcornmaschine</strong> – Leihgabe, Tagesmiete: <!-- PREIS:Popcornmaschine:maschine -->49 €</label>
+    <label class="dcheck"><input type="checkbox" name="cp-item" value="Popcornmaschine + Zutaten (88 €)"> <strong>Popcornmaschine + Zutaten</strong> – Maschine + Zutatenpaket (50 Portionen) – <!-- PREIS:Popcornmaschine:komplett -->88 €</label>
     <p style="font-weight:800;margin:12px 0 4px">Zuckerwattemaschine:</p>
-    <div class="checkbox-field"><div class="checkbox"></div> <strong>Zuckerwattemaschine</strong> – Leihgabe, Tagesmiete: 35 €</div>
-    <div class="checkbox-field"><div class="checkbox"></div> <strong>Komplett-Paket Zuckerwatte</strong> – Maschine (Leihgabe) + Zutatenset (Kaufartikel: 3×230 g Aromazucker Erdbeer/Vanille/Kaugummi + 50 Stäbe) – 55 €</div>
+    <label class="dcheck"><input type="checkbox" name="cp-item" value="Zuckerwattemaschine (35 €)"> <strong>Zuckerwattemaschine</strong> – Leihgabe, Tagesmiete: <!-- PREIS:Zuckerwattenmaschine:maschine -->35 €</label>
+    <label class="dcheck"><input type="checkbox" name="cp-item" value="Zuckerwattemaschine + Zutaten (61 €)"> <strong>Zuckerwattemaschine + Zutaten</strong> – Maschine + Zutatenset – <!-- PREIS:Zuckerwattenmaschine:komplett -->61 €</label>
     <p style="font-weight:800;margin:12px 0 4px">Icecream Roll Maschine:</p>
-    <div class="checkbox-field"><div class="checkbox"></div> <strong>Icecream Roll Maschine</strong> – Leihgabe, Tagesmiete: 49 €</div>
-    <div class="checkbox-field"><div class="checkbox"></div> <strong>Komplett-Paket Icecream Roll</strong> – Maschine (Leihgabe) + Zutatenset (Kaufartikel: 50 Becher + 50 Löffel) – 65 €</div>
+    <label class="dcheck"><input type="checkbox" name="cp-item" value="Icecream Roll Maschine (49 €)"> <strong>Icecream Roll Maschine</strong> – Leihgabe, Tagesmiete: <!-- PREIS:Ice Cream Roll Maschine:maschine -->49 €</label>
+    <label class="dcheck"><input type="checkbox" name="cp-item" value="Icecream Roll Maschine + Zutaten (69 €)"> <strong>Icecream Roll Maschine + Zutaten</strong> – Maschine + Zutatenset – <!-- PREIS:Ice Cream Roll Maschine:komplett -->69 €</label>
   </div>
 
   <h2>3. Mietdauer</h2>
 
   <div class="two-col">
-    <div class="field"><label>Abholdatum:</label><div class="line"></div></div>
-    <div class="field"><label>Rückgabedatum:</label><div class="line"></div></div>
+    <div class="field"><label>Abholdatum: *</label><input class="dinput" id="cp-datum-start" type="date" required></div>
+    <div class="field"><label>Rückgabedatum: *</label><input class="dinput" id="cp-datum-ende" type="date" required></div>
   </div>
-  <div class="field"><label>Abholzeit:</label><div class="line"></div></div>
-  <div class="field"><label>Rückgabezeit:</label><div class="line"></div></div>
 
   <p style="margin-top:10px">Bei verspäteter Rückgabe kann ein Aufschlag von <strong>20 € pro angefangener Stunde</strong> berechnet werden.</p>
 
   <h2>4. Mietpreis & Zahlung</h2>
 
-  <div class="field"><label>Mietpreis gesamt:</label><div class="line"></div> €</div>
+  <div class="field"><label>Mietpreis gesamt:</label><input class="dinput" id="cp-gesamt" type="number" style="max-width:120px"> €</div>
   <p>Die Zahlung erfolgt <strong>bar bei Abholung</strong>. Andere Zahlungsarten nach Absprache.</p>
   <p>Kleinunternehmer gemäß § 19 UStG – keine Umsatzsteuer wird ausgewiesen.</p>
 
@@ -244,7 +276,7 @@
     <li>Bei <strong>Verlust oder Totalschaden</strong> haftet der Mieter für den Wiederbeschaffungswert des Geräts.</li>
     <li>Normale Verschleißerscheinungen gehen nicht zu Lasten des Mieters.</li>
     <li>Der Mieter ist verpflichtet, Schäden <strong>unverzüglich</strong> dem Vermieter zu melden.</li>
-    <li>Die Nutzung des Partyzubehörs erfolgt auf <strong>eigene Gefahr</strong> des Mieters.</li>
+    <li>Die Nutzung des Partyzubehörs erfolgt auf <strong>eigene Gefahr</strong> des Mieters, sofern der Vermieter seine Pflichten ordnungsgemäß erfüllt hat. Die Haftung des Vermieters für Personenschäden sowie für Vorsatz und grobe Fahrlässigkeit bleibt unberührt.</li>
   </ul>
 
   <h2>9. Stornierung</h2>
@@ -257,50 +289,68 @@
 
   <h2>10. Personalausweis</h2>
 
-  <p>Der Mieter legt bei Abholung einen <strong>gültigen Personalausweis</strong> vor. Der Vermieter fertigt ein Foto des Ausweises zur Identitätssicherung an. Dieses wird nicht an Dritte weitergegeben und nach Abschluss des Mietverhältnisses gelöscht.</p>
+  <p>Der Mieter legt bei Abholung einen <strong>gültigen Personalausweis</strong> vor. Mit Einwilligung des Mieters wird ein <strong>Foto des Ausweises</strong> zur Identitätssicherung angefertigt. Das Foto wird <strong>spätestens 7 Tage nach Rückgabe</strong> der Mietsache vollständig gelöscht und nicht an Dritte weitergegeben.</p>
 
   <h2>11. Datenschutz</h2>
 
-  <p>Die im Rahmen dieses Mietvertrags erhobenen personenbezogenen Daten werden ausschließlich zur Vertragsabwicklung verwendet und gemäß der DSGVO verarbeitet. Weitere Informationen: <strong>hupfgaudi-vilshofen.de/impressum</strong></p>
+  <p><strong>Verantwortlicher:</strong> Christoph & Yasmin Gutsmidl, Böcklbacher Str. 7, 94474 Vilshofen, hupfgaudi@gmail.com</p>
+  <ul>
+    <li><strong>Erhobene Daten:</strong> Name, Adresse, Telefon, E-Mail sowie ein Foto des Personalausweises zur Identitätssicherung (nur mit Einwilligung).</li>
+    <li><strong>Zweck:</strong> Durchführung des Mietvertrags und Kontaktaufnahme bei Rückfragen.</li>
+    <li><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).</li>
+    <li><strong>Speicherdauer:</strong> Vertragsdaten werden für die Dauer der gesetzlichen Aufbewahrungspflichten (max. 10 Jahre) gespeichert und danach gelöscht.</li>
+    <li><strong>Ihre Rechte:</strong> Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch (Art. 15–21 DSGVO).</li>
+  </ul>
+  <p style="font-size:.85rem;color:#666;margin-top:8px">Vollständige Datenschutzerklärung: <a href="https://www.hupfgaudi-vilshofen.de/impressum.html#datenschutz">www.hupfgaudi-vilshofen.de/impressum</a></p>
 
-  <h2>12. Schlussbestimmungen</h2>
+  <h2>12. Widerrufsbelehrung</h2>
+  <div class="highlight-box">
+    <p><strong>Widerrufsrecht</strong></p>
+    <p>Sie haben das Recht, binnen <strong>14 Tagen</strong> ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 14 Tage ab dem Tag des Vertragsschlusses.</p>
+    <p style="margin-top:8px">Um Ihr Widerrufsrecht auszuüben, müssen Sie uns (HupfGaudi Vilshofen, Böcklbacher Str. 7, 94474 Vilshofen, Tel: 0151/28861367, E-Mail: hupfgaudi@gmail.com) mittels einer eindeutigen Erklärung (z. B. per E-Mail oder Brief) über Ihren Widerruf informieren.</p>
+    <p style="margin-top:8px"><strong>Folgen des Widerrufs:</strong> Alle erhaltenen Zahlungen werden innerhalb von <strong>14 Tagen</strong> zurückerstattet.</p>
+    <p style="margin-top:8px"><strong>Hinweis:</strong> Das Widerrufsrecht erlischt vorzeitig, wenn die Mietleistung bereits vollständig erbracht wurde und der Mieter dem ausdrücklich zugestimmt hat.</p>
+  </div>
+
+  <h2>13. Schlussbestimmungen</h2>
 
   <ul>
+    <li><strong>Mindestalter:</strong> Der Mieter versichert, mindestens 18 Jahre alt und voll geschäftsfähig zu sein.</li>
     <li>Es gilt das Recht der Bundesrepublik Deutschland.</li>
-    <li>Gerichtsstand ist, soweit gesetzlich zulässig, Vilshofen an der Donau.</li>
-    <li>Sollten einzelne Bestimmungen unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</li>
+    <li>Gerichtsstand ist, soweit gesetzlich zulässig, Vilshofen an der Donau. Das Klagerecht des Verbrauchers an seinem Wohnsitzgericht bleibt unberührt.</li>
+    <li>Sollten einzelne Bestimmungen unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt. Die unwirksame Bestimmung wird durch eine wirksame Regelung ersetzt, die dem wirtschaftlichen Zweck am nächsten kommt.</li>
     <li>Änderungen und Ergänzungen dieses Vertrags bedürfen der Schriftform.</li>
+    <li><strong>Impressum:</strong> <a href="https://www.hupfgaudi-vilshofen.de/impressum.html">www.hupfgaudi-vilshofen.de/impressum</a></li>
   </ul>
 
   <div class="highlight-box">
     <p><strong>Bestätigung des Mieters:</strong></p>
-    <p>Mit meiner Unterschrift bestätige ich, dass ich das Partyzubehör in einwandfreiem Zustand erhalten habe, die Bedienungsanleitung gelesen habe und die Bedingungen dieses Mietvertrags sowie die geltenden AGB und die Datenschutzerklärung von HupfGaudi Vilshofen anerkenne.</p>
+    <p>Mit meiner Unterschrift bestätige ich, dass ich die Bedingungen dieses Mietvertrags, die Bedienungsanleitung, die AGB, die Datenschutzerklärung und die Widerrufsbelehrung von HupfGaudi Vilshofen gelesen habe und anerkenne.</p>
   </div>
 
-  <div class="field" style="margin-top:20px"><label>Mietpreis bezahlt:</label><div class="line"></div> €</div>
-  <div class="field"><label>Kaution erhalten:</label><div class="line"></div> € (bar)</div>
-  <div class="field"><label>Ausweis-Foto:</label> <div class="checkbox" style="display:inline-block;vertical-align:middle"></div> <span style="margin-left:8px">erstellt</span></div>
-
-  <div class="signature-area">
-    <div class="signature-block">
-      <div class="sig-line"></div>
-      <p>Ort, Datum</p>
-    </div>
-    <div class="signature-block">
-      <div class="sig-line"></div>
-      <p>Unterschrift Mieter</p>
-    </div>
+  <div style="margin:16px 0">
+    <label class="dcheck"><input type="checkbox" id="cp-ausweis" checked> Ich willige ein, dass ein <strong>Foto meines Personalausweises</strong> zur Identitätssicherung angefertigt wird. Das Foto wird spätestens 7 Tage nach Rückgabe gelöscht.</label>
+    <label class="dcheck"><input type="checkbox" id="cp-accept" required> <strong>Ich habe die AGB, Datenschutzhinweise und Widerrufsbelehrung gelesen und akzeptiere diese. *</strong></label>
   </div>
 
-  <div class="signature-area" style="margin-top:20px">
-    <div class="signature-block">
-      <div class="sig-line"></div>
-      <p>Ort, Datum</p>
-    </div>
-    <div class="signature-block">
-      <div class="sig-line"></div>
-      <p>Unterschrift Vermieter</p>
-    </div>
+  <!-- Digitale Unterschrift -->
+  <div id="sig-section" class="sig-section">
+    <h3 style="margin-bottom:8px">Digitale Unterschrift</h3>
+    <p style="font-size:.85rem;color:#888;margin-bottom:10px">Bitte unterschreibe mit dem Finger (Handy) oder der Maus.</p>
+    <canvas id="sig-canvas" class="sig-canvas" width="500" height="150"></canvas>
+    <button type="button" class="sig-clear" onclick="clearSignature()">Unterschrift löschen</button>
+  </div>
+
+  <!-- Absende-Button -->
+  <div id="submit-section" class="submit-section">
+    <button type="button" class="submit-btn" id="submit-contract" onclick="submitContract()">📧 Mietvertrag digital absenden</button>
+    <p id="submit-status" class="submit-status"></p>
+  </div>
+
+  <!-- Druck-Unterschriften -->
+  <div class="signature-area print-only">
+    <div class="signature-block"><div class="sig-line"></div><p>Ort, Datum + Unterschrift Mieter</p></div>
+    <div class="signature-block"><div class="sig-line"></div><p>Ort, Datum + Unterschrift Vermieter</p></div>
   </div>
 
   <div class="footer-note">
@@ -308,7 +358,104 @@
     <p>Stand: April 2026 · Dieses Dokument ist in zweifacher Ausfertigung zu unterschreiben (je ein Exemplar für Mieter und Vermieter).</p>
   </div>
 
-  <button class="print-btn" onclick="window.print()">🖨️ Mietvertrag drucken / als PDF speichern</button>
+  <button class="print-btn" id="print-btn-bottom" onclick="window.print()">🖨️ Mietvertrag drucken / als PDF speichern</button>
+
+  </div><!-- /contract-form -->
+
+  <script>
+  function setMode(mode) {
+    document.getElementById('mode-digital').classList.toggle('active', mode === 'digital');
+    document.getElementById('mode-print').classList.toggle('active', mode === 'print');
+    document.getElementById('sig-section').style.display = mode === 'digital' ? '' : 'none';
+    document.getElementById('submit-section').style.display = mode === 'digital' ? '' : 'none';
+    document.getElementById('print-btn').style.display = mode === 'print' ? '' : 'none';
+    document.getElementById('print-btn-bottom').style.display = mode === 'print' ? '' : 'none';
+  }
+  setMode('digital');
+
+  // Datum: Min = heute
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('cp-datum-start').min = today;
+  document.getElementById('cp-datum-ende').min = today;
+  document.getElementById('cp-datum-start').addEventListener('change', function() {
+    document.getElementById('cp-datum-ende').min = this.value;
+  });
+
+  // Unterschrift Canvas
+  const canvas = document.getElementById('sig-canvas');
+  const ctx = canvas.getContext('2d');
+  let drawing = false;
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return { x: x * (canvas.width / rect.width), y: y * (canvas.height / rect.height) };
+  }
+  canvas.addEventListener('mousedown', e => { drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); });
+  canvas.addEventListener('mousemove', e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.stroke(); });
+  canvas.addEventListener('mouseup', () => drawing = false);
+  canvas.addEventListener('mouseleave', () => drawing = false);
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); }, { passive: false });
+  canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.stroke(); }, { passive: false });
+  canvas.addEventListener('touchend', () => drawing = false);
+  function clearSignature() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+  function isCanvasBlank() {
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    for (let i = 3; i < data.length; i += 4) { if (data[i] > 0) return false; }
+    return true;
+  }
+
+  // Absenden
+  async function submitContract() {
+    const name = document.getElementById('cp-name').value.trim();
+    const email = document.getElementById('cp-email').value.trim();
+    const accept = document.getElementById('cp-accept').checked;
+    const items = [...document.querySelectorAll('[name="cp-item"]:checked')].map(cb => cb.value);
+
+    if (!name || !email) { alert('Bitte fülle alle Pflichtfelder (*) aus.'); return; }
+    if (!items.length) { alert('Bitte wähle mindestens ein Gerät aus.'); return; }
+    if (!accept) { alert('Bitte akzeptiere die AGB und Bedingungen.'); return; }
+    if (isCanvasBlank()) { alert('Bitte unterschreibe digital im Unterschriftenfeld.'); return; }
+
+    const btn = document.getElementById('submit-contract');
+    const status = document.getElementById('submit-status');
+    btn.disabled = true;
+    btn.textContent = '⏳ Wird gesendet…';
+
+    const data = {
+      contract_type: 'partyzubehoer',
+      mieter_name: name,
+      mieter_adresse: document.getElementById('cp-adresse').value.trim(),
+      mieter_ort: document.getElementById('cp-ort').value.trim(),
+      mieter_telefon: document.getElementById('cp-telefon').value.trim(),
+      mieter_email: email,
+      geraete: items,
+      datum_start: document.getElementById('cp-datum-start').value,
+      datum_ende: document.getElementById('cp-datum-ende').value,
+      gesamt: document.getElementById('cp-gesamt').value,
+      ausweis_einwilligung: document.getElementById('cp-ausweis').checked,
+      agb_akzeptiert: accept,
+      unterschrift: canvas.toDataURL('image/png')
+    };
+
+    try {
+      const res = await fetch('http://localhost:8081/api/submit-contract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Fehler beim Senden');
+      document.getElementById('contract-form').style.display = 'none';
+      document.getElementById('mode-bar').style.display = 'none';
+      document.getElementById('digital-success').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch(e) {
+      status.textContent = '❌ Fehler: ' + e.message;
+      btn.disabled = false;
+      btn.textContent = '📧 Mietvertrag digital absenden';
+    }
+  }
+  </script>
 
 </body>
 </html>

@@ -17,7 +17,7 @@
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website" />
-  <meta property="og:title"       content="HupfGaudi Vilshofen – Hüpfburgen-Verleih ab 99 €" />
+  <meta property="og:title"       content="HupfGaudi Vilshofen – Hüpfburgen-Verleih ab 75 €" />
   <meta property="og:description" content="Hüpfburgen nach EN 14960-1:2019 für Kindergeburtstage & Feste. Selbstabholung in Vilshofen (Alkofen). Jetzt anfragen!" />
   <meta property="og:url"         content="https://www.hupfgaudi-vilshofen.de" />
   <meta property="og:locale"      content="de_DE" />
@@ -25,7 +25,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="HupfGaudi Vilshofen – Hüpfburgen-Verleih" />
-  <meta name="twitter:description" content="Hüpfburgen nach EN 14960-1:2019 ab 99 €. Jetzt anfragen!" />
+  <meta name="twitter:description" content="Hüpfburgen nach EN 14960-1:2019 ab 75 €. Jetzt anfragen!" />
 
   <!-- Google Fonts: Nunito (rund, verspielt, cross-platform) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,7 +40,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "HupfGaudi Vilshofen",
-    "description": "Hüpfburgen-Verleih in Vilshofen und Umgebung. Geprüft nach EN 14960-1:2019, faire Preise ab 99 €.",
+    "description": "Hüpfburgen-Verleih in Vilshofen und Umgebung. Geprüft nach EN 14960-1:2019, faire Preise ab 75 €.",
     "telephone": "+4915128861367",
     "email": "hupfgaudi@gmail.com",
     "address": {
@@ -56,7 +56,7 @@
       "opens": "08:00",
       "closes": "20:00"
     }],
-    "priceRange": "ab 99 €"
+    "priceRange": "ab 75 €"
   }
   </script>
 
@@ -67,7 +67,7 @@
     "@type": "FAQPage",
     "mainEntity": [
       { "@type": "Question", "name": "Was kostet eine Hüpfburg für einen Tag?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Unsere Hüpfburgen sind ab 99 € pro Tag erhältlich. Im Preis enthalten sind Gebläse, Unterlegplane und Aufbauanleitung – ohne versteckte Kosten." }},
+        "acceptedAnswer": { "@type": "Answer", "text": "Unsere Hüpfburgen sind ab 75 € pro Tag erhältlich. Im Preis enthalten sind Gebläse, Unterlegplane und Aufbauanleitung – ohne versteckte Kosten." }},
       { "@type": "Question", "name": "Was ist im Mietpreis enthalten?",
         "acceptedAnswer": { "@type": "Answer", "text": "Gebläse, Unterlegplane und eine detaillierte Aufbauanleitung sind immer inklusive." }},
       { "@type": "Question", "name": "Wie groß muss die Fläche sein?",
@@ -127,7 +127,7 @@
         </div>
         <div class="hero-badges" aria-label="Unsere Vorteile">
           <span class="badge">✅ EN 14960-1:2019</span>
-          <span class="badge">💶 Ab 99 €</span>
+          <span class="badge">💶 Ab 75 €</span>
           <span class="badge">🚗 Selbstabholer</span>
           <span class="badge">📍 Vilshofen</span>
         </div>
@@ -405,11 +405,6 @@
                 <span class="combo-price-label">+ Extra Zutatenpaket</span>
                 <span class="combo-price-value">39 €</span>
               </div>
-              <div class="combo-price-weekend">
-                <span class="combo-price-label">⭐ Komplett-Paket</span>
-                <span class="combo-price-value">79 €</span>
-                <span class="combo-save">9 € sparen</span>
-              </div>
               <a href="javascript:void(0)" onclick="openModal('modal-kontakt')" class="combo-cta">🍿 Jetzt dazubuchen</a>
             </div>
           </div>
@@ -437,11 +432,6 @@
                 <span class="combo-price-label">+ Extra Zutatenset</span>
                 <span class="combo-price-value">26 €</span>
               </div>
-              <div class="combo-price-weekend">
-                <span class="combo-price-label">⭐ Komplett-Paket</span>
-                <span class="combo-price-value">55 €</span>
-                <span class="combo-save">6 € sparen</span>
-              </div>
               <a href="javascript:void(0)" onclick="openModal('modal-kontakt')" class="combo-cta">🍭 Jetzt dazubuchen</a>
             </div>
           </div>
@@ -467,11 +457,6 @@
                 <span class="combo-price-label">+ Extra Zutatenset</span>
                 <span class="combo-price-value">20 €</span>
               </div>
-              <div class="combo-price-weekend">
-                <span class="combo-price-label">⭐ Komplett-Paket</span>
-                <span class="combo-price-value">65 €</span>
-                <span class="combo-save">4 € sparen</span>
-              </div>
               <a href="javascript:void(0)" onclick="openModal('modal-kontakt')" class="combo-cta">🍦 Jetzt dazubuchen</a>
             </div>
           </div>
@@ -485,12 +470,12 @@
             <div class="extra-info-icon">🚚</div>
             <h3>Lieferung</h3>
             <div class="extra-info-row">
-              <span>Im Umkreis von 20 km</span>
-              <strong>100 €</strong>
+              <span id="liefer-radius-text">Im Umkreis von 20 km</span>
+              <strong id="liefer-pauschal-text">100 €</strong>
             </div>
             <div class="extra-info-row">
               <span>Weitere Entfernung</span>
-              <strong>1,50 € / km</strong>
+              <strong id="liefer-km-text">1,50 € / km</strong>
             </div>
             <p class="extra-info-desc">Lieferung beinhaltet Transport, Auf- und Abbau der Hüpfburg sowie eine Einweisung zur sicheren Nutzung. Eine leichte Reinigung ist ebenfalls inklusive.</p>
             <div class="extra-info-warning">
@@ -514,7 +499,7 @@
 
             <p class="extra-info-desc"><strong>Hüpfburg-Kaution</strong> – Rückerstattung bei:</p>
             <ul class="extra-info-list">
-              <li>sauberer, ausgekehrter Rückgabe</li>
+              <li>sauberer und besenreiner Rückgabe</li>
               <li>kurzem Videobeweis</li>
             </ul>
 
@@ -602,20 +587,17 @@
       <button class="modal-close" onclick="closeModal('modal-faq')">✕</button>
       <h2 class="section-title">❓ Häufige Fragen</h2>
       <div class="faq-list">
-        <details class="faq-item"><summary>Was ist im Mietpreis enthalten?</summary><p>Im Preis ab 99 € sind Gebläse, Unterlegplane und eine detaillierte Aufbauanleitung immer inklusive. Es gibt keine versteckten Zusatzkosten.</p></details>
+        <details class="faq-item"><summary>Was ist im Mietpreis enthalten?</summary><p>Im Preis ab 75 € sind Gebläse, Unterlegplane und eine detaillierte Aufbauanleitung immer inklusive. Es gibt keine versteckten Zusatzkosten.</p></details>
         <details class="faq-item"><summary>Wie groß muss die Fläche für die Hüpfburg sein?</summary><p>Je nach Modell benötigst du ca. 5×5 m bis 7×4 m Fläche. Wir beraten dich gerne, welche Burg für deine Örtlichkeit am besten passt.</p></details>
         <details class="faq-item"><summary>Liefern Sie die Hüpfburg auch zu uns?</summary><p>Aktuell bieten wir einen Selbstabholer-Service an. Die Abholung erfolgt bequem bei uns in Vilshofen (Alkofen). Bei Bedarf sprich uns gerne auf Lieferoptionen an!</p></details>
         <details class="faq-item"><summary>Sind die Hüpfburgen für draußen und drinnen geeignet?</summary><p>Ja! Alle unsere Burgen sind sowohl für den Innen- als auch Außenbereich geeignet. Bei Wind über Windstärke 4 (ca. 7 m/s) sollte die Burg aus Sicherheitsgründen abgebaut werden.</p></details>
         <details class="faq-item"><summary>Wie lange im Voraus muss ich buchen?</summary><p>Wir empfehlen mindestens 2–3 Wochen im Voraus zu buchen, besonders in der Hauptsaison Mai–September. Kurzfristige Anfragen nehmen wir gerne entgegen – Verfügbarkeit vorausgesetzt.</p></details>
-        <details class="faq-item"><summary>Gibt es eine Kaution?</summary><p>Ja! <strong>Hüpfburgen: 150 €</strong> – Rückerstattung bei sauberer, ausgekehrter Rückgabe mit Videobeweis. <strong>Extras (Popcorn / Zuckerwatte / Icecream Roll): je 100 €</strong> – Rückerstattung bei sauberer, gereinigter Rückgabe. Bei verschmutzter Rückgabe: <strong>25 € Reinigungsgebühr pro Gerät</strong>.</p></details>
+        <details class="faq-item"><summary>Gibt es eine Kaution?</summary><p>Ja! <strong>Hüpfburgen: 150 €</strong> – Rückerstattung bei sauberer und besenreiner Rückgabe mit Videobeweis. <strong>Extras (Popcorn / Zuckerwatte / Icecream Roll): je 100 €</strong> – Rückerstattung bei sauberer, gereinigter Rückgabe. Bei verschmutzter Rückgabe: <strong>25 € Reinigungsgebühr pro Gerät</strong>.</p></details>
       </div>
 
       <h3 style="text-align:center;color:var(--dark);margin:28px 0 16px;font-size:1.1rem">🎉 Partyzubehör</h3>
       <div class="faq-list">
-        <details class="faq-item"><summary>Welches Partyzubehör kann ich dazubuchen?</summary><p>Wir bieten drei Maschinen zum Verleih an: <strong>Popcornmaschine</strong> (49 €/Tag), <strong>Zuckerwattemaschine</strong> (35 €/Tag) und <strong>Icecream Roll Maschine</strong> (49 €/Tag). Zu jeder Maschine gibt es ein passendes Zutatenset als Komplett-Paket.</p></details>
-        <details class="faq-item"><summary>Was ist im Popcorn-Komplett-Paket enthalten?</summary><p><strong>Popcornmaschine + Zutatenpaket (79 €):</strong> 500 g Popcornmais, Popcornöl, Vanillezucker und Popcorntüten – ergibt ca. 21 Liter fertiges Popcorn. Das Zutatenpaket ist ein Kaufartikel und muss nicht zurückgegeben werden.</p></details>
-        <details class="faq-item"><summary>Was ist im Zuckerwatte-Komplett-Paket enthalten?</summary><p><strong>Zuckerwattemaschine + Zutatenset (55 €):</strong> 3×230 g Aromazucker (Erdbeer, Vanille, Kaugummi) und 50 Zuckerwattestäbe. Das Zutatenset ist ein Kaufartikel und muss nicht zurückgegeben werden.</p></details>
-        <details class="faq-item"><summary>Was ist im Icecream Roll-Komplett-Paket enthalten?</summary><p><strong>Icecream Roll Maschine + Zutatenset (65 €):</strong> 50 Becher und 50 Löffel. Das Zutatenset ist ein Kaufartikel und muss nicht zurückgegeben werden. Die Eismischung/Zutaten für die Eisrollen besorgt der Mieter selbst (z. B. Sahne, Milch, Früchte, Toppings).</p></details>
+        <details class="faq-item"><summary>Welches Partyzubehör kann ich dazubuchen?</summary><p>Wir bieten drei Maschinen zum Verleih an: <strong>Popcornmaschine</strong> (49 €/Tag), <strong>Zuckerwattemaschine</strong> (35 €/Tag) und <strong>Icecream Roll Maschine</strong> (49 €/Tag). Zu jeder Maschine gibt es optional ein passendes Zutatenset dazu.</p></details>
         <details class="faq-item"><summary>Muss ich die Maschinen gereinigt zurückgeben?</summary><p>Ja! Alle Maschinen müssen <strong>sauber und gereinigt</strong> zurückgegeben werden. Bei verschmutzter Rückgabe berechnen wir eine <strong>Reinigungsgebühr von 25 € pro Gerät</strong>, die von der Kaution einbehalten wird.</p></details>
         <details class="faq-item"><summary>Brauche ich einen Stromanschluss für die Maschinen?</summary><p>Ja, alle Maschinen benötigen eine <strong>normale Haushaltssteckdose (230 V)</strong>. Die Popcorn- und Zuckerwattemaschine sollten in trockenen, geschützten Bereichen betrieben werden. Die Icecream Roll Maschine muss ca. <strong>30 Minuten vorkühlen</strong>, bevor Eisrollen zubereitet werden können.</p></details>
         <details class="faq-item"><summary>Gibt es einen eigenen Mietvertrag für Partyzubehör?</summary><p>Ja! Für Partyzubehör gibt es einen <strong>separaten Mietvertrag</strong>, den du auf unserer Website herunterladen kannst. Bitte bringe ihn ausgefüllt und unterschrieben zur Abholung mit.</p></details>
@@ -660,7 +642,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.85L0 24l6.335-1.508A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.373l-.36-.214-3.727.977.994-3.635-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
             Direkt auf WhatsApp schreiben
           </a>
-          <a href="Mietvertrag_NEU.pdf" download class="download-btn" target="_blank"><span class="download-btn-icon">🏰</span><span><strong>Mietvertrag Hüpfburg</strong><small>PDF · Bitte vor der Abholung ausfüllen</small></span></a>
+          <a href="mietvertrag-huepfburg.html" class="download-btn" target="_blank"><span class="download-btn-icon">🏰</span><span><strong>Mietvertrag Hüpfburg</strong><small>Drucken oder als PDF speichern</small></span></a>
           <a href="mietvertrag-partyzubehoer.html" class="download-btn" target="_blank"><span class="download-btn-icon">🍿</span><span><strong>Mietvertrag Partyzubehör</strong><small>Drucken oder als PDF speichern</small></span></a>
         </div>
         <div>
@@ -672,11 +654,8 @@
             <div class="form-group" style="margin-bottom:20px"><label>🎉 Partyzubehör dazu? <small style="color:#888;font-weight:400">(Mehrfachauswahl möglich)</small></label>
               <div class="extras-checkboxes" id="extrasCheckboxes">
                 <label class="extras-cb"><input type="checkbox" name="extras" value="🍿 Popcornmaschine (49 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍿</span><span class="extras-cb-text"><strong>Popcornmaschine</strong><small>Nur Maschine</small></span><span class="extras-cb-price">49 €</span></label>
-                <label class="extras-cb"><input type="checkbox" name="extras" value="🍿 Popcorn Komplett-Paket (79 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍿</span><span class="extras-cb-text"><strong>Popcorn Komplett</strong><small>Maschine + Zutaten</small></span><span class="extras-cb-price">79 €</span></label>
                 <label class="extras-cb"><input type="checkbox" name="extras" value="🍭 Zuckerwattemaschine (35 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍭</span><span class="extras-cb-text"><strong>Zuckerwattemaschine</strong><small>Nur Maschine</small></span><span class="extras-cb-price">35 €</span></label>
-                <label class="extras-cb"><input type="checkbox" name="extras" value="🍭 Zuckerwatte Komplett-Paket (55 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍭</span><span class="extras-cb-text"><strong>Zuckerwatte Komplett</strong><small>Maschine + Zutaten</small></span><span class="extras-cb-price">55 €</span></label>
                 <label class="extras-cb"><input type="checkbox" name="extras" value="🍦 Icecream Roll Maschine (49 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍦</span><span class="extras-cb-text"><strong>Icecream Roll</strong><small>Nur Maschine</small></span><span class="extras-cb-price">49 €</span></label>
-                <label class="extras-cb"><input type="checkbox" name="extras" value="🍦 Icecream Roll Komplett-Paket (65 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍦</span><span class="extras-cb-text"><strong>Icecream Roll Komplett</strong><small>Maschine + Becher & Löffel</small></span><span class="extras-cb-price">65 €</span></label>
               </div>
             </div>
             <div class="form-group" style="margin-bottom:20px"><label for="untergrund">Aufstellplatz</label><select id="untergrund" name="untergrund"><option value="">Bitte wählen…</option><option>🌿 Rasen</option><option>🧱 Pflaster / Gehweg</option><option>🏠 Halle / Innenbereich</option><option>🪨 Schotter / Kies</option><option>❓ Sonstiges (bitte in Nachricht angeben)</option></select></div>
@@ -1262,78 +1241,138 @@
     })();
   </script>
 
-  <!-- ── Dynamische Preise aus prices.json ── -->
+  <!-- ── Dynamische Produkte & Preise aus products.json ── -->
   <script>
   (async function() {
     try {
       let res;
-      try {
-        res = await fetch('http://localhost:8081/api/prices');
-      } catch(e) {
-        res = await fetch('prices.json');
-      }
+      try { res = await fetch('http://localhost:8081/api/products'); } catch(e) {}
+      if (!res || !res.ok) res = await fetch('products.json');
       if (!res.ok) return;
-      const prices = await res.json();
+      const products = await res.json();
 
-      // Mapping: data-product Name → Homepage-Anzeigenamen für Dropdown
-      const dropdownMap = {
-        'Ritterburg Hopsala': 'Ritterburg Hopsala',
-        'Alien': 'Alien Hüpfburg',
-        'Einhorn Rosalie': 'Einhorn Hüpfburg „Rosalie"',
-        'Feuerwehr': 'Feuerwehr Hüpfburg',
-        'Fußballstar': 'Fußballstar Hüpfburg',
-        'Meerjungfrau': 'Meerjungfrau Hüpfburg',
-        'Hochzeitsburg': 'Hochzeit Hüpfburg'
-      };
+      const hupfburgen = products.filter(p => p.type === 'hupfburg' && p.active);
+      const extras = products.filter(p => p.type === 'equipment' && p.active);
 
-      // 1. Produktkarten aktualisieren
-      document.querySelectorAll('[data-product]').forEach(card => {
-        const name = card.dataset.product;
-        const p = prices[name];
-        if (!p) return;
+      // 1. Hüpfburg-Karten rendern
+      const grid = document.getElementById('preise');
+      if (grid && hupfburgen.length) {
+        grid.innerHTML = hupfburgen.map(p => `
+          <div class="combo-card${p.featured ? ' combo-card--featured' : ''}" data-product="${p.name}">
+            ${p.featured ? '<div class="combo-badge">⭐ Bestseller</div>' : ''}
+            <img src="${p.image}" alt="${p.displayName}" class="combo-img card-img" loading="lazy" />
+            <div class="combo-info">
+              <h3>${p.displayName}</h3>
+              <p>${p.description}</p>
+              <ul class="combo-meta">
+                ${p.dimensions ? '<li>📐 ' + p.dimensions + '</li>' : ''}
+                ${p.weight ? '<li>⚖️ ' + p.weight + '</li>' : ''}
+                ${p.age ? '<li>👶 ' + p.age + '</li>' : ''}
+                ${p.feature ? '<li>🔹 ' + p.feature + '</li>' : ''}
+              </ul>
+            </div>
+            <div class="combo-prices">
+              <div class="combo-price-main">
+                <span class="combo-price-label">☀️ Tag</span>
+                <span class="combo-price-value">${p.priceWeekday} €</span>
+              </div>
+              <div class="combo-price-weekend">
+                <span class="combo-price-label">🎉 Fr–So</span>
+                <span class="combo-price-value">${p.priceWeekend} €</span>
+                ${p.saveWeekend > 0 ? '<span class="combo-save">' + p.saveWeekend + ' € sparen</span>' : ''}
+              </div>
+              <a href="#verfuegbarkeit" class="combo-cta">Jetzt buchen</a>
+            </div>
+          </div>
+        `).join('');
+      }
 
-        const priceEls = card.querySelectorAll('.combo-price-value');
-        const saveEl = card.querySelector('.combo-save');
+      // 2. Extras-Karten rendern
+      const extrasGrid = document.querySelector('.extras-grid');
+      if (extrasGrid && extras.length) {
+        const emojiMap = { 'Popcornmaschine': '🍿', 'Zuckerwattenmaschine': '🍭', 'Ice Cream Roll Maschine': '🍦' };
+        extrasGrid.innerHTML = extras.map(p => {
+          const emoji = emojiMap[p.name] || '🎉';
+          return `
+          <div class="combo-card combo-card--featured" data-product="${p.name}">
+            <div class="combo-badge">${emoji} Neu! Extras dazubuchen</div>
+            <img src="${p.image}" alt="${p.displayName}" class="combo-img card-img" style="background:#fff" loading="lazy" />
+            <div class="combo-info">
+              <h3>${p.displayName}</h3>
+              <p>${p.description}</p>
+              ${p.zutatenDetails && p.zutatenDetails.length ? '<p style="font-size:.88rem;color:var(--dark);font-weight:700;margin-top:10px">' + (p.zutatenLabel || 'Zutatenset beinhaltet:') + '</p><ul class="combo-meta" style="flex-direction:column;gap:2px">' + p.zutatenDetails.map(z => '<li>' + z + '</li>').join('') + '</ul>' : ''}
+            </div>
+            <div class="combo-prices">
+              <div class="combo-price-main">
+                <span class="combo-price-label">${emoji} Nur Maschine</span>
+                <span class="combo-price-value">${p.priceWeekday} €</span>
+              </div>
+              ${p.priceZutaten ? '<div class="combo-price-main"><span class="combo-price-label">+ Extra Zutaten</span><span class="combo-price-value">' + p.priceZutaten + ' €</span></div>' : ''}
+              <a href="javascript:void(0)" onclick="openModal('modal-kontakt')" class="combo-cta">${emoji} Jetzt dazubuchen</a>
+            </div>
+          </div>`;
+        }).join('');
+      }
 
-        // Hüpfburgen: [0]=Tag, [1]=Wochenende
-        // Extras: [0]=Nur Maschine, [1]=Extra Zutaten, [2]=Komplett (im combo-price-weekend)
-        if (card.closest('.extras-grid')) {
-          // Extras: erster Preis = Nur Maschine, letzter im Weekend-Block = Komplett
-          if (priceEls[0]) priceEls[0].textContent = p.priceWeekday + ' €';
-          const weekendVal = card.querySelector('.combo-price-weekend .combo-price-value');
-          if (weekendVal) weekendVal.textContent = p.priceWeekend + ' €';
-          if (saveEl && p.saveWeekend) saveEl.textContent = p.saveWeekend + ' € sparen';
-        } else {
-          // Hüpfburgen
-          if (priceEls[0]) priceEls[0].textContent = p.priceWeekday + ' €';
-          if (priceEls[1]) priceEls[1].textContent = p.priceWeekend + ' €';
-          if (saveEl && p.saveWeekend) saveEl.textContent = p.saveWeekend + ' € sparen';
-        }
-      });
-
-      // 2. SUPERSAAS.prices aktualisieren
-      if (window.SUPERSAAS && SUPERSAAS.prices) {
-        Object.entries(prices).forEach(([name, p]) => {
-          if (SUPERSAAS.prices[name] !== undefined) {
-            SUPERSAAS.prices[name] = p.priceWeekday + ' €';
+      // 3. SUPERSAAS.prices aktualisieren
+      if (window.SUPERSAAS) {
+        products.forEach(p => {
+          SUPERSAAS.prices[p.name] = p.priceWeekday + ' €';
+          if (!SUPERSAAS.allResources.includes(p.name) && p.active) {
+            SUPERSAAS.allResources.push(p.name);
           }
+          if (p.image) SUPERSAAS.images[p.name] = p.image;
         });
       }
 
-      // 3. Kontaktformular-Dropdown aktualisieren
+      // 4. Kontaktformular-Dropdown aktualisieren
       const burgSelect = document.getElementById('burg');
       if (burgSelect) {
-        burgSelect.querySelectorAll('option').forEach(opt => {
-          Object.entries(dropdownMap).forEach(([key, display]) => {
-            if (opt.textContent.includes(display)) {
-              const p = prices[key];
-              if (p) opt.textContent = display + ' (' + p.priceWeekday + ' €)';
-            }
-          });
+        const opts = ['<option value="">Bitte wählen…</option>'];
+        hupfburgen.forEach(p => {
+          opts.push('<option>' + p.displayName + ' (' + p.priceWeekday + ' €)</option>');
         });
+        opts.push('<option>Ich bin noch unsicher</option>');
+        burgSelect.innerHTML = opts.join('');
       }
 
-    } catch(e) { /* prices.json nicht verfügbar – Standardpreise bleiben */ }
+      // 5. Lightbox für neue Bilder aktivieren
+      document.querySelectorAll('.card-img').forEach(img => {
+        img.style.cursor = 'pointer';
+      });
+
+    } catch(e) { console.warn('products.json nicht geladen:', e); }
+
+    // ── Lieferpreise aus settings.json laden ──
+    try {
+      let sRes;
+      try { sRes = await fetch('http://localhost:8081/api/settings'); } catch(e) {}
+      if (!sRes || !sRes.ok) sRes = await fetch('settings.json');
+      if (sRes && sRes.ok) {
+        const s = await sRes.json();
+        const pauschal = s.lieferungPauschal || 100;
+        const radius = s.lieferungRadius || 20;
+        const proKm = s.lieferungProKm || 1.50;
+        const kmText = proKm.toFixed(2).replace('.', ',');
+
+        // Info-Box aktualisieren
+        const rText = document.getElementById('liefer-radius-text');
+        if (rText) rText.textContent = 'Im Umkreis von ' + radius + ' km';
+        const pText = document.getElementById('liefer-pauschal-text');
+        if (pText) pText.textContent = pauschal + ' €';
+        const kText = document.getElementById('liefer-km-text');
+        if (kText) kText.textContent = kmText + ' € / km';
+
+        // Kontaktformular-Dropdown aktualisieren
+        const lieferSelect = document.getElementById('lieferung');
+        if (lieferSelect) {
+          lieferSelect.innerHTML =
+            '<option value="">Bitte wählen…</option>' +
+            '<option>🚗 Selbstabholung in Vilshofen (kostenlos)</option>' +
+            '<option>🚚 Lieferung im Umkreis ' + radius + ' km (' + pauschal + ' €)</option>';
+        }
+      }
+    } catch(e) {}
   })();
   </script>
 </body>
