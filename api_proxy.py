@@ -43,6 +43,7 @@ MIETVERTRAG_FILE = os.path.join(BASE_DIR, 'mietvertrag-partyzubehoer.html')
 MIETVERTRAG_HB_FILE = os.path.join(BASE_DIR, 'mietvertrag-huepfburg.html')
 CONFIRMED_FILE = os.path.join(BASE_DIR, 'confirmed_bookings.json')
 CONTRACTS_FILE = os.path.join(BASE_DIR, 'contracts.json')
+SLIDESHOW_FILE = os.path.join(BASE_DIR, 'slideshow.json')
 
 SMTP_HOST = os.environ.get('SMTP_HOST', 'smtp.gmail.com')
 SMTP_PORT = int(os.environ.get('SMTP_PORT', '465'))
@@ -70,6 +71,10 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._get_confirmed_bookings()
         elif self.path.startswith('/api/contracts'):
             self._get_contracts()
+        elif self.path.startswith('/api/slideshow'):
+            self._get_slideshow()
+        elif self.path.startswith('/api/weekend-deal'):
+            self._get_weekend_deal()
         else:
             super().do_GET()
 
@@ -90,6 +95,8 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._confirm_booking()
         elif self.path.startswith('/api/submit-contract'):
             self._submit_contract()
+        elif self.path.startswith('/api/slideshow'):
+            self._save_slideshow()
         else:
             self.send_response(404)
             self.end_headers()
@@ -483,6 +490,168 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
             self.wfile.write(data.encode('utf-8'))
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    # ── Wochenendangebot ──
+
+    def _get_weekend_deal(self):
+        try:
+            from datetime import datetime, timedelta
+
+            today = datetime.now().date()
+            # Nächsten Freitag finden
+            days_until_friday = (4 - today.weekday()) % 7
+            if days_until_friday == 0 and today.weekday() > 4:
+                days_until_friday = 7
+            if days_until_friday == 0:
+                days_until_friday = 7 if today.weekday() != 4 else 0
+            friday = today + timedelta(days=max(days_until_friday, 1) if today.weekday() >= 5 else days_until_friday or 7)
+            sunday = friday + timedelta(days=2)
+
+            # Produkte laden
+            with open(PRODUCTS_FILE, 'r', encoding='utf-8') as f:
+                products = json.load(f)
+            hupfburgen = [p for p in products if p.get('type') == 'hupfburg' and p.get('active')]
+
+            # Buchungen fürs Wochenende von SuperSaaS holen
+            from_date = friday.isoformat()
+            to_date = (sunday + timedelta(days=1)).isoformat()
+            booked_names = set()
+
+            try:
+                url = (f'https://www.supersaas.com/api/bookings.json'
+                       f'?schedule_id={SCHEDULE_ID}'
+                       f'&account={SUPERSAAS_ACCOUNT}'
+                       f'&api_key={SUPERSAAS_API_KEY}'
+                       f'&from={from_date}&to={to_date}')
+                req = urllib.request.Request(url)
+                with urllib.request.urlopen(req, timeout=5) as response:
+                    bookings = json.loads(response.read())
+                for b in bookings:
+                    if not b.get('deleted'):
+                        booked_names.add(b.get('res_name', ''))
+            except Exception as e:
+                print(f'Weekend-Deal: SuperSaaS nicht erreichbar ({e}), nutze leere Buchungsliste')
+
+            # Prüfe welche Tage (Fr/Sa/So) einzeln frei sind
+            fri_booked = set()
+            sat_booked = set()
+            sun_booked = set()
+            try:
+                for b in bookings:
+                    if b.get('deleted'):
+                        continue
+                    b_start = datetime.strptime(b['start'][:10], '%Y-%m-%d').date()
+                    b_end = datetime.strptime(b['finish'][:10], '%Y-%m-%d').date()
+                    name = b.get('res_name', '')
+                    if b_start <= friday <= b_end: fri_booked.add(name)
+                    if b_start <= friday + timedelta(days=1) <= b_end: sat_booked.add(name)
+                    if b_start <= sunday <= b_end: sun_booked.add(name)
+            except Exception:
+                pass
+
+            # Freie Hüpfburgen finden
+            free_hb = []
+            for p in hupfburgen:
+                api_name = p.get('apiName', p['name'])
+                if api_name in booked_names:
+                    continue
+                img = p.get('images', [p.get('image', '')])[0] if p.get('images') else p.get('image', '')
+                # Ganzes Wochenende frei?
+                whole_weekend = api_name not in fri_booked and api_name not in sat_booked and api_name not in sun_booked
+                day_price = p['priceWeekday']
+                day_deal = round(day_price * 0.8)
+                entry = {
+                    'name': p['name'],
+                    'displayName': p.get('displayName', p['name']),
+                    'image': img,
+                    'originalPrice': day_price,
+                    'dealPrice': day_deal,
+                    'discount': 20,
+                    'dealType': 'hupfburg',
+                    'wholeWeekend': whole_weekend
+                }
+                if whole_weekend:
+                    we_price = day_price * 3
+                    we_deal = round(we_price * 0.8)
+                    entry['weekendOriginal'] = we_price
+                    entry['weekendDeal'] = we_deal
+                free_hb.append(entry)
+
+            # Freies Partyzubehör finden (20% auf Maschinenpreis)
+            equipment = [p for p in products if p.get('type') == 'equipment' and p.get('active')]
+            free_eq = []
+            for p in equipment:
+                api_name = p.get('apiName', p['name'])
+                if api_name not in booked_names:
+                    discount = round(p['priceWeekday'] * 0.8)
+                    free_eq.append({
+                        'name': p['name'],
+                        'displayName': p.get('displayName', p['name']),
+                        'image': p.get('images', [p.get('image', '')])[0] if p.get('images') else p.get('image', ''),
+                        'originalPrice': p['priceWeekday'],
+                        'dealPrice': discount,
+                        'priceZutaten': p.get('priceZutaten', 0),
+                        'discount': 20,
+                        'dealType': 'equipment'
+                    })
+
+            # 1 Hüpfburg + 1 Partyzubehör
+            deals = []
+            if free_hb: deals.append(free_hb[0])
+            if free_eq: deals.append(free_eq[0])
+
+            result = {
+                'friday': friday.isoformat(),
+                'sunday': sunday.isoformat(),
+                'fridayFormatted': friday.strftime('%d.%m.%Y'),
+                'sundayFormatted': sunday.strftime('%d.%m.%Y'),
+                'deals': deals
+            }
+
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(result, ensure_ascii=False).encode())
+        except Exception as e:
+            print(f'Weekend-Deal Fehler: {e}')
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    # ── Slideshow ──
+
+    def _get_slideshow(self):
+        try:
+            with open(SLIDESHOW_FILE, 'r', encoding='utf-8') as f:
+                data = f.read()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(data.encode('utf-8'))
+        except Exception:
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(b'[]')
+
+    def _save_slideshow(self):
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            slides = json.loads(body)
+            with open(SLIDESHOW_FILE, 'w', encoding='utf-8') as f:
+                json.dump(slides, f, ensure_ascii=False, indent=2)
+            print(f'Slideshow aktualisiert: {len(slides)} Bilder')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True}).encode())
         except Exception as e:
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')

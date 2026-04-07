@@ -16,7 +16,10 @@
     "color": "#ff5a1f",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/17b03c36-5d1a-478e-9a02-f8ebd2e70e9b/image.png",
     "featured": false,
-    "active": true
+    "active": true,
+    "images": [
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/17b03c36-5d1a-478e-9a02-f8ebd2e70e9b/image.png"
+    ]
   },
   {
     "id": "alien",
@@ -36,7 +39,10 @@
     "color": "#10b981",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9139d95d-2272-4b9a-8d67-c8d38ae06c48/image.png",
     "featured": false,
-    "active": true
+    "active": true,
+    "images": [
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9139d95d-2272-4b9a-8d67-c8d38ae06c48/image.png"
+    ]
   },
   {
     "id": "einhorn",
@@ -55,7 +61,10 @@
     "color": "#ec4899",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/09ec4e04-1e2e-4702-bc83-2e39eb7cff16/image.png",
     "featured": false,
-    "active": true
+    "active": true,
+    "images": [
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/09ec4e04-1e2e-4702-bc83-2e39eb7cff16/image.png"
+    ]
   },
   {
     "id": "feuerwehr",
@@ -74,7 +83,10 @@
     "color": "#ef4444",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/552882bf-eacf-4b68-8d9b-aba392b2099b/image.png",
     "featured": false,
-    "active": true
+    "active": true,
+    "images": [
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/552882bf-eacf-4b68-8d9b-aba392b2099b/image.png"
+    ]
   },
   {
     "id": "fussballstar",
@@ -93,7 +105,10 @@
     "color": "#3b82f6",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/a70ba2fb-c9b3-48a7-987a-b2f84bdc419a/image.png",
     "featured": false,
-    "active": true
+    "active": true,
+    "images": [
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/a70ba2fb-c9b3-48a7-987a-b2f84bdc419a/image.png"
+    ]
   },
   {
     "id": "meerjungfrau",
@@ -112,7 +127,13 @@
     "color": "#06b6d4",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9abdbab3-65f9-4fb0-846a-997c09765c65/l0,t135,w1080,h1080/image-768x768.png",
     "featured": true,
-    "active": true
+    "active": true,
+    "images": [
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9abdbab3-65f9-4fb0-846a-997c09765c65/l0,t135,w1080,h1080/image-768x768.png",
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/210a3679-d53d-48b6-a2ad-e636a034cf9b/image-384x480.png",
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/80b6afa0-3a2e-43c8-88c2-bfff27dcbdbd/image-384x480.png",
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/4bbbf281-df0a-4b45-801a-993d319d029d/image-384x480.png"
+    ]
   },
   {
     "id": "hochzeit",
@@ -131,7 +152,10 @@
     "color": "#8b5cf6",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/1d8aa97d-fbc4-4550-acd7-49bdc215a979/image.png",
     "featured": false,
-    "active": true
+    "active": true,
+    "images": [
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/1d8aa97d-fbc4-4550-acd7-49bdc215a979/image.png"
+    ]
   },
   {
     "id": "popcorn",
@@ -147,7 +171,10 @@
     "color": "#f59e0b",
     "image": "img/Popcornmaschine.avif",
     "featured": true,
-    "active": true
+    "active": true,
+    "images": [
+      "img/Popcornmaschine.avif"
+    ]
   },
   {
     "id": "zuckerwatte",
@@ -163,7 +190,10 @@
     "color": "#f472b6",
     "image": "img/Zuckerwattemaschine.webp",
     "featured": true,
-    "active": true
+    "active": true,
+    "images": [
+      "img/Zuckerwattemaschine.webp"
+    ]
   },
   {
     "id": "icecream",
@@ -179,7 +209,10 @@
     "color": "#6366f1",
     "image": "img/icecream-roll-maschine.jpg",
     "featured": true,
-    "active": true
+    "active": true,
+    "images": [
+      "img/icecream-roll-maschine.jpg"
+    ]
   },
   {
     "id": "pawpatrol",
@@ -198,6 +231,7 @@
     "color": "#14b8a6",
     "image": "",
     "featured": false,
-    "active": false
+    "active": false,
+    "images": []
   }
 ]

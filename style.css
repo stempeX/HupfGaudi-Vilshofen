@@ -145,6 +145,47 @@ a { color: inherit; text-decoration: none; }
   padding: 120px 20px 60px;
 }
 
+/* Wochenendangebot */
+.weekend-deal {
+  background: linear-gradient(135deg, #fff8e7, #fff0f0);
+  padding: 24px 20px;
+  text-align: center;
+}
+.weekend-deal .combo-grid {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.weekend-deal {
+  background: linear-gradient(135deg, #fff8e7 0%, #fff0f0 100%);
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.slideshow-strip {
+  overflow: hidden;
+  background: #fff;
+  padding: 0;
+}
+.slideshow-track {
+  display: flex;
+  animation: slideshow-scroll 30s linear infinite;
+  gap: 0;
+  width: max-content;
+}
+.slideshow-track img {
+  height: 220px;
+  width: auto;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .slideshow-track img { height: 140px; }
+}
+@keyframes slideshow-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .hero-bubbles { position: absolute; inset: 0; pointer-events: none; }
 .bubble {
   position: absolute; border-radius: 50%;

@@ -134,6 +134,20 @@
       </div>
     </section>
 
+    <!-- ═══════════ DIASHOW ═══════════ -->
+    <section class="slideshow-strip" id="slideshow-strip" style="display:none">
+      <div class="slideshow-track" id="hero-slideshow"></div>
+    </section>
+
+    <!-- ═══════════ WOCHENENDANGEBOT ═══════════ -->
+    <section id="weekend-deal" class="weekend-deal" style="display:none">
+      <div class="container">
+        <h2 class="section-title">🔥 Wochenendangebot</h2>
+        <p class="section-subtitle" id="deal-subtitle"></p>
+        <div class="combo-grid" id="deal-container"></div>
+      </div>
+    </section>
+
     <!-- Wellen-Trenner -->
     <div class="wave-divider" style="background:var(--hell)" aria-hidden="true">
       <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="80">
@@ -1336,10 +1350,94 @@
         burgSelect.innerHTML = opts.join('');
       }
 
-      // 5. Lightbox für neue Bilder aktivieren
-      document.querySelectorAll('.card-img').forEach(img => {
-        img.style.cursor = 'pointer';
-      });
+      // 5. Wochenendangebot laden
+      try {
+        const dealRes = await fetch('http://localhost:8081/api/weekend-deal');
+        if (dealRes && dealRes.ok) {
+          const deal = await dealRes.json();
+          if (deal.deals && deal.deals.length) {
+            const hb = deal.deals.find(d => d.dealType === 'hupfburg');
+            const eq = deal.deals.find(d => d.dealType === 'equipment');
+            if (hb) {
+              document.getElementById('deal-subtitle').textContent =
+                'Noch frei am ' + deal.fridayFormatted + ' – ' + deal.sundayFormatted + ' – jetzt 20% günstiger!';
+              var cards = '';
+              // Hüpfburg-Karte
+              cards += '<div class="combo-card combo-card--featured">';
+              cards += '<div class="combo-badge">🔥 -20% Wochenendangebot</div>';
+              cards += '<img src="' + hb.image + '" alt="' + hb.displayName + '" class="combo-img" loading="lazy">';
+              cards += '<div class="combo-info"><h3>' + hb.displayName + '</h3></div>';
+              cards += '<div class="combo-prices">';
+              cards += '<div class="combo-price-main"><span class="combo-price-label">☀️ Tag</span>';
+              cards += '<span class="combo-price-value" style="text-decoration:line-through;color:#aaa;font-size:.9rem">' + hb.originalPrice + ' €</span>';
+              cards += '<span class="combo-price-value" style="color:#ef4444">' + hb.dealPrice + ' €</span></div>';
+              if (hb.wholeWeekend && hb.weekendOriginal) {
+                cards += '<div class="combo-price-weekend"><span class="combo-price-label">🎉 Fr–So</span>';
+                cards += '<span class="combo-price-value" style="text-decoration:line-through;color:#aaa;font-size:.9rem">' + hb.weekendOriginal + ' €</span>';
+                cards += '<span class="combo-price-value" style="color:#ef4444">' + hb.weekendDeal + ' €</span></div>';
+              }
+              cards += '<a href="javascript:void(0)" onclick="openModal(\'modal-kontakt\')" class="combo-cta">🎈 Jetzt buchen</a>';
+              cards += '</div></div>';
+              // Equipment-Karte
+              if (eq) {
+                cards += '<div class="combo-card combo-card--featured">';
+                cards += '<div class="combo-badge">🔥 -20% Wochenendangebot</div>';
+                cards += '<img src="' + eq.image + '" alt="' + eq.displayName + '" class="combo-img" style="background:#fff" loading="lazy">';
+                cards += '<div class="combo-info"><h3>' + eq.displayName + '</h3></div>';
+                cards += '<div class="combo-prices">';
+                cards += '<div class="combo-price-main"><span class="combo-price-label">Nur Maschine</span>';
+                cards += '<span class="combo-price-value" style="text-decoration:line-through;color:#aaa;font-size:.9rem">' + eq.originalPrice + ' €</span>';
+                cards += '<span class="combo-price-value" style="color:#ef4444">' + eq.dealPrice + ' €</span></div>';
+                if (eq.priceZutaten) {
+                  cards += '<div class="combo-price-main"><span class="combo-price-label">+ Zutatenset (optional)</span>';
+                  cards += '<span class="combo-price-value">' + eq.priceZutaten + ' €</span></div>';
+                }
+                cards += '<a href="javascript:void(0)" onclick="openModal(\'modal-kontakt\')" class="combo-cta">🎉 Dazubuchen</a>';
+                cards += '</div></div>';
+              }
+              document.getElementById('deal-container').innerHTML = cards;
+              document.getElementById('weekend-deal').style.display = 'block';
+            }
+          }
+        }
+      } catch(e) {}
+
+      // 6. Diashow-Streifen laden
+      try {
+        let ssRes;
+        try { ssRes = await fetch('http://localhost:8081/api/slideshow'); } catch(e) {}
+        if (!ssRes || !ssRes.ok) ssRes = await fetch('slideshow.json');
+        if (ssRes && ssRes.ok) {
+          const slides = await ssRes.json();
+          if (slides.length) {
+            const strip = document.getElementById('slideshow-strip');
+            const track = document.getElementById('hero-slideshow');
+            // Bilder 2x einfügen für endloses Scrollen
+            for (let r = 0; r < 2; r++) {
+              slides.forEach(s => {
+                const img = document.createElement('img');
+                img.src = s.image;
+                img.alt = s.caption || '';
+                img.loading = 'lazy';
+                track.appendChild(img);
+              });
+            }
+            // Scroll-Dauer an Bildanzahl anpassen (5s pro Bild)
+            track.style.animationDuration = (slides.length * 5) + 's';
+            strip.style.display = 'block';
+          }
+        }
+      } catch(e) {}
+
+      // 6. Lightbox-Galerien aus images Arrays befüllen
+      if (typeof galleries !== 'undefined') {
+        products.forEach(p => {
+          if (p.images && p.images.length > 1) {
+            // Galerie-Key = displayName (wird im alt-Attribut der Bilder verwendet)
+            galleries[p.displayName] = p.images;
+          }
+        });
+      }
 
     } catch(e) { console.warn('products.json nicht geladen:', e); }
 
