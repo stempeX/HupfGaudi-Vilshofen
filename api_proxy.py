@@ -44,6 +44,7 @@ MIETVERTRAG_HB_FILE = os.path.join(BASE_DIR, 'mietvertrag-huepfburg.html')
 CONFIRMED_FILE = os.path.join(BASE_DIR, 'confirmed_bookings.json')
 CONTRACTS_FILE = os.path.join(BASE_DIR, 'contracts.json')
 SLIDESHOW_FILE = os.path.join(BASE_DIR, 'slideshow.json')
+BLOCKED_DATES_FILE = os.path.join(BASE_DIR, 'blocked_dates.json')
 
 SMTP_HOST = os.environ.get('SMTP_HOST', 'smtp.gmail.com')
 SMTP_PORT = int(os.environ.get('SMTP_PORT', '465'))
@@ -75,6 +76,8 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._get_slideshow()
         elif self.path.startswith('/api/weekend-deal'):
             self._get_weekend_deal()
+        elif self.path.startswith('/api/blocked-dates'):
+            self._get_blocked_dates()
         else:
             super().do_GET()
 
@@ -95,8 +98,14 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._confirm_booking()
         elif self.path.startswith('/api/submit-contract'):
             self._submit_contract()
+        elif self.path.startswith('/api/freigeben'):
+            self._freigeben()
+        elif self.path.startswith('/api/anfrage-status'):
+            self._anfrage_status()
         elif self.path.startswith('/api/slideshow'):
             self._save_slideshow()
+        elif self.path.startswith('/api/blocked-dates'):
+            self._save_blocked_dates()
         else:
             self.send_response(404)
             self.end_headers()
@@ -144,6 +153,106 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
 
+    # ── Buchungsbestätigungs-E-Mail (wiederverwendbar) ──
+
+    def _send_booking_confirmation(self, email, name, product, date_str, lieferung='', extras=None):
+        """Sendet eine schöne Buchungsbestätigung an den Kunden."""
+        from datetime import datetime
+        def fmt(d):
+            if not d: return '—'
+            try: return datetime.strptime(d, '%Y-%m-%d').strftime('%d.%m.%Y')
+            except: return d
+
+        date_display = fmt(date_str)
+        base_url = 'https://www.hupfgaudi-vilshofen.de'
+
+        extras_html = ''
+        if extras:
+            extras_html = '<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:12px 16px;color:#888;font-size:13px;width:40px;vertical-align:top">🎉</td><td style="padding:12px 16px;color:#333;font-size:14px"><strong>Extras:</strong><br>' + '<br>'.join(extras) + '</td></tr>'
+
+        html = f"""<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,Helvetica,sans-serif">
+<div style="max-width:560px;margin:20px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)">
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#ff5a1f 0%,#ff8c42 50%,#ffcc00 100%);padding:32px 24px;text-align:center">
+    <p style="margin:0;font-size:28px">🎉</p>
+    <h1 style="margin:8px 0 0;color:#fff;font-size:22px;font-weight:800;letter-spacing:-0.5px">Buchung bestätigt!</h1>
+    <p style="margin:6px 0 0;color:rgba(255,255,255,.85);font-size:14px">HupfGaudi Vilshofen</p>
+  </div>
+
+  <!-- Body -->
+  <div style="padding:28px 24px">
+    <p style="margin:0 0 20px;font-size:15px;color:#333">Hallo <strong>{name}</strong>,<br>wir freuen uns – deine Buchung ist bestätigt! Hier noch einmal alle Details:</p>
+
+    <!-- Details Box -->
+    <table style="width:100%;border-collapse:collapse;background:#fafafa;border-radius:12px;overflow:hidden;border:1px solid #eee" cellpadding="0" cellspacing="0">
+      <tr style="border-bottom:1px solid #f0f0f0">
+        <td style="padding:12px 16px;color:#888;font-size:13px;width:40px;vertical-align:top">🏰</td>
+        <td style="padding:12px 16px;color:#333;font-size:14px"><strong>{product}</strong></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f0f0f0">
+        <td style="padding:12px 16px;color:#888;font-size:13px">📅</td>
+        <td style="padding:12px 16px;color:#333;font-size:14px;font-weight:700">{date_display}</td>
+      </tr>
+      {'<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:12px 16px;color:#888;font-size:13px">🚗</td><td style="padding:12px 16px;color:#333;font-size:14px">' + lieferung + '</td></tr>' if lieferung else ''}
+      {extras_html}
+    </table>
+
+    <!-- Abholadresse -->
+    <div style="margin:20px 0;padding:16px 18px;background:linear-gradient(135deg,#fff8e7,#fff5f0);border-radius:12px;border:1px solid #ffe0b2">
+      <p style="margin:0 0 4px;font-weight:800;font-size:13px;color:#e65100">📍 ABHOLADRESSE</p>
+      <p style="margin:0;font-size:14px;color:#333">Böcklbacher Str. 7, 94474 Vilshofen (Alkofen)</p>
+    </div>
+
+    <!-- Checkliste -->
+    <div style="margin:20px 0;padding:16px 18px;background:#f0fdf4;border-radius:12px;border:1px solid #bbf7d0">
+      <p style="margin:0 0 8px;font-weight:800;font-size:13px;color:#166534">✅ BITTE MITBRINGEN</p>
+      <p style="margin:0 0 4px;font-size:14px;color:#333">• Personalausweis</p>
+      <p style="margin:0 0 4px;font-size:14px;color:#333">• Kaution: <strong>150 €</strong> (Hüpfburg) bzw. <strong>100 €</strong> (Partyzubehör) in bar</p>
+      <p style="margin:0;font-size:14px;color:#333">• Großes Fahrzeug / Anhänger (bei Selbstabholung)</p>
+    </div>
+
+    <!-- Mietvertrag Button -->
+    <div style="text-align:center;margin:24px 0">
+      <a href="{base_url}/mietvertrag-huepfburg.html" style="display:inline-block;padding:14px 36px;background:#ff5a1f;color:#fff;text-decoration:none;border-radius:50px;font-weight:800;font-size:15px;box-shadow:0 4px 12px rgba(255,90,31,.3)">📄 Mietvertrag ansehen</a>
+    </div>
+
+    <!-- Kontakt -->
+    <div style="margin:20px 0;padding:16px 18px;background:#f8f9fa;border-radius:12px;text-align:center">
+      <p style="margin:0 0 8px;font-weight:700;font-size:13px;color:#666">FRAGEN? WIR SIND FÜR DICH DA!</p>
+      <p style="margin:0">
+        <a href="tel:+4915128861367" style="color:#ff5a1f;text-decoration:none;font-weight:700;font-size:14px">📱 0151 / 28861367</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="https://wa.me/4915128861367" style="color:#25d366;text-decoration:none;font-weight:700;font-size:14px">💬 WhatsApp</a>
+      </p>
+    </div>
+
+    <p style="margin:20px 0 0;font-size:14px;color:#555;text-align:center">Wir freuen uns auf dich! 🎈</p>
+  </div>
+
+  <!-- Footer -->
+  <div style="background:#1a1a2e;padding:18px 24px;text-align:center">
+    <p style="margin:0;color:#fff;font-weight:800;font-size:14px">Hupf<span style="color:#ffcc00">Gaudi</span> Vilshofen</p>
+    <p style="margin:4px 0 0;color:rgba(255,255,255,.5);font-size:11px">Böcklbacher Str. 7 · 94474 Vilshofen · hupfgaudi@gmail.com</p>
+  </div>
+</div>
+</body></html>"""
+
+        subject = f'Buchungsbestätigung: {product} am {date_display} – HupfGaudi Vilshofen'
+        text = f'Hallo {name},\n\ndeine Buchung ist bestätigt!\n\nProdukt: {product}\nDatum: {date_display}\n\nAbholadresse: Böcklbacher Str. 7, 94474 Vilshofen\nBitte Personalausweis + Kaution mitbringen.\n\nDein HupfGaudi Team'
+
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = subject
+        msg['From'] = f'HupfGaudi Vilshofen <{SMTP_USER}>'
+        msg['To'] = email
+        msg['Reply-To'] = SMTP_USER
+        msg.attach(MIMEText(text, 'plain', 'utf-8'))
+        msg.attach(MIMEText(html, 'html', 'utf-8'))
+
+        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
+            server.login(SMTP_USER, SMTP_PASS)
+            server.sendmail(SMTP_USER, [email], msg.as_string())
+        print(f'Buchungsbestätigung gesendet an: {email}')
+
     # ── E-Mail-Versand ──
 
     def _send_email(self):
@@ -155,12 +264,16 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             name       = data.get('name', '')
             email      = data.get('email', '')
             telefon    = data.get('telefon', '')
+            strasse    = data.get('strasse', '')
+            ort        = data.get('ort', '')
             datum      = data.get('datum', '')
             burg       = data.get('burg', '')
             lieferung  = data.get('lieferung', '')
             extras     = data.get('extras', [])
             untergrund = data.get('untergrund', '')
             nachricht  = data.get('nachricht', '')
+            agb_akzeptiert = data.get('agb_akzeptiert', False)
+            ausweis_einwilligung = data.get('ausweis_einwilligung', False)
 
             # HTML-E-Mail erstellen
             html = f"""
@@ -180,6 +293,7 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                             <td style="padding: 10px 0;"><a href="mailto:{email}" style="color: #ff5a1f;">{email}</a></td>
                         </tr>
                         {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">📱 Telefon:</td><td style="padding: 10px 0;"><a href="tel:' + telefon + '" style="color: #ff5a1f;">' + telefon + '</a></td></tr>' if telefon else ''}
+                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🏠 Adresse:</td><td style="padding: 10px 0; color: #333;">' + strasse + ', ' + ort + '</td></tr>' if strasse else ''}
                         {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">📅 Wunschdatum:</td><td style="padding: 10px 0; color: #333;">' + datum + '</td></tr>' if datum else ''}
                         {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🏰 Hüpfburg:</td><td style="padding: 10px 0; color: #333; font-weight: bold;">' + burg + '</td></tr>' if burg else ''}
                         {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🚗 Abholung/Lieferung:</td><td style="padding: 10px 0; color: #333;">' + lieferung + '</td></tr>' if lieferung else ''}
@@ -235,12 +349,16 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                 'name': name,
                 'email': email,
                 'telefon': telefon,
+                'strasse': strasse,
+                'ort': ort,
                 'datum': datum,
                 'burg': burg,
                 'lieferung': lieferung,
                 'extras': extras,
                 'untergrund': untergrund,
-                'nachricht': nachricht
+                'nachricht': nachricht,
+                'agb_akzeptiert': agb_akzeptiert,
+                'ausweis_einwilligung': ausweis_einwilligung
             }
             try:
                 with open(ANFRAGEN_FILE, 'r', encoding='utf-8') as f:
@@ -251,6 +369,84 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             with open(ANFRAGEN_FILE, 'w', encoding='utf-8') as f:
                 json.dump(anfragen, f, ensure_ascii=False, indent=2)
             print(f'Anfrage gespeichert: {name}')
+
+            # Automatisch Vertrag in contracts.json speichern (Kunde hat AGB akzeptiert)
+            if agb_akzeptiert and burg:
+                try:
+                    contract = {
+                        'id': anfrage['id'],
+                        'submitted_at': anfrage['timestamp'],
+                        'contract_type': 'huepfburg',
+                        'contract_source': 'kontaktformular',
+                        'mieter_name': name,
+                        'mieter_strasse': strasse,
+                        'mieter_ort': ort,
+                        'mieter_telefon': telefon,
+                        'mieter_email': email,
+                        'modell': burg,
+                        'datum_start': datum,
+                        'lieferung': lieferung,
+                        'agb_akzeptiert': True,
+                        'ausweis_einwilligung': ausweis_einwilligung
+                    }
+                    try:
+                        with open(CONTRACTS_FILE, 'r', encoding='utf-8') as f:
+                            contracts = json.load(f)
+                    except Exception:
+                        contracts = []
+                    contracts.insert(0, contract)
+                    with open(CONTRACTS_FILE, 'w', encoding='utf-8') as f:
+                        json.dump(contracts, f, ensure_ascii=False, indent=2)
+                    print(f'Vertrag automatisch erstellt: {name} - {burg}')
+                except Exception as e:
+                    print(f'Vertrag-Speicher-Fehler: {e}')
+
+            # Automatische Eingangsbestätigung an den Kunden
+            if email:
+                try:
+                    auto_html = f"""
+                    <html>
+                    <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                        <div style="background: linear-gradient(135deg, #ff5a1f, #ffcc00); padding: 24px; border-radius: 12px 12px 0 0; text-align: center;">
+                            <h1 style="color: white; margin: 0; font-size: 1.4rem;">🎈 Danke für deine Anfrage!</h1>
+                            <p style="color: rgba(255,255,255,0.9); margin: 6px 0 0; font-size: 0.95rem;">HupfGaudi Vilshofen</p>
+                        </div>
+                        <div style="background: #f9f9f9; padding: 24px; border-radius: 0 0 12px 12px; border: 1px solid #eee;">
+                            <p style="font-size: 1rem; color: #333;">Hallo {name},</p>
+                            <p style="font-size: 0.95rem; color: #555;">vielen Dank für deine Anfrage bei HupfGaudi Vilshofen! Wir haben deine Nachricht erhalten und melden uns so schnell wie möglich bei dir.</p>
+                            <div style="background: #fff8e7; border-radius: 10px; padding: 16px; margin: 20px 0; border: 1px solid #ffcc00;">
+                                <p style="margin: 0; font-size: 0.9rem; color: #555;"><strong>Deine Anfrage:</strong></p>
+                                {'<p style="margin: 4px 0 0; font-size: 0.9rem; color: #555;">🏰 ' + burg + '</p>' if burg else ''}
+                                {'<p style="margin: 4px 0 0; font-size: 0.9rem; color: #555;">📅 ' + datum + '</p>' if datum else ''}
+                                {'<p style="margin: 4px 0 0; font-size: 0.9rem; color: #555;">🎉 ' + ', '.join(extras) + '</p>' if extras else ''}
+                            </div>
+                            {'<div style="background:#d1fae5;border-radius:8px;padding:12px;margin:16px 0;border:1px solid #6ee7b7"><p style="margin:0;font-size:0.88rem;color:#065f46">✅ <strong>Mietvertrag akzeptiert</strong> – Du hast den Mietvertrag, die AGB und Datenschutzerklärung akzeptiert. Bitte bringe zur Abholung deinen Personalausweis mit.</p></div>' if agb_akzeptiert else ''}
+                            <p style="font-size: 0.9rem; color: #555;">Wir antworten in der Regel innerhalb weniger Stunden. Bei dringenden Fragen erreichst du uns direkt:</p>
+                            <div style="background: #f0f0f0; border-radius: 8px; padding: 14px; margin-top: 16px;">
+                                <p style="margin: 0; font-size: 0.9rem; color: #555;">📱 <a href="tel:+4915128861367" style="color: #ff5a1f;">0151 / 28861367</a></p>
+                                <p style="margin: 4px 0 0; font-size: 0.9rem; color: #555;">💬 <a href="https://wa.me/4915128861367" style="color: #ff5a1f;">WhatsApp</a></p>
+                            </div>
+                            <p style="margin-top: 16px; font-size: 0.9rem; color: #555;">Wir freuen uns auf dich! 🎈</p>
+                            <p style="font-size: 0.9rem; color: #555;">Dein HupfGaudi Team</p>
+                        </div>
+                    </body>
+                    </html>
+                    """
+                    auto_subject = f'Deine Anfrage bei HupfGaudi Vilshofen – wir melden uns!'
+                    auto_msg = MIMEMultipart('alternative')
+                    auto_msg['Subject'] = auto_subject
+                    auto_msg['From'] = f'HupfGaudi Vilshofen <{SMTP_USER}>'
+                    auto_msg['To'] = email
+                    auto_msg['Reply-To'] = SMTP_USER
+                    auto_text = f'Hallo {name},\n\nvielen Dank für deine Anfrage bei HupfGaudi Vilshofen! Wir melden uns so schnell wie möglich.\n\nBei dringenden Fragen: 0151/28861367 oder WhatsApp.\n\nDein HupfGaudi Team'
+                    auto_msg.attach(MIMEText(auto_text, 'plain', 'utf-8'))
+                    auto_msg.attach(MIMEText(auto_html, 'html', 'utf-8'))
+                    with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
+                        server.login(SMTP_USER, SMTP_PASS)
+                        server.sendmail(SMTP_USER, [email], auto_msg.as_string())
+                    print(f'Eingangsbestätigung gesendet an: {email}')
+                except Exception as e:
+                    print(f'Eingangsbestätigung Fehler: {e}')
 
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
@@ -624,6 +820,179 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
 
+    # ── Gesperrte Tage ──
+
+    def _get_blocked_dates(self):
+        try:
+            with open(BLOCKED_DATES_FILE, 'r', encoding='utf-8') as f:
+                data = f.read()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(data.encode('utf-8'))
+        except Exception:
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(b'[]')
+
+    def _save_blocked_dates(self):
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            dates = json.loads(body)
+            with open(BLOCKED_DATES_FILE, 'w', encoding='utf-8') as f:
+                json.dump(dates, f, ensure_ascii=False, indent=2)
+            print(f'Sperrtage aktualisiert: {len(dates)} Eintraege')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True}).encode())
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    # ── Anfrage ablehnen / löschen ──
+
+    def _anfrage_status(self):
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            data = json.loads(body)
+            anfrage_id = data.get('id')
+            action = data.get('action', '')
+
+            try:
+                with open(ANFRAGEN_FILE, 'r', encoding='utf-8') as f:
+                    anfragen = json.load(f)
+            except Exception:
+                anfragen = []
+
+            if action == 'loeschen':
+                anfragen = [a for a in anfragen if a.get('id') != anfrage_id]
+                print(f'Anfrage geloescht: {anfrage_id}')
+            elif action == 'ablehnen':
+                for a in anfragen:
+                    if a.get('id') == anfrage_id:
+                        a['abgelehnt'] = True
+                        from datetime import datetime
+                        a['abgelehnt_am'] = datetime.now().isoformat()
+                        print(f'Anfrage abgelehnt: {a.get("name", "?")}')
+                        break
+
+            with open(ANFRAGEN_FILE, 'w', encoding='utf-8') as f:
+                json.dump(anfragen, f, ensure_ascii=False, indent=2)
+
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True}).encode())
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    # ── Anfrage freigeben ──
+
+    def _freigeben(self):
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            data = json.loads(body)
+            anfrage_id = data.get('id')
+
+            # Anfrage in anfragen.json als freigegeben markieren
+            try:
+                with open(ANFRAGEN_FILE, 'r', encoding='utf-8') as f:
+                    anfragen = json.load(f)
+            except Exception:
+                anfragen = []
+
+            anfrage = None
+            for a in anfragen:
+                if a.get('id') == anfrage_id:
+                    a['freigegeben'] = True
+                    from datetime import datetime
+                    a['freigegeben_am'] = datetime.now().isoformat()
+                    anfrage = a
+                    break
+
+            if not anfrage:
+                self.send_response(404)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'Anfrage nicht gefunden'}).encode())
+                return
+
+            with open(ANFRAGEN_FILE, 'w', encoding='utf-8') as f:
+                json.dump(anfragen, f, ensure_ascii=False, indent=2)
+
+            # SuperSaaS Buchung auf "Freigegeben" (status 100) setzen
+            # Suche die Buchung anhand von Name + Datum
+            burg = anfrage.get('burg', '')
+            datum = anfrage.get('datum', '')
+            if burg and datum:
+                resource_id = self._find_resource_id(burg)
+                if resource_id:
+                    try:
+                        # Buchungen für das Datum abrufen
+                        url = (f'https://www.supersaas.com/api/bookings.json'
+                               f'?schedule_id={SCHEDULE_ID}'
+                               f'&account={SUPERSAAS_ACCOUNT}'
+                               f'&api_key={SUPERSAAS_API_KEY}'
+                               f'&from={datum}&to={datum}')
+                        req = urllib.request.Request(url)
+                        with urllib.request.urlopen(req, timeout=5) as response:
+                            bookings = json.loads(response.read())
+
+                        # Buchung finden (Name + Datum)
+                        for b in bookings:
+                            if (b.get('full_name', '').lower() == anfrage.get('name', '').lower()
+                                    and not b.get('deleted')):
+                                # Status auf 100 (Freigegeben) setzen
+                                update_url = (f'https://www.supersaas.com/api/bookings/{b["id"]}.json'
+                                              f'?schedule_id={SCHEDULE_ID}'
+                                              f'&account={SUPERSAAS_ACCOUNT}'
+                                              f'&api_key={SUPERSAAS_API_KEY}')
+                                update_data = json.dumps({'booking': {'status': 100}}).encode('utf-8')
+                                update_req = urllib.request.Request(update_url, data=update_data, method='PUT')
+                                update_req.add_header('Content-Type', 'application/json')
+                                with urllib.request.urlopen(update_req, timeout=5) as resp:
+                                    pass
+                                print(f'SuperSaaS Buchung {b["id"]} freigegeben')
+                                break
+                    except Exception as e:
+                        print(f'SuperSaaS Freigabe Fehler: {e}')
+
+            print(f'Anfrage freigegeben: {anfrage.get("name")} - {burg}')
+
+            # Automatische Buchungsbestätigung an den Kunden
+            email = anfrage.get('email', '')
+            name = anfrage.get('name', '')
+            if email and burg:
+                try:
+                    self._send_booking_confirmation(
+                        email, name, burg, datum,
+                        lieferung=anfrage.get('lieferung', ''),
+                        extras=anfrage.get('extras')
+                    )
+                except Exception as e:
+                    print(f'Bestätigung-E-Mail Fehler: {e}')
+
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True}).encode())
+        except Exception as e:
+            print(f'Freigabe Fehler: {e}')
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
     # ── Slideshow ──
 
     def _get_slideshow(self):
@@ -733,10 +1102,7 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             name = data.get('full_name', '')
             email = data.get('email', '')
             product_name = data.get('res_name', '')
-            product_type = data.get('product_type', 'hupfburg')
             start_date = data.get('start', '').split('T')[0] if data.get('start') else ''
-            end_date = data.get('finish', '').split('T')[0] if data.get('finish') else ''
-            revenue = data.get('revenue', 0)
             delivery_info = data.get('delivery_info', '')
 
             if not email:
@@ -760,114 +1126,8 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({'error': 'already_confirmed'}).encode())
                 return
 
-            # Datum formatieren
-            def fmt_date(d):
-                if not d: return '—'
-                try:
-                    from datetime import datetime
-                    return datetime.strptime(d, '%Y-%m-%d').strftime('%d.%m.%Y')
-                except Exception:
-                    return d
-
-            date_display = fmt_date(start_date)
-            if end_date and end_date != start_date:
-                date_display += ' – ' + fmt_date(end_date)
-
-            # Mietvertrag-Link
-            base_url = 'https://www.hupfgaudi-vilshofen.de'
-            if product_type == 'equipment':
-                vertrag_url = f'{base_url}/mietvertrag-partyzubehoer.html'
-                vertrag_name = 'Mietvertrag Partyzubehör'
-            else:
-                vertrag_url = f'{base_url}/mietvertrag-huepfburg.html'
-                vertrag_name = 'Mietvertrag Hüpfburg'
-
-            # Preis formatieren
-            price_text = f'{revenue:.0f} €' if revenue else '—'
-
-            # HTML E-Mail
-            html = f"""
-            <html>
-            <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-                <div style="background: linear-gradient(135deg, #ff5a1f, #ffcc00); padding: 24px; border-radius: 12px 12px 0 0; text-align: center;">
-                    <h1 style="color: white; margin: 0; font-size: 1.4rem;">🎉 Deine Buchung ist bestätigt!</h1>
-                    <p style="color: rgba(255,255,255,0.9); margin: 6px 0 0; font-size: 0.95rem;">HupfGaudi Vilshofen</p>
-                </div>
-                <div style="background: #f9f9f9; padding: 24px; border-radius: 0 0 12px 12px; border: 1px solid #eee;">
-                    <p style="font-size: 1rem; color: #333;">Hallo {name},</p>
-                    <p style="font-size: 0.95rem; color: #555;">vielen Dank für deine Buchung! Hier die Details:</p>
-
-                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 10px 0; font-weight: bold; color: #555; width: 140px;">🏰 Produkt:</td>
-                            <td style="padding: 10px 0; color: #333; font-weight: bold;">{product_name}</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 10px 0; font-weight: bold; color: #555;">📅 Datum:</td>
-                            <td style="padding: 10px 0; color: #333;">{date_display}</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 10px 0; font-weight: bold; color: #555;">💶 Mietpreis:</td>
-                            <td style="padding: 10px 0; color: #333; font-weight: bold;">{price_text}</td>
-                        </tr>
-                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🚗 Abholung/Lieferung:</td><td style="padding: 10px 0; color: #333;">' + delivery_info + '</td></tr>' if delivery_info else ''}
-                    </table>
-
-                    <div style="background: #fff8e7; border-radius: 10px; padding: 16px; margin: 20px 0; border: 1px solid #ffcc00;">
-                        <p style="margin: 0 0 6px; font-weight: bold; color: #333;">📍 Abholadresse:</p>
-                        <p style="margin: 0; color: #555;">Böcklbacher Str. 7, 94474 Vilshofen (Alkofen)</p>
-                        <p style="margin: 8px 0 0; font-size: 0.85rem; color: #888;">Bitte bringe den ausgefüllten Mietvertrag und deinen Personalausweis mit.</p>
-                    </div>
-
-                    <div style="text-align: center; margin: 24px 0;">
-                        <a href="{vertrag_url}" style="display: inline-block; background: #ff5a1f; color: white; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: bold; font-size: 1rem;">✏️ {vertrag_name} online ausfüllen</a>
-                        <p style="margin-top: 10px; font-size: 0.85rem; color: #888;">Du kannst den Vertrag digital ausfüllen und absenden – oder ausdrucken und zur Abholung mitbringen.</p>
-                    </div>
-
-                    <div style="background: #f0f0f0; border-radius: 8px; padding: 14px; margin-top: 20px;">
-                        <p style="margin: 0; font-size: 0.9rem; color: #555;"><strong>Kontakt:</strong></p>
-                        <p style="margin: 4px 0 0; font-size: 0.9rem; color: #555;">📱 <a href="tel:+4915128861367" style="color: #ff5a1f;">0151 / 28861367</a></p>
-                        <p style="margin: 4px 0 0; font-size: 0.9rem; color: #555;">✉️ <a href="mailto:hupfgaudi@gmail.com" style="color: #ff5a1f;">hupfgaudi@gmail.com</a></p>
-                        <p style="margin: 4px 0 0; font-size: 0.9rem; color: #555;">💬 <a href="https://wa.me/4915128861367" style="color: #ff5a1f;">WhatsApp</a></p>
-                    </div>
-
-                    <p style="margin-top: 20px; font-size: 0.9rem; color: #555;">Wir freuen uns auf dich! 🎈</p>
-                    <p style="font-size: 0.9rem; color: #555;">Dein HupfGaudi Team</p>
-                </div>
-            </body>
-            </html>
-            """
-
-            # Klartext
-            text = f"Hallo {name},\\n\\n"
-            text += f"deine Buchung bei HupfGaudi Vilshofen ist bestätigt!\\n\\n"
-            text += f"Produkt: {product_name}\\n"
-            text += f"Datum: {date_display}\\n"
-            text += f"Preis: {price_text}\\n"
-            if delivery_info:
-                text += f"Abholung/Lieferung: {delivery_info}\\n"
-            text += f"\\nAbholadresse: Böcklbacher Str. 7, 94474 Vilshofen (Alkofen)\\n"
-            text += f"Mietvertrag: {vertrag_url}\\n"
-            text += f"\\nBei Fragen: 0151/28861367 oder hupfgaudi@gmail.com\\n"
-
-            # E-Mail zusammenbauen
-            subject = f'Buchungsbestätigung: {product_name} am {fmt_date(start_date)} – HupfGaudi Vilshofen'
-
-            msg = MIMEMultipart('alternative')
-            msg['Subject'] = subject
-            msg['From'] = f'HupfGaudi Vilshofen <{SMTP_USER}>'
-            msg['To'] = email
-            msg['Reply-To'] = SMTP_USER
-
-            msg.attach(MIMEText(text, 'plain', 'utf-8'))
-            msg.attach(MIMEText(html, 'html', 'utf-8'))
-
-            # Senden
-            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
-                server.login(SMTP_USER, SMTP_PASS)
-                server.sendmail(SMTP_USER, [email], msg.as_string())
-
-            print(f'Bestätigung gesendet an: {email} - {product_name} am {date_display}')
+            # E-Mail senden
+            self._send_booking_confirmation(email, name, product_name, start_date, lieferung=delivery_info)
 
             # Als bestätigt speichern
             from datetime import datetime

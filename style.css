@@ -1119,6 +1119,78 @@ input:checked + .extras-cb-box::after {
   border-radius: 10px; color: #1a7a44; font-weight: 700; text-align: center;
 }
 
+.form-legal {
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #fafafa, #f3f3f3);
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid #e8e8e8;
+}
+.form-legal-title {
+  font-weight: 800;
+  font-size: .95rem;
+  margin-bottom: 12px;
+  color: var(--dark);
+}
+.form-legal-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.form-legal-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  transition: all .2s;
+  text-align: center;
+}
+.form-legal-links a:hover {
+  border-color: var(--primary);
+  background: #fff8f5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255,90,31,.12);
+}
+.form-legal-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid #e8e8e8;
+}
+.form-legal-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1.5px solid #e8e8e8;
+  font-size: .84rem;
+  line-height: 1.45;
+  cursor: pointer;
+  color: #333;
+  transition: border-color .2s;
+}
+.form-legal-check:has(input:checked) {
+  border-color: var(--primary);
+  background: #fff8f5;
+}
+.form-legal-check input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
 /* ════════════ BOTTOM BUTTONS ════════════ */
 .bottom-buttons-section {
   padding: 50px 20px 60px;

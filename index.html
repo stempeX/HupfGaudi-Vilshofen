@@ -662,9 +662,10 @@
         <div>
           <form id="kontaktForm" novalidate>
             <div class="form-row"><div class="form-group"><label for="name">Dein Name *</label><input type="text" id="name" name="name" placeholder="Max Mustermann" required autocomplete="name" /></div><div class="form-group"><label for="email">E-Mail *</label><input type="email" id="email" name="email" placeholder="deine@email.de" required autocomplete="email" /></div></div>
-            <div class="form-row"><div class="form-group"><label for="telefon">Telefon</label><input type="tel" id="telefon" name="telefon" placeholder="+49 151 28861367" autocomplete="tel" /></div><div class="form-group"><label for="datum">Gewünschtes Datum</label><input type="date" id="datum" name="datum" /></div></div>
-            <div class="form-group" style="margin-bottom:20px"><label for="burg">Hüpfburg</label><select id="burg" name="burg"><option value="">Bitte wählen…</option><option>Ritterburg Hopsala (75 €)</option><option>Alien Hüpfburg (139 €)</option><option>Einhorn Hüpfburg „Rosalie" (139 €)</option><option>Feuerwehr Hüpfburg (149 €)</option><option>Fußballstar Hüpfburg (149 €)</option><option>Meerjungfrau Hüpfburg (219 €)</option><option>Hochzeit Hüpfburg (179 €)</option><option>Ich bin noch unsicher</option></select></div>
-            <div class="form-group" style="margin-bottom:20px"><label for="lieferung">Abholung oder Lieferung?</label><select id="lieferung" name="lieferung"><option value="">Bitte wählen…</option><option>🚗 Selbstabholung in Vilshofen (kostenlos)</option><option>🚚 Lieferung im Umkreis 20 km (100 €)</option></select></div>
+            <div class="form-row"><div class="form-group"><label for="telefon">Telefon *</label><input type="tel" id="telefon" name="telefon" placeholder="+49 151 28861367" required autocomplete="tel" /></div><div class="form-group"><label for="datum">Gewünschtes Datum *</label><input type="date" id="datum" name="datum" required /></div></div>
+            <div class="form-row"><div class="form-group"><label for="strasse">Straße + Hausnummer *</label><input type="text" id="strasse" name="strasse" placeholder="Musterstraße 1" required autocomplete="street-address" /></div><div class="form-group"><label for="ort">PLZ + Ort *</label><input type="text" id="ort" name="ort" placeholder="94474 Vilshofen" required autocomplete="address-level2" /></div></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="burg">Hüpfburg *</label><select id="burg" name="burg" required><option value="">Bitte wählen…</option><option value="Keine Hüpfburg (nur Partyzubehör)">Keine Hüpfburg (nur Partyzubehör)</option><option>Ritterburg Hopsala (75 €)</option><option>Alien Hüpfburg (139 €)</option><option>Einhorn Hüpfburg „Rosalie" (139 €)</option><option>Feuerwehr Hüpfburg (149 €)</option><option>Fußballstar Hüpfburg (149 €)</option><option>Meerjungfrau Hüpfburg (219 €)</option><option>Hochzeit Hüpfburg (179 €)</option><option>Ich bin noch unsicher</option></select></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="lieferung">Abholung oder Lieferung? *</label><select id="lieferung" name="lieferung" required><option value="">Bitte wählen…</option><option>🚗 Selbstabholung in Vilshofen (kostenlos)</option><option>🚚 Lieferung im Umkreis 20 km (100 €)</option></select></div>
             <div class="form-group" style="margin-bottom:20px"><label>🎉 Partyzubehör dazu? <small style="color:#888;font-weight:400">(Mehrfachauswahl möglich)</small></label>
               <div class="extras-checkboxes" id="extrasCheckboxes">
                 <label class="extras-cb"><input type="checkbox" name="extras" value="🍿 Popcornmaschine (49 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍿</span><span class="extras-cb-text"><strong>Popcornmaschine</strong><small>Nur Maschine</small></span><span class="extras-cb-price">49 €</span></label>
@@ -672,10 +673,24 @@
                 <label class="extras-cb"><input type="checkbox" name="extras" value="🍦 Icecream Roll Maschine (49 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍦</span><span class="extras-cb-text"><strong>Icecream Roll</strong><small>Nur Maschine</small></span><span class="extras-cb-price">49 €</span></label>
               </div>
             </div>
-            <div class="form-group" style="margin-bottom:20px"><label for="untergrund">Aufstellplatz</label><select id="untergrund" name="untergrund"><option value="">Bitte wählen…</option><option>🌿 Rasen</option><option>🧱 Pflaster / Gehweg</option><option>🏠 Halle / Innenbereich</option><option>🪨 Schotter / Kies</option><option>❓ Sonstiges (bitte in Nachricht angeben)</option></select></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="untergrund">Aufstellplatz *</label><select id="untergrund" name="untergrund" required><option value="">Bitte wählen…</option><option>🌿 Rasen</option><option>🧱 Pflaster / Gehweg</option><option>🏠 Halle / Innenbereich</option><option>🪨 Schotter / Kies</option><option>❓ Sonstiges (bitte in Nachricht angeben)</option></select></div>
             <div class="form-group" style="margin-bottom:24px"><label for="nachricht">Nachricht</label><textarea id="nachricht" name="nachricht" placeholder="Wo findet das Event statt? Wie viele Kinder? Weitere Wünsche?"></textarea></div>
-            <div class="form-submit"><button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;">🎉 Anfrage absenden</button></div>
-            <p class="form-success" id="formSuccess" role="status" aria-live="polite">✅ Deine Anfrage wird über WhatsApp gesendet! Falls sich WhatsApp nicht öffnet, schreib uns direkt: <a href="https://wa.me/4915128861367" target="_blank" style="color:var(--primary);font-weight:700">WhatsApp öffnen</a></p>
+            <div class="form-legal">
+              <p class="form-legal-title">📄 Mietvertrag & rechtliche Dokumente</p>
+              <div class="form-legal-links">
+                <a href="mietvertrag-huepfburg.html" target="_blank">📄 Mietvertrag Hüpfburg</a>
+                <a href="mietvertrag-partyzubehoer.html" target="_blank">📄 Mietvertrag Partyzubehör</a>
+                <a href="impressum.html#datenschutz" target="_blank">🔒 Datenschutz</a>
+                <a href="impressum.html#agb" target="_blank">📋 AGB</a>
+              </div>
+              <div class="form-legal-checks">
+                <label class="form-legal-check"><input type="checkbox" id="agb-accept" required> Ich habe den Mietvertrag, die AGB, Datenschutzerklärung und Widerrufsbelehrung gelesen und akzeptiere diese. *</label>
+                <label class="form-legal-check"><input type="checkbox" id="ausweis-accept"> Ich willige ein, dass bei Abholung ein Foto meines Personalausweises zur Identitätssicherung angefertigt wird.</label>
+                <label class="form-legal-check"><input type="checkbox" id="kaution-accept" required> Ich bringe zur Abholung eine Kaution von 150 € (Hüpfburg) bzw. 100 € (Partyzubehör) in bar mit. *</label>
+              </div>
+            </div>
+            <div class="form-submit"><button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;">🎉 Jetzt verbindlich buchen</button></div>
+            <p class="form-success" id="formSuccess" role="status" aria-live="polite">✅ <strong>Deine Buchungsanfrage ist eingegangen!</strong> Du erhältst in Kürze eine Bestätigung per E-Mail. Bei Fragen erreichst du uns per <a href="https://wa.me/4915128861367" target="_blank" style="color:var(--primary);font-weight:700">WhatsApp</a> oder <a href="tel:+4915128861367" style="color:var(--primary);font-weight:700">Telefon</a>.</p>
           </form>
         </div>
       </div>
@@ -802,36 +817,28 @@
       const name     = document.getElementById('name').value.trim();
       const email    = document.getElementById('email').value.trim();
       const telefon  = document.getElementById('telefon').value.trim();
+      const strasse  = document.getElementById('strasse').value.trim();
+      const ort      = document.getElementById('ort').value.trim();
       const datum    = document.getElementById('datum').value;
       const burg     = document.getElementById('burg').value;
       const lieferung  = document.getElementById('lieferung').value;
       const extras     = [...document.querySelectorAll('#extrasCheckboxes input:checked')].map(cb => cb.value);
       const untergrund = document.getElementById('untergrund').value;
       const nachricht  = document.getElementById('nachricht').value.trim();
+      const agbAccept  = document.getElementById('agb-accept').checked;
+      const ausweisAccept = document.getElementById('ausweis-accept').checked;
 
-      if (!name || !email) {
-        alert('Bitte Name und E-Mail ausfüllen.');
+      if (!name || !email || !telefon || !strasse || !ort || !datum || !burg || !lieferung || !untergrund) {
+        alert('Bitte alle Pflichtfelder (*) ausfüllen.');
+        return;
+      }
+      if (!agbAccept) {
+        alert('Bitte akzeptiere den Mietvertrag, die AGB und Datenschutzerklärung.');
         return;
       }
 
-      // WhatsApp-Nachricht zusammenbauen
-      let msg = '📋 *Neue Hüpfburg-Anfrage*\n\n';
-      msg += '👤 *Name:* ' + name + '\n';
-      msg += '✉️ *E-Mail:* ' + email + '\n';
-      if (telefon) msg += '📱 *Telefon:* ' + telefon + '\n';
-      if (datum) msg += '📅 *Wunschdatum:* ' + datum + '\n';
-      if (burg) msg += '🏰 *Hüpfburg:* ' + burg + '\n';
-      if (lieferung) msg += '🚗 *Abholung/Lieferung:* ' + lieferung + '\n';
-      if (extras.length) msg += '🎉 *Partyzubehör:*\n' + extras.map(e => '  • ' + e).join('\n') + '\n';
-      if (untergrund) msg += '📍 *Aufstellplatz:* ' + untergrund + '\n';
-      if (nachricht) msg += '\n💬 *Nachricht:*\n' + nachricht;
-
-      // WhatsApp öffnen
-      const waURL = 'https://wa.me/4915128861367?text=' + encodeURIComponent(msg);
-      window.open(waURL, '_blank');
-
       // E-Mail senden (fire-and-forget)
-      const formData = { name, email, telefon, datum, burg, lieferung, extras, untergrund, nachricht };
+      const formData = { name, email, telefon, strasse, ort, datum, burg, lieferung, extras, untergrund, nachricht, agb_akzeptiert: agbAccept, ausweis_einwilligung: ausweisAccept };
       try {
         fetch('/api/send-email', {
           method: 'POST',
@@ -906,11 +913,117 @@
       ]
     };
 
+    // Sperrtage sofort laden (für Verfügbarkeitsprüfung + Datumspicker)
+    (async function() {
+      try {
+        let bdRes;
+        try { bdRes = await fetch('http://localhost:8081/api/blocked-dates'); } catch(e) {}
+        if (!bdRes || !bdRes.ok) try { bdRes = await fetch('blocked_dates.json'); } catch(e) {}
+        if (bdRes && bdRes.ok) {
+          const blocked = await bdRes.json();
+          if (blocked.length) {
+            const blockedSet = new Set();
+            blocked.forEach(b => {
+              const start = new Date(b.from + 'T00:00');
+              const end = new Date(b.to + 'T00:00');
+              for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                blockedSet.add(d.toISOString().split('T')[0]);
+              }
+            });
+            window._blockedDates = blockedSet;
+            window._blockedEntries = blocked;
+            window.showBlockedModal = function(dateStr) {
+              const entry = blocked.find(b => dateStr >= b.from && dateStr <= b.to);
+              if (!entry) return false;
+              const von = new Date(entry.from + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
+              const bis = new Date(entry.to + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
+              const grund = entry.reason || 'Geschlossen';
+              const zeitraum = entry.from === entry.to ? 'am ' + von : 'vom ' + von + ' bis ' + bis;
+              const overlay = document.createElement('div');
+              overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+              overlay.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">'
+                + '<div style="background:linear-gradient(135deg,#ff5a1f,#ffcc00);padding:20px;text-align:center">'
+                + '<p style="font-size:32px;margin:0">🚫</p>'
+                + '<h3 style="color:#fff;margin:8px 0 0;font-size:1.1rem">' + grund + '</h3>'
+                + '</div>'
+                + '<div style="padding:24px;text-align:center">'
+                + '<p style="font-size:.95rem;color:#333;margin:0 0 6px">Wir sind <strong>' + zeitraum + '</strong> leider nicht verfügbar.</p>'
+                + '<p style="font-size:.88rem;color:#888;margin:0 0 20px">Bitte wähle einen anderen Termin.</p>'
+                + '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="padding:10px 32px;background:#ff5a1f;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit">Verstanden</button>'
+                + '</div></div>';
+              document.body.appendChild(overlay);
+              overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+              return true;
+            };
+            // Kontaktformular Datum blockieren
+            document.getElementById('datum')?.addEventListener('change', function() {
+              if (window._blockedDates.has(this.value)) {
+                window.showBlockedModal(this.value);
+                this.value = '';
+              }
+            });
+          }
+        }
+      } catch(e) {}
+    })();
+
     document.getElementById('avail-btn').addEventListener('click', async function () {
       const fromDate = document.getElementById('avail-from').value;
       const toDate   = document.getElementById('avail-to').value;
       if (!fromDate || !toDate) { alert('Bitte Von- und Bis-Datum wählen.'); return; }
       if (toDate < fromDate) { alert('Das Bis-Datum muss nach dem Von-Datum liegen.'); return; }
+
+      // Sperrtage prüfen (direkt von API laden falls noch nicht bereit)
+      try {
+        if (!window._blockedDates) {
+          let bdRes;
+          try { bdRes = await fetch('http://localhost:8081/api/blocked-dates'); } catch(e) {}
+          if (bdRes && bdRes.ok) {
+            const blocked = await bdRes.json();
+            const blockedSet = new Set();
+            blocked.forEach(b => {
+              const s = new Date(b.from + 'T00:00'), e = new Date(b.to + 'T00:00');
+              for (let dd = new Date(s); dd <= e; dd.setDate(dd.getDate() + 1)) blockedSet.add(dd.toISOString().split('T')[0]);
+            });
+            window._blockedDates = blockedSet;
+            window._blockedEntries = blocked;
+          }
+        }
+      } catch(e) {}
+
+      if (window._blockedDates) {
+        const checkFrom = new Date(fromDate + 'T00:00');
+        const checkTo = new Date(toDate + 'T00:00');
+        for (let d = new Date(checkFrom); d <= checkTo; d.setDate(d.getDate() + 1)) {
+          const ds = d.toISOString().split('T')[0];
+          if (window._blockedDates.has(ds)) {
+            // Schönes Modal anzeigen
+            const entry = window._blockedEntries ? window._blockedEntries.find(b => ds >= b.from && ds <= b.to) : null;
+            const grund = entry ? (entry.reason || 'Geschlossen') : 'Geschlossen';
+            let zeitraum = '';
+            if (entry) {
+              const von = new Date(entry.from + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
+              const bis = new Date(entry.to + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
+              zeitraum = entry.from === entry.to ? 'am ' + von : 'vom ' + von + ' bis ' + bis;
+            }
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+            overlay.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">'
+              + '<div style="background:linear-gradient(135deg,#ff5a1f,#ffcc00);padding:20px;text-align:center">'
+              + '<p style="font-size:32px;margin:0">🚫</p>'
+              + '<h3 style="color:#fff;margin:8px 0 0;font-size:1.1rem">' + grund + '</h3>'
+              + '</div>'
+              + '<div style="padding:24px;text-align:center">'
+              + '<p style="font-size:.95rem;color:#333;margin:0 0 8px">Leider sind wir <strong>' + zeitraum + '</strong> nicht für euch da.</p>'
+              + '<p style="font-size:.88rem;color:#666;margin:0 0 16px;line-height:1.5">Aber keine Sorge – unsere Hüpfburgen und unser Partyzubehör stehen dir an allen anderen Terminen zur Verfügung! Prüfe einfach einen anderen Zeitraum – wir freuen uns auf deine Buchung. 🎈</p>'
+              + '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="padding:10px 32px;background:#ff5a1f;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit">🔍 Anderen Termin prüfen</button>'
+              + '</div></div>';
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+            return;
+          }
+        }
+      }
 
       const loading = document.getElementById('avail-loading');
       const results = document.getElementById('avail-results');
@@ -928,16 +1041,16 @@
         endPlusOne.setDate(endPlusOne.getDate() + 1);
         const apiTo = endPlusOne.toISOString().split('T')[0];
 
-        const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-        const url = isLocal
-          ? '/api/bookings?from=' + fromDate + '&to=' + apiTo
-          : 'https://www.supersaas.com/api/bookings.json'
+        let res;
+        try {
+          res = await fetch('http://localhost:8081/api/bookings?from=' + fromDate + '&to=' + apiTo);
+        } catch(e) {
+          res = await fetch('https://www.supersaas.com/api/bookings.json'
             + '?schedule_id=' + SUPERSAAS.scheduleId
             + '&account=' + SUPERSAAS.account
             + '&api_key=' + SUPERSAAS.apiKey
-            + '&from=' + fromDate + '&to=' + apiTo;
-
-        const res = await fetch(url);
+            + '&from=' + fromDate + '&to=' + apiTo);
+        }
         if (!res.ok) throw new Error('API Fehler');
         const bookings = await res.json();
 
@@ -977,7 +1090,7 @@
             + '<strong>' + name + '</strong>'
             + '<span class="avail-card-price">' + (SUPERSAAS.prices[name] || '') + ' / Tag</span>'
             + '<span class="avail-card-status">' + (available ? '✅ Verfügbar' : '❌ Gebucht') + '</span>'
-            + (available ? '<a href="javascript:void(0)" onclick="openModal(\'modal-kontakt\')" class="avail-card-btn">Jetzt anfragen</a>' : '');
+            + (available ? '<a href="javascript:void(0)" onclick="selectAndBook(\'' + name.replace(/'/g, "\\'") + '\')" class="avail-card-btn">Jetzt buchen</a>' : '');
           grid.appendChild(card);
         });
 
@@ -1016,6 +1129,47 @@
 
   <!-- ── Modal-Funktionen ── -->
   <script>
+    // Hüpfburg aus Verfügbarkeitsprüfung auswählen und Buchungsformular öffnen
+    function selectAndBook(resourceName) {
+      openModal('modal-kontakt');
+      // Datum aus Verfügbarkeitsprüfung übernehmen
+      const fromDate = document.getElementById('avail-from').value;
+      if (fromDate) {
+        document.getElementById('datum').value = fromDate;
+      }
+      // Hüpfburg im Dropdown auswählen
+      const burgSelect = document.getElementById('burg');
+      if (burgSelect) {
+        const searchName = resourceName.toLowerCase();
+        // Mapping: SuperSaaS-Name → Suchbegriffe
+        const nameMap = {
+          'ritterburg hopsala': ['ritterburg'],
+          'alien': ['alien'],
+          'einhorn rosalie': ['einhorn'],
+          'feuerwehr': ['feuerwehr'],
+          'fußballstar': ['fußball', 'fussball'],
+          'meerjungfrau': ['meerjungfrau'],
+          'arielle': ['meerjungfrau'],
+          'hochzeitsburg': ['hochzeit'],
+          'popcornmaschine': ['popcorn'],
+          'zuckerwattenmaschine': ['zuckerwatte'],
+          'ice cream roll maschine': ['icecream', 'ice cream', 'eismaschine']
+        };
+        const keywords = nameMap[searchName] || [searchName];
+        for (let i = 0; i < burgSelect.options.length; i++) {
+          const optText = burgSelect.options[i].textContent.toLowerCase();
+          if (keywords.some(kw => optText.includes(kw)) || optText.includes(searchName)) {
+            burgSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      // Zum Formular scrollen
+      setTimeout(() => {
+        document.getElementById('name').focus();
+      }, 300);
+    }
+
     function openModal(id) {
       document.getElementById(id).classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -1343,6 +1497,7 @@
       const burgSelect = document.getElementById('burg');
       if (burgSelect) {
         const opts = ['<option value="">Bitte wählen…</option>'];
+        opts.push('<option value="Keine Hüpfburg (nur Partyzubehör)">Keine Hüpfburg (nur Partyzubehör)</option>');
         hupfburgen.forEach(p => {
           opts.push('<option>' + p.displayName + ' (' + p.priceWeekday + ' €)</option>');
         });

@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "id": 1776101148061,
+    "submitted_at": "2026-04-13T19:25:48.061700",
+    "contract_type": "huepfburg",
+    "contract_source": "kontaktformular",
+    "mieter_name": "Yasmin Gutsmidl",
+    "mieter_strasse": "Böcklbacher Straße 7",
+    "mieter_ort": "Vilshofen",
+    "mieter_telefon": "+4917660454642",
+    "mieter_email": "gutsmidlyasmin@gmail.com",
+    "modell": "Hochzeit Hüpfburg (179 €)",
+    "datum_start": "2026-04-14",
+    "lieferung": "🚗 Selbstabholung in Vilshofen (kostenlos)",
+    "agb_akzeptiert": true,
+    "ausweis_einwilligung": true
+  },
+  {
+    "id": 1776090923381,
+    "submitted_at": "2026-04-13T16:35:23.381547",
+    "contract_type": "huepfburg",
+    "contract_source": "kontaktformular",
+    "mieter_name": "Christoph Gutsmidl",
+    "mieter_strasse": "www.hupfgaudi-vilshofen.de",
+    "mieter_ort": "Vilshofen",
+    "mieter_telefon": "015128861367",
+    "mieter_email": "gutse@gmx.e",
+    "modell": "Ritterburg Hopsala (75 €)",
+    "datum_start": "1990-12-15",
+    "lieferung": "🚚 Lieferung im Umkreis 20 km (100 €)",
+    "agb_akzeptiert": true,
+    "ausweis_einwilligung": true
+  }
+]
