@@ -98,6 +98,8 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._confirm_booking()
         elif self.path.startswith('/api/submit-contract'):
             self._submit_contract()
+        elif self.path.startswith('/api/delete-contract'):
+            self._delete_contract()
         elif self.path.startswith('/api/freigeben'):
             self._freigeben()
         elif self.path.startswith('/api/anfrage-status'):
@@ -815,6 +817,33 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(result, ensure_ascii=False).encode())
         except Exception as e:
             print(f'Weekend-Deal Fehler: {e}')
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    # ── Vertrag löschen ──
+
+    def _delete_contract(self):
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            data = json.loads(body)
+            contract_id = data.get('id')
+            try:
+                with open(CONTRACTS_FILE, 'r', encoding='utf-8') as f:
+                    contracts = json.load(f)
+            except Exception:
+                contracts = []
+            contracts = [c for c in contracts if c.get('id') != contract_id]
+            with open(CONTRACTS_FILE, 'w', encoding='utf-8') as f:
+                json.dump(contracts, f, ensure_ascii=False, indent=2)
+            print(f'Vertrag geloescht: {contract_id}')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True}).encode())
+        except Exception as e:
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()

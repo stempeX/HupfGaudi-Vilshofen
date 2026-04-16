@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Sperrtage Test</title></head>
+<body>
+<h1>Sperrtage Test</h1>
+<button id="test-btn">Test: 12.05.2026 prüfen</button>
+<p id="result"></p>
+
+<script>
+// Synchron laden
+try {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/api/blocked-dates', false);
+  xhr.send();
+  document.getElementById('result').textContent = 'API Status: ' + xhr.status + ' | Daten: ' + xhr.responseText;
+
+  if (xhr.status === 200) {
+    var blocked = JSON.parse(xhr.responseText);
+    var blockedSet = new Set();
+    blocked.forEach(function(b) {
+      var start = new Date(b.from + 'T00:00');
+      var end = new Date(b.to + 'T00:00');
+      for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        blockedSet.add(d.toISOString().split('T')[0]);
+      }
+    });
+
+    document.getElementById('result').textContent += '\n\nGeladene Sperrtage: ' + blockedSet.size;
+    document.getElementById('result').textContent += '\n12.05.2026 gesperrt: ' + blockedSet.has('2026-05-12');
+    document.getElementById('result').textContent += '\n25.06.2026 gesperrt: ' + blockedSet.has('2026-06-25');
+    document.getElementById('result').textContent += '\n15.04.2026 gesperrt: ' + blockedSet.has('2026-04-15');
+  }
+} catch(e) {
+  document.getElementById('result').textContent = 'FEHLER: ' + e.message;
+}
+
+document.getElementById('test-btn').addEventListener('click', function() {
+  alert('12.05.2026 ist gesperrt: ' + (blockedSet && blockedSet.has('2026-05-12')));
+});
+</script>
+</body></html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prüfprotokoll aufblasbare Spielgeräte – HupfGaudi Vilshofen</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', Arial, sans-serif;
+      color: #333; line-height: 1.5;
+      max-width: 800px; margin: 0 auto;
+      padding: 30px 30px;
+      font-size: 14px;
+    }
+
+    .header {
+      text-align: center; border-bottom: 3px solid #ff5a1f;
+      padding-bottom: 16px; margin-bottom: 24px;
+    }
+    .header .logo { font-size: 1.3rem; font-weight: 900; color: #ff5a1f; margin-bottom: 4px; }
+    .header .logo span { color: #ffcc00; }
+    .header h1 { font-size: 1.4rem; font-weight: 900; color: #1a1a2e; margin-bottom: 2px; }
+    .header p { font-size: .82rem; color: #666; }
+
+    h2 {
+      font-size: 1rem; font-weight: 800; color: #fff;
+      background: #ff5a1f; padding: 8px 14px;
+      border-radius: 6px; margin: 22px 0 12px;
+    }
+    h3 { font-size: .92rem; font-weight: 800; color: #ff5a1f; margin: 14px 0 8px; }
+
+    .meta-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-bottom: 4px;
+    }
+
+    .field {
+      display: flex; align-items: baseline; gap: 8px;
+      margin-bottom: 8px; font-size: .88rem;
+    }
+    .field label { font-weight: 700; white-space: nowrap; min-width: 200px; }
+    .field .line {
+      flex: 1; border-bottom: 1.5px dotted #999;
+      min-height: 18px;
+    }
+
+    .checkbox-inline {
+      display: inline-flex; align-items: center; gap: 5px; margin-right: 14px;
+    }
+    .checkbox {
+      width: 16px; height: 16px;
+      border: 2px solid #333; border-radius: 3px;
+      flex-shrink: 0; display: inline-block;
+    }
+
+    .check-row {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 6px; font-size: .88rem;
+    }
+
+    /* Prüftabelle */
+    table.pruef {
+      width: 100%; border-collapse: collapse; margin: 8px 0 16px;
+      font-size: .85rem;
+    }
+    table.pruef th {
+      background: #ff5a1f; color: #fff; font-weight: 700;
+      padding: 8px 10px; text-align: left; border: 1px solid #e0e0e0;
+    }
+    table.pruef td {
+      border: 1px solid #ddd; padding: 7px 10px; vertical-align: top;
+    }
+    table.pruef tr:nth-child(even) { background: #fdf6f0; }
+    table.pruef .nr { width: 30px; text-align: center; font-weight: 700; }
+    table.pruef .punkt { width: 240px; }
+    table.pruef .check { width: 50px; text-align: center; }
+    table.pruef .bemerkung { }
+
+    /* Mängeltabelle */
+    table.maengel {
+      width: 100%; border-collapse: collapse; margin: 8px 0 16px;
+      font-size: .85rem;
+    }
+    table.maengel th {
+      background: #cc0000; color: #fff; font-weight: 700;
+      padding: 8px 10px; text-align: left; border: 1px solid #e0e0e0;
+    }
+    table.maengel td {
+      border: 1px solid #ddd; padding: 7px 10px; vertical-align: top;
+      min-height: 30px;
+    }
+    table.maengel .lfd { width: 30px; text-align: center; }
+
+    .bewertung-box {
+      border: 2px solid #ff5a1f; border-radius: 10px;
+      padding: 16px 20px; margin: 16px 0;
+      background: #fff8f0;
+    }
+    .bewertung-box .option {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px; font-size: .92rem;
+    }
+    .bewertung-box .option .checkbox { border-color: #ff5a1f; }
+    .bewertung-box .option.gefahr .checkbox { border-color: #cc0000; }
+    .bewertung-box .option strong { font-weight: 800; }
+    .bewertung-box .option.gefahr strong { color: #cc0000; }
+
+    .signature-area {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; margin-top: 30px; padding-top: 20px;
+      border-top: 2px solid #eee;
+    }
+    .signature-block { text-align: center; }
+    .signature-block .sig-line {
+      border-bottom: 1.5px solid #333;
+      height: 50px; margin-bottom: 6px;
+    }
+    .signature-block p { font-size: .78rem; color: #666; }
+
+    .footer {
+      margin-top: 30px; padding-top: 14px;
+      border-top: 3px solid #ff5a1f; text-align: center;
+      font-size: .75rem; color: #888;
+    }
+    .footer strong { color: #ff5a1f; }
+
+    .info-box {
+      background: #fff8e7; border: 1.5px solid #ffcc00;
+      border-radius: 8px; padding: 12px 16px; margin: 12px 0;
+      font-size: .85rem;
+    }
+
+    @media print {
+      body { padding: 15px; font-size: 12px; }
+      h2 { break-after: avoid; }
+      table.pruef { break-inside: avoid; }
+      .bewertung-box { break-inside: avoid; }
+      .signature-area { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KOPFBEREICH -->
+  <div class="header">
+    <div class="logo">Hupf<span>Gaudi</span> Vilshofen</div>
+    <h1>Prüfprotokoll aufblasbare Spielgeräte</h1>
+    <p>gemäß EN 14960-1:2019 | BetrSichV | TRBS 1203</p>
+  </div>
+
+  <div class="meta-row">
+    <div class="field"><label>Protokoll-Nr.:</label><div class="line"></div></div>
+    <div class="field"><label>Prüfdatum:</label><div class="line"></div></div>
+  </div>
+
+  <!-- PRÜFART -->
+  <div style="margin: 10px 0 16px; font-size: .88rem;">
+    <strong>Prüfart:</strong>&nbsp;&nbsp;
+    <span class="checkbox-inline"><span class="checkbox"></span> Jahreshauptinspektion</span>
+    <span class="checkbox-inline"><span class="checkbox"></span> Sichtprüfung vor Inbetriebnahme</span>
+    <span class="checkbox-inline"><span class="checkbox"></span> Sonderprüfung</span>
+  </div>
+
+  <!-- ABSCHNITT 1: PRÜFER -->
+  <h2>1. Prüfer / Befähigte Person</h2>
+  <div class="meta-row">
+    <div class="field"><label>Name:</label><div class="line"></div></div>
+    <div class="field"><label>Firma:</label><div class="line"></div></div>
+  </div>
+  <div class="meta-row">
+    <div class="field"><label>Qualifikation:</label><div class="line"></div></div>
+    <div class="field"><label>Telefon / E-Mail:</label><div class="line"></div></div>
+  </div>
+  <div class="field"><label>Grundlage der Befähigung:</label><div class="line"></div></div>
+
+  <!-- ABSCHNITT 2: AUFTRAGGEBER -->
+  <h2>2. Auftraggeber / Betreiber</h2>
+  <div class="meta-row">
+    <div class="field"><label>Name / Firma:</label><div class="line"></div></div>
+    <div class="field"><label>Ansprechpartner:</label><div class="line"></div></div>
+  </div>
+  <div class="meta-row">
+    <div class="field"><label>Adresse:</label><div class="line"></div></div>
+    <div class="field"><label>Telefon / E-Mail:</label><div class="line"></div></div>
+  </div>
+  <div class="field"><label>Prüfort / Standort:</label><div class="line"></div></div>
+
+  <!-- ABSCHNITT 3: GERÄTEIDENTIFIKATION -->
+  <h2>3. Geräteidentifikation</h2>
+  <div class="meta-row">
+    <div class="field"><label>Bezeichnung / Typ:</label><div class="line"></div></div>
+    <div class="field"><label>Hersteller:</label><div class="line"></div></div>
+  </div>
+  <div class="meta-row">
+    <div class="field"><label>Seriennummer Gerät:</label><div class="line"></div></div>
+    <div class="field"><label>Seriennummer Gebläse:</label><div class="line"></div></div>
+  </div>
+  <div class="meta-row">
+    <div class="field"><label>Baujahr / Anschaffung:</label><div class="line"></div></div>
+    <div class="field"><label>Abmessungen (L×B×H):</label><div class="line"></div></div>
+  </div>
+  <div class="meta-row">
+    <div class="field"><label>Gewicht:</label><div class="line"></div></div>
+    <div class="field"><label>Max. Nutzerzahl / Alter:</label><div class="line"></div></div>
+  </div>
+  <div style="margin: 10px 0 8px; font-size: .88rem;">
+    <span class="checkbox-inline"><span class="checkbox"></span> CE-Kennzeichnung vorhanden</span>
+    <span class="checkbox-inline"><span class="checkbox"></span> EN 14960-Zertifikat vorhanden</span>
+    <span class="checkbox-inline"><span class="checkbox"></span> Betriebsanleitung vorhanden</span>
+  </div>
+
+  <!-- ABSCHNITT 4: DOKUMENTENPRÜFUNG -->
+  <h2>4. Dokumentenprüfung</h2>
+  <div style="font-size: .88rem; margin-bottom: 12px;">
+    <div class="check-row">
+      <span class="checkbox-inline"><span class="checkbox"></span> Ja</span>
+      <span class="checkbox-inline"><span class="checkbox"></span> Nein</span>
+      Betriebsanleitung des Herstellers vorhanden und vollständig
+    </div>
+    <div class="check-row">
+      <span class="checkbox-inline"><span class="checkbox"></span> Ja</span>
+      <span class="checkbox-inline"><span class="checkbox"></span> Nein</span>
+      Vorherige Prüfberichte vorhanden
+    </div>
+    <div class="check-row">
+      <span class="checkbox-inline"><span class="checkbox"></span> Ja</span>
+      <span class="checkbox-inline"><span class="checkbox"></span> Nein</span>
+      Herstellerzertifikate / Konformitätserklärung vorhanden
+    </div>
+    <div class="check-row">
+      <span class="checkbox-inline"><span class="checkbox"></span> Ja</span>
+      <span class="checkbox-inline"><span class="checkbox"></span> Nein</span>
+      Reparatur- / Wartungshistorie dokumentiert
+    </div>
+  </div>
+
+  <!-- ABSCHNITT 5: PRÜFPUNKTE -->
+  <h2>5. Prüfpunkte nach EN 14960-1:2019</h2>
+
+  <div class="info-box">
+    <strong>Bewertung:</strong> i.O. = in Ordnung &nbsp;|&nbsp; n.i.O. = nicht in Ordnung &nbsp;|&nbsp; n.a. = nicht anwendbar
+  </div>
+
+  <table class="pruef">
+    <thead>
+      <tr>
+        <th class="nr">Nr.</th>
+        <th class="punkt">Prüfpunkt</th>
+        <th class="check">i.O.</th>
+        <th class="check">n.i.O.</th>
+        <th class="check">n.a.</th>
+        <th class="bemerkung">Bemerkungen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="nr">1</td>
+        <td><strong>Material / Gewebe</strong><br>Verschleiß, Risse, Löcher, UV-Schäden, Verfärbungen, Schimmelbefall</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">2</td>
+        <td><strong>Nähte</strong><br>Bodennähte, Wandnähte, Turmnähte – Auflösung, Beschädigung, Fadenbruch</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">3</td>
+        <td><strong>Innere Verbindungen</strong><br>Verstrebungen, Kammern, Zwischenwände – Zustand und Befestigung</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">4</td>
+        <td><strong>Wände und Türme</strong><br>Sichere Befestigung, Geradheit, keine Verformung oder Neigung</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">5</td>
+        <td><strong>Verankerungssystem</strong><br>Ösen, Gurte, Seile – Verschleiß, Risse, Abrieb, Korrosion</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">6</td>
+        <td><strong>Erdanker / Ballast</strong><br>Anzahl und Art normkonform, ausreichende Haltekraft</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">7</td>
+        <td><strong>Luftdruck</strong><br>Betriebsdruck 10–20 mbar, stabile Standfestigkeit, keine Druckverluste</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">8</td>
+        <td><strong>Gebläse</strong><br>Funktion, Zustand, Leistung, Geräuschpegel, sichere Befestigung</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">9</td>
+        <td><strong>Schutzgitter Gebläse</strong><br>Ein- und Austrittsöffnung geschützt, keine Zugangsmöglichkeit</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">10</td>
+        <td><strong>Elektrische Leitungen</strong><br>Kabel, Stecker, Isolation – Zustand, Beschädigung, Schutzleiter</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">11</td>
+        <td><strong>Fangstellen</strong><br>Keine Kopf-, Finger-, Hals- oder Kleidungsfangstellen</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">12</td>
+        <td><strong>Ein- / Ausstieg</strong><br>Sicher, ausreichend dimensioniert, keine Stolperstellen</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">13</td>
+        <td><strong>Kennzeichnung</strong><br>Typenschild, max. Nutzerzahl, Altersangabe, Herstellerdaten lesbar</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="nr">14</td>
+        <td><strong>Sicherheitsabstände</strong><br>Aufstellfläche ausreichend, Mindestabstände eingehalten</td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td class="check"><span class="checkbox"></span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ABSCHNITT 6: MÄNGELBESCHREIBUNG -->
+  <h2>6. Festgestellte Mängel</h2>
+
+  <table class="maengel">
+    <thead>
+      <tr>
+        <th class="lfd">Nr.</th>
+        <th>Beschreibung des Mangels</th>
+        <th style="width:100px;">Bewertung</th>
+        <th>Empfohlene Maßnahme</th>
+        <th style="width:80px;">Frist</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="lfd">1</td><td style="height:28px;"></td><td></td><td></td><td></td></tr>
+      <tr><td class="lfd">2</td><td style="height:28px;"></td><td></td><td></td><td></td></tr>
+      <tr><td class="lfd">3</td><td style="height:28px;"></td><td></td><td></td><td></td></tr>
+      <tr><td class="lfd">4</td><td style="height:28px;"></td><td></td><td></td><td></td></tr>
+      <tr><td class="lfd">5</td><td style="height:28px;"></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="info-box">
+    <strong>Mängelbewertung:</strong>
+    <strong style="color:#4caf50;">Gering</strong> = Betrieb möglich, Behebung bei nächster Wartung &nbsp;|&nbsp;
+    <strong style="color:#ff9800;">Erheblich</strong> = Betrieb eingeschränkt, zeitnahe Behebung erforderlich &nbsp;|&nbsp;
+    <strong style="color:#cc0000;">Gefährlich</strong> = Sofortige Stilllegung, Betrieb nicht zulässig
+  </div>
+
+  <!-- ABSCHNITT 7: GESAMTBEWERTUNG -->
+  <h2>7. Gesamtbewertung</h2>
+
+  <div class="bewertung-box">
+    <div class="option">
+      <span class="checkbox" style="border-color:#4caf50;"></span>
+      <span><strong style="color:#4caf50;">Keine Mängel</strong> – Das Gerät ist betriebssicher und kann uneingeschränkt genutzt werden.</span>
+    </div>
+    <div class="option">
+      <span class="checkbox" style="border-color:#8bc34a;"></span>
+      <span><strong style="color:#8bc34a;">Geringe Mängel</strong> – Betrieb unter Auflagen möglich. Mängel bei nächster Wartung beheben.</span>
+    </div>
+    <div class="option">
+      <span class="checkbox" style="border-color:#ff9800;"></span>
+      <span><strong style="color:#ff9800;">Erhebliche Mängel</strong> – Betrieb nur eingeschränkt zulässig. Nachprüfung nach Mängelbehebung erforderlich.</span>
+    </div>
+    <div class="option gefahr">
+      <span class="checkbox"></span>
+      <span><strong>Gefährliche Mängel</strong> – Sofortige Stilllegung! Betrieb bis zur Mängelbehebung und Nachprüfung nicht zulässig.</span>
+    </div>
+  </div>
+
+  <!-- ABSCHNITT 8: NÄCHSTE PRÜFUNG -->
+  <h2>8. Nächste Prüfung</h2>
+  <div class="meta-row">
+    <div class="field"><label>Empfohlener Termin:</label><div class="line"></div></div>
+    <div class="field"><label>Prüfart:</label><div class="line"></div></div>
+  </div>
+  <div class="field"><label>Besondere Hinweise:</label><div class="line"></div></div>
+
+  <!-- ABSCHNITT 9: UNTERSCHRIFTEN -->
+  <h2>9. Unterschriften</h2>
+
+  <div class="signature-area">
+    <div class="signature-block">
+      <div class="sig-line"></div>
+      <p><strong>Prüfer / Befähigte Person</strong></p>
+      <p>Ort, Datum</p>
+    </div>
+    <div class="signature-block">
+      <div class="sig-line"></div>
+      <p><strong>Auftraggeber / Betreiber</strong></p>
+      <p>Ort, Datum</p>
+    </div>
+  </div>
+
+  <!-- FUSSZEILE -->
+  <div class="footer">
+    <strong>Hupf<span style="color:#ffcc00;">Gaudi</span> Vilshofen</strong> &nbsp;|&nbsp;
+    Christoph Gutsmidl &nbsp;|&nbsp;
+    Böcklbacher Str. 7, 94474 Vilshofen (Alkofen) &nbsp;|&nbsp;
+    Tel. +49 151 28861367 &nbsp;|&nbsp;
+    hupfgaudi@gmail.com
+    <br>
+    Prüfung gemäß EN 14960-1:2019 &nbsp;|&nbsp; Befähigte Person nach BetrSichV / TRBS 1203
+  </div>
+
+</body>
+</html>

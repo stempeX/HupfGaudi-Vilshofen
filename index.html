@@ -913,119 +913,97 @@
       ]
     };
 
-    // Sperrtage sofort laden (für Verfügbarkeitsprüfung + Datumspicker)
-    (async function() {
+    // ── Sperrtage: SYNCHRON laden beim Seitenstart ──
+    (function() {
       try {
-        let bdRes;
-        try { bdRes = await fetch('http://localhost:8081/api/blocked-dates'); } catch(e) {}
-        if (!bdRes || !bdRes.ok) try { bdRes = await fetch('blocked_dates.json'); } catch(e) {}
-        if (bdRes && bdRes.ok) {
-          const blocked = await bdRes.json();
-          if (blocked.length) {
-            const blockedSet = new Set();
-            blocked.forEach(b => {
-              const start = new Date(b.from + 'T00:00');
-              const end = new Date(b.to + 'T00:00');
-              for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-                blockedSet.add(d.toISOString().split('T')[0]);
-              }
-            });
-            window._blockedDates = blockedSet;
-            window._blockedEntries = blocked;
-            window.showBlockedModal = function(dateStr) {
-              const entry = blocked.find(b => dateStr >= b.from && dateStr <= b.to);
-              if (!entry) return false;
-              const von = new Date(entry.from + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
-              const bis = new Date(entry.to + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
-              const grund = entry.reason || 'Geschlossen';
-              const zeitraum = entry.from === entry.to ? 'am ' + von : 'vom ' + von + ' bis ' + bis;
-              const overlay = document.createElement('div');
-              overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-              overlay.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">'
-                + '<div style="background:linear-gradient(135deg,#ff5a1f,#ffcc00);padding:20px;text-align:center">'
-                + '<p style="font-size:32px;margin:0">🚫</p>'
-                + '<h3 style="color:#fff;margin:8px 0 0;font-size:1.1rem">' + grund + '</h3>'
-                + '</div>'
-                + '<div style="padding:24px;text-align:center">'
-                + '<p style="font-size:.95rem;color:#333;margin:0 0 6px">Wir sind <strong>' + zeitraum + '</strong> leider nicht verfügbar.</p>'
-                + '<p style="font-size:.88rem;color:#888;margin:0 0 20px">Bitte wähle einen anderen Termin.</p>'
-                + '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="padding:10px 32px;background:#ff5a1f;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit">Verstanden</button>'
-                + '</div></div>';
-              document.body.appendChild(overlay);
-              overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
-              return true;
-            };
-            // Kontaktformular Datum blockieren
-            document.getElementById('datum')?.addEventListener('change', function() {
-              if (window._blockedDates.has(this.value)) {
-                window.showBlockedModal(this.value);
-                this.value = '';
-              }
-            });
-          }
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/api/blocked-dates', false);
+        xhr.send();
+        if (xhr.status === 200) {
+          var blocked = JSON.parse(xhr.responseText);
+          var blockedSet = new Set();
+          blocked.forEach(function(b) {
+            // Alle Tage im Zeitraum als YYYY-MM-DD Strings erzeugen (ohne Zeitzonen-Problem)
+            var parts = b.from.split('-');
+            var endParts = b.to.split('-');
+            var cur = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            var end = new Date(parseInt(endParts[0]), parseInt(endParts[1]) - 1, parseInt(endParts[2]));
+            while (cur <= end) {
+              var y = cur.getFullYear();
+              var m = String(cur.getMonth() + 1).padStart(2, '0');
+              var dd = String(cur.getDate()).padStart(2, '0');
+              blockedSet.add(y + '-' + m + '-' + dd);
+              cur.setDate(cur.getDate() + 1);
+            }
+          });
+          window._blockedDates = blockedSet;
+          window._blockedEntries = blocked;
         }
-      } catch(e) {}
+      } catch(e) { console.log('Sperrtage konnten nicht geladen werden:', e); }
     })();
 
+    // Modal-Funktion
+    function showBlockedModal(dateStr) {
+      if (!window._blockedEntries) return false;
+      var entry = null;
+      for (var i = 0; i < window._blockedEntries.length; i++) {
+        if (dateStr >= window._blockedEntries[i].from && dateStr <= window._blockedEntries[i].to) {
+          entry = window._blockedEntries[i];
+          break;
+        }
+      }
+      if (!entry) return false;
+      var von = new Date(entry.from + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
+      var bis = new Date(entry.to + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
+      var grund = entry.reason || 'Geschlossen';
+      var zeitraum = entry.from === entry.to ? 'am ' + von : 'vom ' + von + ' bis ' + bis;
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+      overlay.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">'
+        + '<div style="background:linear-gradient(135deg,#ff5a1f,#ffcc00);padding:20px;text-align:center">'
+        + '<p style="font-size:32px;margin:0">🚫</p>'
+        + '<h3 style="color:#fff;margin:8px 0 0;font-size:1.1rem">' + grund + '</h3>'
+        + '</div>'
+        + '<div style="padding:24px;text-align:center">'
+        + '<p style="font-size:.95rem;color:#333;margin:0 0 8px">Leider sind wir <strong>' + zeitraum + '</strong> nicht f\u00fcr euch da.</p>'
+        + '<p style="font-size:.88rem;color:#666;margin:0 0 16px;line-height:1.5">Aber keine Sorge \u2013 unsere H\u00fcpfburgen und unser Partyzubeh\u00f6r stehen dir an allen anderen Terminen zur Verf\u00fcgung! Pr\u00fcfe einfach einen anderen Zeitraum \u2013 wir freuen uns auf deine Buchung. \ud83c\udf88</p>'
+        + '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="padding:10px 32px;background:#ff5a1f;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit">\ud83d\udd0d Anderen Termin pr\u00fcfen</button>'
+        + '</div></div>';
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+      return true;
+    }
+
+    // Kontaktformular-Datum blockieren
+    document.getElementById('datum').addEventListener('change', function() {
+      if (window._blockedDates && window._blockedDates.has(this.value)) {
+        showBlockedModal(this.value);
+        this.value = '';
+      }
+    });
+
     document.getElementById('avail-btn').addEventListener('click', async function () {
-      const fromDate = document.getElementById('avail-from').value;
-      const toDate   = document.getElementById('avail-to').value;
-      if (!fromDate || !toDate) { alert('Bitte Von- und Bis-Datum wählen.'); return; }
+      var fromDate = document.getElementById('avail-from').value;
+      var toDate   = document.getElementById('avail-to').value;
+      if (!fromDate || !toDate) { alert('Bitte Von- und Bis-Datum w\u00e4hlen.'); return; }
       if (toDate < fromDate) { alert('Das Bis-Datum muss nach dem Von-Datum liegen.'); return; }
 
-      // Sperrtage prüfen (direkt von API laden falls noch nicht bereit)
-      try {
-        if (!window._blockedDates) {
-          let bdRes;
-          try { bdRes = await fetch('http://localhost:8081/api/blocked-dates'); } catch(e) {}
-          if (bdRes && bdRes.ok) {
-            const blocked = await bdRes.json();
-            const blockedSet = new Set();
-            blocked.forEach(b => {
-              const s = new Date(b.from + 'T00:00'), e = new Date(b.to + 'T00:00');
-              for (let dd = new Date(s); dd <= e; dd.setDate(dd.getDate() + 1)) blockedSet.add(dd.toISOString().split('T')[0]);
-            });
-            window._blockedDates = blockedSet;
-            window._blockedEntries = blocked;
-          }
-        }
-      } catch(e) {}
-
-      if (window._blockedDates) {
-        const checkFrom = new Date(fromDate + 'T00:00');
-        const checkTo = new Date(toDate + 'T00:00');
-        for (let d = new Date(checkFrom); d <= checkTo; d.setDate(d.getDate() + 1)) {
-          const ds = d.toISOString().split('T')[0];
+      // Sperrtage prüfen (Daten sind bereits synchron geladen)
+      if (window._blockedDates && window._blockedDates.size > 0) {
+        var fp = fromDate.split('-'), tp = toDate.split('-');
+        var curD = new Date(parseInt(fp[0]), parseInt(fp[1])-1, parseInt(fp[2]));
+        var endD = new Date(parseInt(tp[0]), parseInt(tp[1])-1, parseInt(tp[2]));
+        while (curD <= endD) {
+          var ds = curD.getFullYear() + '-' + String(curD.getMonth()+1).padStart(2,'0') + '-' + String(curD.getDate()).padStart(2,'0');
           if (window._blockedDates.has(ds)) {
-            // Schönes Modal anzeigen
-            const entry = window._blockedEntries ? window._blockedEntries.find(b => ds >= b.from && ds <= b.to) : null;
-            const grund = entry ? (entry.reason || 'Geschlossen') : 'Geschlossen';
-            let zeitraum = '';
-            if (entry) {
-              const von = new Date(entry.from + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
-              const bis = new Date(entry.to + 'T00:00').toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' });
-              zeitraum = entry.from === entry.to ? 'am ' + von : 'vom ' + von + ' bis ' + bis;
-            }
-            const overlay = document.createElement('div');
-            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-            overlay.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">'
-              + '<div style="background:linear-gradient(135deg,#ff5a1f,#ffcc00);padding:20px;text-align:center">'
-              + '<p style="font-size:32px;margin:0">🚫</p>'
-              + '<h3 style="color:#fff;margin:8px 0 0;font-size:1.1rem">' + grund + '</h3>'
-              + '</div>'
-              + '<div style="padding:24px;text-align:center">'
-              + '<p style="font-size:.95rem;color:#333;margin:0 0 8px">Leider sind wir <strong>' + zeitraum + '</strong> nicht für euch da.</p>'
-              + '<p style="font-size:.88rem;color:#666;margin:0 0 16px;line-height:1.5">Aber keine Sorge – unsere Hüpfburgen und unser Partyzubehör stehen dir an allen anderen Terminen zur Verfügung! Prüfe einfach einen anderen Zeitraum – wir freuen uns auf deine Buchung. 🎈</p>'
-              + '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="padding:10px 32px;background:#ff5a1f;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit">🔍 Anderen Termin prüfen</button>'
-              + '</div></div>';
-            document.body.appendChild(overlay);
-            overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+            showBlockedModal(ds);
             return;
           }
+          curD.setDate(curD.getDate() + 1);
         }
       }
 
-      const loading = document.getElementById('avail-loading');
+      var loading = document.getElementById('avail-loading');
       const results = document.getElementById('avail-results');
       const error   = document.getElementById('avail-error');
       const grid    = document.getElementById('avail-grid');
