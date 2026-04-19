@@ -15,6 +15,9 @@ import os
 import re
 import base64
 import uuid
+import secrets
+import hashlib
+import time
 
 # .env laden
 def load_env():
@@ -29,9 +32,12 @@ def load_env():
 
 load_env()
 
-SUPERSAAS_ACCOUNT = 'Hupfgaudi-Vilshofen'
-SUPERSAAS_API_KEY = 'VClzqXLcmH6QLYs2Ksr_8A'
-SCHEDULE_ID = '795126'
+SUPERSAAS_ACCOUNT = os.environ.get('SUPERSAAS_ACCOUNT', 'Hupfgaudi-Vilshofen')
+SUPERSAAS_API_KEY = os.environ.get('SUPERSAAS_API_KEY', '')
+SCHEDULE_ID = os.environ.get('SUPERSAAS_SCHEDULE_ID', '795126')
+
+if not SUPERSAAS_API_KEY:
+    print('⚠️  WARNUNG: SUPERSAAS_API_KEY fehlt in .env - SuperSaaS-Integration deaktiviert!')
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PRICES_FILE = os.path.join(BASE_DIR, 'prices.json')
@@ -52,8 +58,182 @@ SMTP_USER = os.environ.get('SMTP_USER', 'hupfgaudi@gmail.com')
 SMTP_PASS = os.environ.get('SMTP_PASS', '')
 EMAIL_TO = os.environ.get('EMAIL_TO', 'buchung@hupfgaudi-vilshofen.de,gutse@gmx.de')
 
+# ── Auth & Security ──
+# Admin-Passwort als SHA-256 Hash (Klartext nie im Code!)
+# Standard-Passwort: hupfadmin  (BITTE nach erstem Login ändern in .env)
+ADMIN_PW_HASH = os.environ.get('ADMIN_PW_HASH',
+    'c33bdc57d14885f3499810c72943c32584c109d59dea654956b26ee8458f8b46')  # sha256('hupfadmin')
+
+# Session-Speicher (im RAM, beim Neustart weg)
+SESSIONS = {}  # token -> {expires: timestamp}
+SESSION_DURATION = 3600 * 8  # 8 Stunden
+
+# Rate-Limiting (pro IP)
+RATE_LIMITS = {}  # ip -> [(endpoint, timestamp), ...]
+
+# Erlaubte CORS-Origins (Produktions-Domain hier eintragen)
+ALLOWED_ORIGINS = [
+    'http://localhost:8081',
+    'http://localhost:5500',
+    'http://127.0.0.1:8081',
+    'http://127.0.0.1:5500',
+    'https://www.hupfgaudi-vilshofen.de',
+    'https://hupfgaudi-vilshofen.de',
+    'null',  # für file:// während Entwicklung
+]
+
+# Admin-Endpunkte die Auth brauchen
+PROTECTED_ENDPOINTS = [
+    '/api/anfragen', '/api/contracts', '/api/confirmed-bookings',
+    '/api/freigeben', '/api/anfrage-status', '/api/delete-contract',
+    '/api/confirm-booking', '/api/upload-image',
+]
+# POST-only Auth (GET ist für Homepage ok)
+PROTECTED_POST = [
+    '/api/products', '/api/prices', '/api/settings', '/api/slideshow',
+    '/api/blocked-dates',
+]
+
+def sha256(text):
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+def escape_html(text):
+    """HTML-Escaping um XSS zu verhindern."""
+    if text is None:
+        return ''
+    return (str(text)
+        .replace('&', '&amp;')
+        .replace('<', '&lt;')
+        .replace('>', '&gt;')
+        .replace('"', '&quot;')
+        .replace("'", '&#39;'))
+
+def validate_email(email):
+    """Einfache E-Mail-Validierung."""
+    if not email or len(email) > 255:
+        return False
+    return re.match(r'^[^@\s]+@[^@\s]+\.[^@\s]+$', email) is not None
+
+def validate_phone(phone):
+    """Telefonnummer: nur Ziffern, +, -, Leerzeichen, (, )."""
+    if not phone:
+        return True  # optional
+    return re.match(r'^[\d\s\+\-\(\)\/]+$', phone) is not None and len(phone) < 40
+
+def sanitize_input(text, max_length=500):
+    """Input bereinigen und kürzen."""
+    if text is None:
+        return ''
+    text = str(text).strip()
+    return text[:max_length]
+
+def check_rate_limit(ip, endpoint, max_requests=10, window=60):
+    """Rate-Limiting: max N Requests pro window Sekunden."""
+    now = time.time()
+    if ip not in RATE_LIMITS:
+        RATE_LIMITS[ip] = []
+    # Alte entfernen
+    RATE_LIMITS[ip] = [(e, t) for (e, t) in RATE_LIMITS[ip] if now - t < window]
+    # Für diesen Endpunkt zählen
+    count = sum(1 for (e, t) in RATE_LIMITS[ip] if e == endpoint)
+    if count >= max_requests:
+        return False
+    RATE_LIMITS[ip].append((endpoint, now))
+    return True
+
+def clean_sessions():
+    """Abgelaufene Sessions entfernen."""
+    now = time.time()
+    expired = [t for t, s in SESSIONS.items() if s['expires'] < now]
+    for t in expired:
+        del SESSIONS[t]
+
 
 class ProxyHandler(SimpleHTTPRequestHandler):
+
+    def _get_session_token(self):
+        """Liest Session-Token aus Header oder Cookie."""
+        token = self.headers.get('X-Session-Token', '')
+        if not token:
+            cookie = self.headers.get('Cookie', '')
+            for part in cookie.split(';'):
+                part = part.strip()
+                if part.startswith('session='):
+                    token = part[8:]
+                    break
+        return token
+
+    def _is_authenticated(self):
+        """Prüft ob gültiges Session-Token vorhanden."""
+        clean_sessions()
+        token = self._get_session_token()
+        if not token or token not in SESSIONS:
+            return False
+        return SESSIONS[token]['expires'] > time.time()
+
+    def _require_auth(self):
+        """Gibt 401 zurück wenn nicht authentifiziert."""
+        if not self._is_authenticated():
+            self.send_response(401)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': 'unauthorized'}).encode())
+            return False
+        return True
+
+    def _check_rate_limit(self, endpoint, max_req=10, window=60):
+        """Gibt 429 zurück wenn Rate-Limit überschritten."""
+        ip = self.client_address[0]
+        if not check_rate_limit(ip, endpoint, max_req, window):
+            self.send_response(429)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': 'rate_limit_exceeded'}).encode())
+            return False
+        return True
+
+    def _login(self):
+        """Login-Endpunkt: Passwort-Prüfung → Session-Token."""
+        # Rate-Limit gegen Brute-Force
+        ip = self.client_address[0]
+        if not check_rate_limit(ip, '/api/login', max_requests=5, window=300):
+            self.send_response(429)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': 'too_many_attempts'}).encode())
+            return
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            data = json.loads(body)
+            password = data.get('password', '')
+            if sha256(password) == ADMIN_PW_HASH:
+                token = secrets.token_urlsafe(32)
+                SESSIONS[token] = {'expires': time.time() + SESSION_DURATION}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'success': True, 'token': token}).encode())
+            else:
+                self.send_response(403)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'wrong_password'}).encode())
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    def _logout(self):
+        """Session-Token invalidieren."""
+        token = self._get_session_token()
+        if token in SESSIONS:
+            del SESSIONS[token]
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        self.wfile.write(json.dumps({'success': True}).encode())
 
     def do_GET(self):
         if self.path.startswith('/api/bookings'):
@@ -65,12 +245,15 @@ class ProxyHandler(SimpleHTTPRequestHandler):
         elif self.path.startswith('/api/products'):
             self._get_products()
         elif self.path.startswith('/api/anfragen'):
+            if not self._require_auth(): return
             self._get_anfragen()
         elif self.path.startswith('/api/settings'):
             self._get_settings()
         elif self.path.startswith('/api/confirmed-bookings'):
+            if not self._require_auth(): return
             self._get_confirmed_bookings()
         elif self.path.startswith('/api/contracts'):
+            if not self._require_auth(): return
             self._get_contracts()
         elif self.path.startswith('/api/slideshow'):
             self._get_slideshow()
@@ -78,35 +261,62 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._get_weekend_deal()
         elif self.path.startswith('/api/blocked-dates'):
             self._get_blocked_dates()
+        elif self.path.startswith('/api/check-session'):
+            self.send_response(200 if self._is_authenticated() else 401)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'authenticated': self._is_authenticated()}).encode())
         else:
             super().do_GET()
 
     def do_POST(self):
+        # Login/Logout - öffentlich
+        if self.path.startswith('/api/login'):
+            self._login()
+            return
+        if self.path.startswith('/api/logout'):
+            self._logout()
+            return
+        # Öffentliche Endpunkte (mit Rate-Limit)
         if self.path.startswith('/api/send-email'):
+            if not self._check_rate_limit('send-email', max_req=3, window=300): return
             self._send_email()
         elif self.path.startswith('/api/create-booking'):
+            if not self._check_rate_limit('create-booking', max_req=3, window=300): return
             self._create_booking()
+        elif self.path.startswith('/api/submit-contract'):
+            if not self._check_rate_limit('submit-contract', max_req=5, window=300): return
+            self._submit_contract()
+        # Admin-Endpunkte (Auth erforderlich)
         elif self.path.startswith('/api/prices'):
+            if not self._require_auth(): return
             self._save_prices()
         elif self.path.startswith('/api/products'):
+            if not self._require_auth(): return
             self._save_products()
         elif self.path.startswith('/api/upload-image'):
+            if not self._require_auth(): return
             self._upload_image()
         elif self.path.startswith('/api/settings'):
+            if not self._require_auth(): return
             self._save_settings()
         elif self.path.startswith('/api/confirm-booking'):
+            if not self._require_auth(): return
             self._confirm_booking()
-        elif self.path.startswith('/api/submit-contract'):
-            self._submit_contract()
         elif self.path.startswith('/api/delete-contract'):
+            if not self._require_auth(): return
             self._delete_contract()
         elif self.path.startswith('/api/freigeben'):
+            if not self._require_auth(): return
             self._freigeben()
         elif self.path.startswith('/api/anfrage-status'):
+            if not self._require_auth(): return
             self._anfrage_status()
         elif self.path.startswith('/api/slideshow'):
+            if not self._require_auth(): return
             self._save_slideshow()
         elif self.path.startswith('/api/blocked-dates'):
+            if not self._require_auth(): return
             self._save_blocked_dates()
         else:
             self.send_response(404)
@@ -263,19 +473,50 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             body = self.rfile.read(content_length)
             data = json.loads(body)
 
-            name       = data.get('name', '')
-            email      = data.get('email', '')
-            telefon    = data.get('telefon', '')
-            strasse    = data.get('strasse', '')
-            ort        = data.get('ort', '')
-            datum      = data.get('datum', '')
-            burg       = data.get('burg', '')
-            lieferung  = data.get('lieferung', '')
-            extras     = data.get('extras', [])
-            untergrund = data.get('untergrund', '')
-            nachricht  = data.get('nachricht', '')
-            agb_akzeptiert = data.get('agb_akzeptiert', False)
-            ausweis_einwilligung = data.get('ausweis_einwilligung', False)
+            # Input sanitieren + validieren
+            name       = sanitize_input(data.get('name', ''), 100)
+            email_raw  = sanitize_input(data.get('email', ''), 255)
+            telefon    = sanitize_input(data.get('telefon', ''), 40)
+            strasse    = sanitize_input(data.get('strasse', ''), 150)
+            ort        = sanitize_input(data.get('ort', ''), 100)
+            datum      = sanitize_input(data.get('datum', ''), 20)
+            burg       = sanitize_input(data.get('burg', ''), 100)
+            lieferung  = sanitize_input(data.get('lieferung', ''), 100)
+            extras_raw = data.get('extras', [])
+            extras     = [sanitize_input(e, 100) for e in extras_raw[:10]] if isinstance(extras_raw, list) else []
+            untergrund = sanitize_input(data.get('untergrund', ''), 100)
+            nachricht  = sanitize_input(data.get('nachricht', ''), 2000)
+            agb_akzeptiert = bool(data.get('agb_akzeptiert', False))
+            ausweis_einwilligung = bool(data.get('ausweis_einwilligung', False))
+
+            # E-Mail validieren
+            if not validate_email(email_raw):
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'invalid_email'}).encode())
+                return
+            email = email_raw
+
+            if telefon and not validate_phone(telefon):
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'invalid_phone'}).encode())
+                return
+
+            # Für HTML-E-Mail escapen (XSS-Schutz)
+            h_name = escape_html(name)
+            h_email = escape_html(email)
+            h_telefon = escape_html(telefon)
+            h_strasse = escape_html(strasse)
+            h_ort = escape_html(ort)
+            h_datum = escape_html(datum)
+            h_burg = escape_html(burg)
+            h_lieferung = escape_html(lieferung)
+            h_untergrund = escape_html(untergrund)
+            h_nachricht = escape_html(nachricht).replace('\n', '<br>')
+            h_extras = [escape_html(e) for e in extras]
 
             # HTML-E-Mail erstellen
             html = f"""
@@ -288,21 +529,21 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                     <table style="width: 100%; border-collapse: collapse;">
                         <tr style="border-bottom: 1px solid #eee;">
                             <td style="padding: 10px 0; font-weight: bold; color: #555; width: 140px;">👤 Name:</td>
-                            <td style="padding: 10px 0; color: #333;">{name}</td>
+                            <td style="padding: 10px 0; color: #333;">{h_name}</td>
                         </tr>
                         <tr style="border-bottom: 1px solid #eee;">
                             <td style="padding: 10px 0; font-weight: bold; color: #555;">✉️ E-Mail:</td>
-                            <td style="padding: 10px 0;"><a href="mailto:{email}" style="color: #ff5a1f;">{email}</a></td>
+                            <td style="padding: 10px 0;"><a href="mailto:{h_email}" style="color: #ff5a1f;">{h_email}</a></td>
                         </tr>
-                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">📱 Telefon:</td><td style="padding: 10px 0;"><a href="tel:' + telefon + '" style="color: #ff5a1f;">' + telefon + '</a></td></tr>' if telefon else ''}
-                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🏠 Adresse:</td><td style="padding: 10px 0; color: #333;">' + strasse + ', ' + ort + '</td></tr>' if strasse else ''}
-                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">📅 Wunschdatum:</td><td style="padding: 10px 0; color: #333;">' + datum + '</td></tr>' if datum else ''}
-                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🏰 Hüpfburg:</td><td style="padding: 10px 0; color: #333; font-weight: bold;">' + burg + '</td></tr>' if burg else ''}
-                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🚗 Abholung/Lieferung:</td><td style="padding: 10px 0; color: #333;">' + lieferung + '</td></tr>' if lieferung else ''}
-                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🎉 Partyzubehör:</td><td style="padding: 10px 0; color: #333;">' + '<br>'.join('• ' + e for e in extras) + '</td></tr>' if extras else ''}
-                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">📍 Aufstellplatz:</td><td style="padding: 10px 0; color: #333;">' + untergrund + '</td></tr>' if untergrund else ''}
+                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">📱 Telefon:</td><td style="padding: 10px 0;"><a href="tel:' + h_telefon + '" style="color: #ff5a1f;">' + h_telefon + '</a></td></tr>' if telefon else ''}
+                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🏠 Adresse:</td><td style="padding: 10px 0; color: #333;">' + h_strasse + ', ' + h_ort + '</td></tr>' if strasse else ''}
+                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">📅 Wunschdatum:</td><td style="padding: 10px 0; color: #333;">' + h_datum + '</td></tr>' if datum else ''}
+                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🏰 Hüpfburg:</td><td style="padding: 10px 0; color: #333; font-weight: bold;">' + h_burg + '</td></tr>' if burg else ''}
+                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🚗 Abholung/Lieferung:</td><td style="padding: 10px 0; color: #333;">' + h_lieferung + '</td></tr>' if lieferung else ''}
+                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">🎉 Partyzubehör:</td><td style="padding: 10px 0; color: #333;">' + '<br>'.join('• ' + e for e in h_extras) + '</td></tr>' if extras else ''}
+                        {'<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">📍 Aufstellplatz:</td><td style="padding: 10px 0; color: #333;">' + h_untergrund + '</td></tr>' if untergrund else ''}
                     </table>
-                    {'<div style="margin-top: 16px; padding: 14px; background: #fff; border-radius: 8px; border-left: 4px solid #ff5a1f;"><strong style="color: #555;">💬 Nachricht:</strong><p style="margin: 8px 0 0; color: #333;">' + nachricht.replace(chr(10), '<br>') + '</p></div>' if nachricht else ''}
+                    {'<div style="margin-top: 16px; padding: 14px; background: #fff; border-radius: 8px; border-left: 4px solid #ff5a1f;"><strong style="color: #555;">💬 Nachricht:</strong><p style="margin: 8px 0 0; color: #333;">' + h_nachricht + '</p></div>' if nachricht else ''}
                     <div style="margin-top: 20px; padding: 12px; background: #fff8e7; border-radius: 8px; text-align: center; font-size: 0.85rem; color: #888;">
                         Diese Anfrage wurde über das Kontaktformular auf hupfgaudi-vilshofen.de gesendet.
                     </div>
@@ -1255,24 +1496,62 @@ class ProxyHandler(SimpleHTTPRequestHandler):
 
     def _upload_image(self):
         try:
+            # Größen-Limit: 5 MB für den Request
             content_length = int(self.headers.get('Content-Length', 0))
+            if content_length > 7 * 1024 * 1024:  # 7 MB (Base64 ~33% größer)
+                self.send_response(413)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'file_too_large'}).encode())
+                return
+
             body = self.rfile.read(content_length)
             data = json.loads(body)
-            # Base64-Bild dekodieren
             img_data = data.get('image', '')
             filename = data.get('filename', 'upload.jpg')
-            # Data-URL Header entfernen falls vorhanden
             if ',' in img_data:
                 img_data = img_data.split(',', 1)[1]
             img_bytes = base64.b64decode(img_data)
-            # Eindeutigen Dateinamen generieren
-            ext = os.path.splitext(filename)[1] or '.jpg'
-            safe_name = uuid.uuid4().hex[:8] + ext
+
+            # Tatsächliche Bildgröße prüfen (5 MB max)
+            if len(img_bytes) > 5 * 1024 * 1024:
+                self.send_response(413)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'image_too_large'}).encode())
+                return
+
+            # Dateityp via Magic Bytes prüfen
+            allowed_types = {
+                b'\xff\xd8\xff': '.jpg',         # JPEG
+                b'\x89PNG\r\n\x1a\n': '.png',   # PNG
+                b'GIF87a': '.gif',
+                b'GIF89a': '.gif',
+                b'RIFF': '.webp',  # WebP (check further)
+            }
+            detected_ext = None
+            for magic, ext in allowed_types.items():
+                if img_bytes.startswith(magic):
+                    # WebP erkennt "RIFF" + später "WEBP"
+                    if magic == b'RIFF' and b'WEBP' not in img_bytes[:20]:
+                        continue
+                    detected_ext = ext
+                    break
+
+            if not detected_ext:
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'invalid_image_type'}).encode())
+                return
+
+            # Sicherer Dateiname (keine Path-Traversal möglich)
+            safe_name = uuid.uuid4().hex[:8] + detected_ext
             filepath = os.path.join(IMG_DIR, safe_name)
             with open(filepath, 'wb') as f:
                 f.write(img_bytes)
             img_path = 'img/' + safe_name
-            print(f'Bild hochgeladen: {img_path}')
+            print(f'Bild hochgeladen: {img_path} ({len(img_bytes)} bytes)')
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
@@ -1282,7 +1561,7 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps({'error': str(e)}).encode())
+            self.wfile.write(json.dumps({'error': 'upload_failed'}).encode())
 
     def address_string(self):
         # Kein DNS-Reverse-Lookup (beschleunigt Logging massiv)

@@ -1,3 +1,27 @@
 .env
 __pycache__/
 *.pyc
+
+# Kundendaten - niemals committen (DSGVO!)
+anfragen.json
+contracts.json
+confirmed_bookings.json
+
+# Upload-Bilder (werden vom Server generiert)
+img/*.jpg
+img/*.jpeg
+img/*.png
+img/*.webp
+!img/logo.jpg
+!img/Popcornmaschine.avif
+!img/Zuckerwattemaschine.webp
+!img/icecream-roll-maschine.jpg
+!img/burg1.png
+!img/burg2.png
+!img/logo.svg
+!img/logo_cartoon.png
+
+# Test-Dateien
+test-sperrtage.html
+email-preview.html
+email-eingang-preview.html

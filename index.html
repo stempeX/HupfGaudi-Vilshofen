@@ -94,11 +94,24 @@
       <img src="img/logo.jpg" alt="HupfGaudi Vilshofen Logo" class="header-logo" />
     </a>
     <nav id="nav" role="navigation" aria-label="Hauptnavigation">
-      <a href="#huepfburgen">Hüpfburgen & Preise</a>
-      <a href="#partyzubehoer">Partyzubehör</a>
-      <a href="javascript:void(0)" onclick="openModal('modal-ablauf')">Ablauf</a>
-      <a href="javascript:void(0)" onclick="openModal('modal-warum')">Warum HupfGaudi?</a>
+      <a href="#huepfburgen" data-i18n="nav.huepfburgen">Hüpfburgen & Preise</a>
+      <a href="#partyzubehoer" data-i18n="nav.partyzubehoer">Partyzubehör</a>
+      <a href="javascript:void(0)" onclick="openModal('modal-ablauf')" data-i18n="nav.ablauf">Ablauf</a>
+      <a href="javascript:void(0)" onclick="openModal('modal-warum')" data-i18n="nav.warum">Warum HupfGaudi?</a>
     </nav>
+    <div class="lang-switcher" id="lang-switcher">
+      <button class="lang-current" id="lang-btn" aria-label="Sprache wechseln">
+        <img src="https://flagcdn.com/w40/de.png" alt="" id="lang-flag" class="lang-flag-img"><span id="lang-code">DE</span><span class="lang-arrow">▾</span>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <button data-lang="de"><img src="https://flagcdn.com/w40/de.png" alt="" class="lang-flag-img"> Deutsch</button>
+        <button data-lang="en"><img src="https://flagcdn.com/w40/gb.png" alt="" class="lang-flag-img"> English</button>
+        <button data-lang="cs"><img src="https://flagcdn.com/w40/cz.png" alt="" class="lang-flag-img"> Čeština</button>
+        <button data-lang="pl"><img src="https://flagcdn.com/w40/pl.png" alt="" class="lang-flag-img"> Polski</button>
+        <button data-lang="ru"><img src="https://flagcdn.com/w40/ru.png" alt="" class="lang-flag-img"> Русский</button>
+        <button data-lang="es"><img src="https://flagcdn.com/w40/es.png" alt="" class="lang-flag-img"> Español</button>
+      </div>
+    </div>
     <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -118,18 +131,18 @@
       <div class="hero-content">
         <img src="img/logo.jpg" alt="HupfGaudi Vilshofen" class="hero-logo" />
         <h1>
-          HupfGaudi Vilshofen –<br />
-          Hüpfburgen für <span class="hero-highlight">strahlende Kinderaugen!</span>
+          <span data-i18n="hero.title">HupfGaudi Vilshofen –</span><br />
+          <span data-i18n="hero.subtitle">Hüpfburgen für</span> <span class="hero-highlight" data-i18n="hero.highlight">strahlende Kinderaugen!</span>
         </h1>
         <div class="hero-btns">
-          <a href="javascript:void(0)" onclick="openModal('modal-kontakt')" class="btn btn-primary">🎈 Jetzt anfragen</a>
-          <a href="#huepfburgen" class="btn btn-secondary">Unsere Burgen entdecken</a>
+          <a href="javascript:void(0)" onclick="openModal('modal-kontakt')" class="btn btn-primary" data-i18n="hero.btn.anfragen">🎈 Jetzt anfragen</a>
+          <a href="#huepfburgen" class="btn btn-secondary" data-i18n="hero.btn.entdecken">Unsere Burgen entdecken</a>
         </div>
         <div class="hero-badges" aria-label="Unsere Vorteile">
-          <span class="badge">✅ EN 14960-1:2019</span>
-          <span class="badge">💶 Ab 75 €</span>
-          <span class="badge">🚗 Selbstabholer</span>
-          <span class="badge">📍 Vilshofen</span>
+          <span class="badge" data-i18n="hero.badge.geprueft">✅ EN 14960-1:2019</span>
+          <span class="badge" data-i18n="hero.badge.preis">💶 Ab 75 €</span>
+          <span class="badge" data-i18n="hero.badge.selbstabholer">🚗 Selbstabholer</span>
+          <span class="badge" data-i18n="hero.badge.ort">📍 Vilshofen</span>
         </div>
       </div>
     </section>
@@ -142,7 +155,7 @@
     <!-- ═══════════ WOCHENENDANGEBOT ═══════════ -->
     <section id="weekend-deal" class="weekend-deal" style="display:none">
       <div class="container">
-        <h2 class="section-title">🔥 Wochenendangebot</h2>
+        <h2 class="section-title" data-i18n="weekend.title">🔥 Wochenendangebot</h2>
         <p class="section-subtitle" id="deal-subtitle"></p>
         <div class="combo-grid" id="deal-container"></div>
       </div>
@@ -158,23 +171,23 @@
     <!-- ═══════════ VERFÜGBARKEIT ═══════════ -->
     <section id="verfuegbarkeit">
       <div class="container" style="max-width:800px">
-        <h2 class="section-title">📅 Verfügbarkeit prüfen</h2>
-        <p class="section-subtitle">Wähle deinen Zeitraum – wir zeigen dir sofort, welche Hüpfburgen frei sind!</p>
+        <h2 class="section-title" data-i18n="avail.title">📅 Verfügbarkeit prüfen</h2>
+        <p class="section-subtitle" data-i18n="avail.subtitle">Wähle deinen Zeitraum – wir zeigen dir sofort, welche Hüpfburgen frei sind!</p>
 
         <div class="avail-check">
           <div class="avail-input-wrap">
             <div class="avail-date-group">
-              <label for="avail-from">Von:</label>
+              <label for="avail-from" data-i18n="avail.von">Von:</label>
               <input type="date" id="avail-from" class="avail-date-input" />
             </div>
             <div class="avail-date-group">
-              <label for="avail-to">Bis:</label>
+              <label for="avail-to" data-i18n="avail.bis">Bis:</label>
               <input type="date" id="avail-to" class="avail-date-input" />
             </div>
-            <button id="avail-btn" class="btn btn-primary avail-btn">🔍 Verfügbarkeit prüfen</button>
+            <button id="avail-btn" class="btn btn-primary avail-btn" data-i18n="avail.check">🔍 Verfügbarkeit prüfen</button>
           </div>
 
-          <div id="avail-loading" class="avail-loading" style="display:none"><div class="avail-spinner"></div><p>Verfügbarkeit wird geprüft…</p></div>
+          <div id="avail-loading" class="avail-loading" style="display:none"><div class="avail-spinner"></div><p data-i18n="avail.checking">Verfügbarkeit wird geprüft…</p></div>
 
           <div id="avail-results" class="avail-results" style="display:none">
             <h3 id="avail-results-title"></h3>
@@ -192,14 +205,14 @@
     <!-- ═══════════ HÜPFBURGEN & PREISE (kombiniert) ═══════════ -->
     <section id="huepfburgen">
       <div class="container">
-        <h2 class="section-title">🏰 Unsere Hüpfburgen & Preise</h2>
-        <p class="section-subtitle">7 fantastische Modelle – Bild, Details und Preise auf einen Blick!</p>
+        <h2 class="section-title" data-i18n="huepfburgen.title">🏰 Unsere Hüpfburgen & Preise</h2>
+        <p class="section-subtitle" data-i18n="huepfburgen.subtitle">7 fantastische Modelle – Bild, Details und Preise auf einen Blick!</p>
 
         <div class="price-includes">
-          <span>✅ Gebläse inklusive</span>
-          <span>✅ Unterlegplane inklusive</span>
-          <span>✅ Aufbauanleitung inklusive</span>
-          <span>🚗 Selbstabholung oder 🚚 Lieferung gegen Gebühr</span>
+          <span data-i18n="huepfburgen.inkl.geblaese">✅ Gebläse inklusive</span>
+          <span data-i18n="huepfburgen.inkl.plane">✅ Unterlegplane inklusive</span>
+          <span data-i18n="huepfburgen.inkl.anleitung">✅ Aufbauanleitung inklusive</span>
+          <span data-i18n="huepfburgen.selbstabholung">🚗 Selbstabholung oder 🚚 Lieferung gegen Gebühr</span>
         </div>
 
         <div id="preise" class="combo-grid">
@@ -543,8 +556,8 @@
     <!-- ═══════════ BEWERTUNGEN ═══════════ -->
     <section id="bewertungen">
       <div class="container">
-        <h2 class="section-title">⭐ Das sagen unsere Kunden</h2>
-        <p class="section-subtitle">Zufriedene Familien aus der Region Vilshofen</p>
+        <h2 class="section-title" data-i18n="reviews.title">⭐ Das sagen unsere Kunden</h2>
+        <p class="section-subtitle" data-i18n="reviews.subtitle">Zufriedene Familien aus der Region Vilshofen</p>
         <div class="reviews-grid">
 
           <article class="review-card" itemscope itemtype="https://schema.org/Review">
@@ -585,10 +598,10 @@
     <section class="bottom-buttons-section">
       <div class="container">
         <div class="bottom-buttons">
-          <button class="bottom-btn" onclick="openModal('modal-faq')">❓ FAQ</button>
-          <button class="bottom-btn" onclick="openModal('modal-sicherheit')">🛡️ Sicherheit</button>
-          <button class="bottom-btn" onclick="openModal('modal-kontakt')">📞 Kontakt</button>
-          <button class="bottom-btn" onclick="openModal('modal-impressum')">⚖️ Impressum</button>
+          <button class="bottom-btn" onclick="openModal('modal-faq')" data-i18n="bottom.faq">❓ FAQ</button>
+          <button class="bottom-btn" onclick="openModal('modal-sicherheit')" data-i18n="bottom.sicherheit">🛡️ Sicherheit</button>
+          <button class="bottom-btn" onclick="openModal('modal-kontakt')" data-i18n="bottom.kontakt">📞 Kontakt</button>
+          <button class="bottom-btn" onclick="openModal('modal-impressum')" data-i18n="bottom.impressum">⚖️ Impressum</button>
         </div>
       </div>
     </section>
@@ -599,7 +612,7 @@
   <div id="modal-faq" class="modal" role="dialog" aria-modal="true" aria-label="Häufige Fragen">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('modal-faq')">✕</button>
-      <h2 class="section-title">❓ Häufige Fragen</h2>
+      <h2 class="section-title" data-i18n="faq.title">❓ Häufige Fragen</h2>
       <div class="faq-list">
         <details class="faq-item"><summary>Was ist im Mietpreis enthalten?</summary><p>Im Preis ab 75 € sind Gebläse, Unterlegplane und eine detaillierte Aufbauanleitung immer inklusive. Es gibt keine versteckten Zusatzkosten.</p></details>
         <details class="faq-item"><summary>Wie groß muss die Fläche für die Hüpfburg sein?</summary><p>Je nach Modell benötigst du ca. 5×5 m bis 7×4 m Fläche. Wir beraten dich gerne, welche Burg für deine Örtlichkeit am besten passt.</p></details>
@@ -623,7 +636,7 @@
   <div id="modal-sicherheit" class="modal" role="dialog" aria-modal="true" aria-label="Sicherheitshinweise">
     <div class="modal-content modal-content--wide">
       <button class="modal-close" onclick="closeModal('modal-sicherheit')">✕</button>
-      <h2 class="section-title">🛡️ Sicherheitshinweise</h2>
+      <h2 class="section-title" data-i18n="sicherheit.title">🛡️ Sicherheitshinweise</h2>
       <p style="text-align:center;color:#666;margin-bottom:28px">Alle unsere Hüpfburgen entsprechen der <strong>DIN EN 14960</strong> Norm. Bitte lies diese Hinweise sorgfältig!</p>
       <div class="sicher-grid">
         <div class="sicher-card"><div class="sicher-icon">👀</div><h3>Aufsichtspflicht</h3><ul><li>Die Hüpfburg darf nur unter <strong>ständiger Aufsicht</strong> von Erwachsenen betrieben werden.</li><li>Kinder unter 3 Jahren dürfen die Hüpfburg <strong>nicht</strong> benutzen.</li><li>Es darf immer nur <strong>eine Altersgruppe</strong> gleichzeitig hüpfen.</li><li>Die Aufsichtsperson darf die Hüpfburg während des Betriebs <strong>nicht verlassen</strong>.</li></ul></div>
@@ -646,8 +659,8 @@
       <h2 class="section-title">📞 Kontakt & Anfrage</h2>
       <div class="kontakt-wrap">
         <div class="kontakt-info">
-          <h3>So erreichst du uns</h3>
-          <p>Ruf uns an oder schreib uns eine Nachricht!</p>
+          <h3 data-i18n="form.reach">So erreichst du uns</h3>
+          <p data-i18n="form.reach.sub">Ruf uns an oder schreib uns eine Nachricht!</p>
           <div class="kontakt-detail"><span class="icon">📍</span><span>Böcklbacher Str. 7, 94474 Vilshofen (Alkofen)</span></div>
           <div class="kontakt-detail"><span class="icon">📱</span><a href="tel:+4915128861367">+49 151 28861367</a></div>
           <div class="kontakt-detail"><span class="icon">✉️</span><a href="mailto:hupfgaudi@gmail.com">hupfgaudi@gmail.com</a></div>
@@ -661,11 +674,11 @@
         </div>
         <div>
           <form id="kontaktForm" novalidate>
-            <div class="form-row"><div class="form-group"><label for="name">Dein Name *</label><input type="text" id="name" name="name" placeholder="Max Mustermann" required autocomplete="name" /></div><div class="form-group"><label for="email">E-Mail *</label><input type="email" id="email" name="email" placeholder="deine@email.de" required autocomplete="email" /></div></div>
-            <div class="form-row"><div class="form-group"><label for="telefon">Telefon *</label><input type="tel" id="telefon" name="telefon" placeholder="+49 151 28861367" required autocomplete="tel" /></div><div class="form-group"><label for="datum">Gewünschtes Datum *</label><input type="date" id="datum" name="datum" required /></div></div>
-            <div class="form-row"><div class="form-group"><label for="strasse">Straße + Hausnummer *</label><input type="text" id="strasse" name="strasse" placeholder="Musterstraße 1" required autocomplete="street-address" /></div><div class="form-group"><label for="ort">PLZ + Ort *</label><input type="text" id="ort" name="ort" placeholder="94474 Vilshofen" required autocomplete="address-level2" /></div></div>
-            <div class="form-group" style="margin-bottom:20px"><label for="burg">Hüpfburg *</label><select id="burg" name="burg" required><option value="">Bitte wählen…</option><option value="Keine Hüpfburg (nur Partyzubehör)">Keine Hüpfburg (nur Partyzubehör)</option><option>Ritterburg Hopsala (75 €)</option><option>Alien Hüpfburg (139 €)</option><option>Einhorn Hüpfburg „Rosalie" (139 €)</option><option>Feuerwehr Hüpfburg (149 €)</option><option>Fußballstar Hüpfburg (149 €)</option><option>Meerjungfrau Hüpfburg (219 €)</option><option>Hochzeit Hüpfburg (179 €)</option><option>Ich bin noch unsicher</option></select></div>
-            <div class="form-group" style="margin-bottom:20px"><label for="lieferung">Abholung oder Lieferung? *</label><select id="lieferung" name="lieferung" required><option value="">Bitte wählen…</option><option>🚗 Selbstabholung in Vilshofen (kostenlos)</option><option>🚚 Lieferung im Umkreis 20 km (100 €)</option></select></div>
+            <div class="form-row"><div class="form-group"><label for="name" data-i18n="form.name">Dein Name *</label><input type="text" id="name" name="name" placeholder="Max Mustermann" required autocomplete="name" /></div><div class="form-group"><label for="email" data-i18n="form.email">E-Mail *</label><input type="email" id="email" name="email" placeholder="deine@email.de" required autocomplete="email" /></div></div>
+            <div class="form-row"><div class="form-group"><label for="telefon" data-i18n="form.telefon">Telefon *</label><input type="tel" id="telefon" name="telefon" placeholder="+49 151 28861367" required autocomplete="tel" /></div><div class="form-group"><label for="datum" data-i18n="form.datum">Gewünschtes Datum *</label><input type="date" id="datum" name="datum" required /></div></div>
+            <div class="form-row"><div class="form-group"><label for="strasse" data-i18n="form.strasse">Straße + Hausnummer *</label><input type="text" id="strasse" name="strasse" placeholder="Musterstraße 1" required autocomplete="street-address" /></div><div class="form-group"><label for="ort" data-i18n="form.ort">PLZ + Ort *</label><input type="text" id="ort" name="ort" placeholder="94474 Vilshofen" required autocomplete="address-level2" /></div></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="burg" data-i18n="form.burg">Hüpfburg *</label><select id="burg" name="burg" required><option value="">Bitte wählen…</option><option value="Keine Hüpfburg (nur Partyzubehör)">Keine Hüpfburg (nur Partyzubehör)</option><option>Ritterburg Hopsala (75 €)</option><option>Alien Hüpfburg (139 €)</option><option>Einhorn Hüpfburg „Rosalie" (139 €)</option><option>Feuerwehr Hüpfburg (149 €)</option><option>Fußballstar Hüpfburg (149 €)</option><option>Meerjungfrau Hüpfburg (219 €)</option><option>Hochzeit Hüpfburg (179 €)</option><option>Ich bin noch unsicher</option></select></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="lieferung" data-i18n="form.lieferung">Abholung oder Lieferung? *</label><select id="lieferung" name="lieferung" required><option value="">Bitte wählen…</option><option>🚗 Selbstabholung in Vilshofen (kostenlos)</option><option>🚚 Lieferung im Umkreis 20 km (100 €)</option></select></div>
             <div class="form-group" style="margin-bottom:20px"><label>🎉 Partyzubehör dazu? <small style="color:#888;font-weight:400">(Mehrfachauswahl möglich)</small></label>
               <div class="extras-checkboxes" id="extrasCheckboxes">
                 <label class="extras-cb"><input type="checkbox" name="extras" value="🍿 Popcornmaschine (49 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍿</span><span class="extras-cb-text"><strong>Popcornmaschine</strong><small>Nur Maschine</small></span><span class="extras-cb-price">49 €</span></label>
@@ -673,10 +686,10 @@
                 <label class="extras-cb"><input type="checkbox" name="extras" value="🍦 Icecream Roll Maschine (49 €)" /><span class="extras-cb-box"></span><span class="extras-cb-icon">🍦</span><span class="extras-cb-text"><strong>Icecream Roll</strong><small>Nur Maschine</small></span><span class="extras-cb-price">49 €</span></label>
               </div>
             </div>
-            <div class="form-group" style="margin-bottom:20px"><label for="untergrund">Aufstellplatz *</label><select id="untergrund" name="untergrund" required><option value="">Bitte wählen…</option><option>🌿 Rasen</option><option>🧱 Pflaster / Gehweg</option><option>🏠 Halle / Innenbereich</option><option>🪨 Schotter / Kies</option><option>❓ Sonstiges (bitte in Nachricht angeben)</option></select></div>
-            <div class="form-group" style="margin-bottom:24px"><label for="nachricht">Nachricht</label><textarea id="nachricht" name="nachricht" placeholder="Wo findet das Event statt? Wie viele Kinder? Weitere Wünsche?"></textarea></div>
+            <div class="form-group" style="margin-bottom:20px"><label for="untergrund" data-i18n="form.untergrund">Aufstellplatz *</label><select id="untergrund" name="untergrund" required><option value="">Bitte wählen…</option><option>🌿 Rasen</option><option>🧱 Pflaster / Gehweg</option><option>🏠 Halle / Innenbereich</option><option>🪨 Schotter / Kies</option><option>❓ Sonstiges (bitte in Nachricht angeben)</option></select></div>
+            <div class="form-group" style="margin-bottom:24px"><label for="nachricht" data-i18n="form.nachricht">Nachricht</label><textarea id="nachricht" name="nachricht" placeholder="Wo findet das Event statt? Wie viele Kinder? Weitere Wünsche?"></textarea></div>
             <div class="form-legal">
-              <p class="form-legal-title">📄 Mietvertrag & rechtliche Dokumente</p>
+              <p class="form-legal-title" data-i18n="form.legal">📄 Mietvertrag & rechtliche Dokumente</p>
               <div class="form-legal-links">
                 <a href="mietvertrag-huepfburg.html" target="_blank">📄 Mietvertrag Hüpfburg</a>
                 <a href="mietvertrag-partyzubehoer.html" target="_blank">📄 Mietvertrag Partyzubehör</a>
@@ -684,12 +697,12 @@
                 <a href="impressum.html#agb" target="_blank">📋 AGB</a>
               </div>
               <div class="form-legal-checks">
-                <label class="form-legal-check"><input type="checkbox" id="agb-accept" required> Ich habe den Mietvertrag, die AGB, Datenschutzerklärung und Widerrufsbelehrung gelesen und akzeptiere diese. *</label>
-                <label class="form-legal-check"><input type="checkbox" id="ausweis-accept"> Ich willige ein, dass bei Abholung ein Foto meines Personalausweises zur Identitätssicherung angefertigt wird.</label>
-                <label class="form-legal-check"><input type="checkbox" id="kaution-accept" required> Ich bringe zur Abholung eine Kaution von 150 € (Hüpfburg) bzw. 100 € (Partyzubehör) in bar mit. *</label>
+                <label class="form-legal-check"><input type="checkbox" id="agb-accept" required> <span data-i18n="form.legal.agb">Ich habe den Mietvertrag, die AGB, Datenschutzerklärung und Widerrufsbelehrung gelesen und akzeptiere diese. *</span></label>
+                <label class="form-legal-check"><input type="checkbox" id="ausweis-accept"> <span data-i18n="form.legal.ausweis">Ich willige ein, dass bei Abholung ein Foto meines Personalausweises zur Identitätssicherung angefertigt wird.</span></label>
+                <label class="form-legal-check"><input type="checkbox" id="kaution-accept" required> <span data-i18n="form.legal.kaution">Ich bringe zur Abholung eine Kaution von 150 € (Hüpfburg) bzw. 100 € (Partyzubehör) in bar mit. *</span></label>
               </div>
             </div>
-            <div class="form-submit"><button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;">🎉 Jetzt verbindlich buchen</button></div>
+            <div class="form-submit"><button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;" data-i18n="form.submit">🎉 Jetzt verbindlich buchen</button></div>
             <p class="form-success" id="formSuccess" role="status" aria-live="polite">✅ <strong>Deine Buchungsanfrage ist eingegangen!</strong> Du erhältst in Kürze eine Bestätigung per E-Mail. Bei Fragen erreichst du uns per <a href="https://wa.me/4915128861367" target="_blank" style="color:var(--primary);font-weight:700">WhatsApp</a> oder <a href="tel:+4915128861367" style="color:var(--primary);font-weight:700">Telefon</a>.</p>
           </form>
         </div>
@@ -701,13 +714,13 @@
   <div id="modal-ablauf" class="modal" role="dialog" aria-modal="true" aria-label="Ablauf">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('modal-ablauf')">✕</button>
-      <h2 class="section-title">📋 So läuft's ab</h2>
-      <p style="text-align:center;color:#666;margin-bottom:28px">Einfach, schnell und unkompliziert – in 4 Schritten zum Spaß!</p>
+      <h2 class="section-title" data-i18n="ablauf.title">📋 So läuft's ab</h2>
+      <p style="text-align:center;color:#666;margin-bottom:28px" data-i18n="ablauf.subtitle">Einfach, schnell und unkompliziert – in 4 Schritten zum Spaß!</p>
       <div class="steps" style="flex-direction:column;align-items:center">
-        <div class="step" style="max-width:100%"><div class="step-num">1</div><h3>Anfragen</h3><p>Schreib uns über das Kontaktformular oder ruf uns direkt an. Wir beraten dich gerne!</p></div>
-        <div class="step" style="max-width:100%"><div class="step-num">2</div><h3>Buchen</h3><p>Wähle deine Wunsch-Hüpfburg und deinen Termin – wir bestätigen schnell und unkompliziert.</p></div>
-        <div class="step" style="max-width:100%"><div class="step-num">3</div><h3>Abholen</h3><p>Hol die Burg und das Zubehör bei uns in Vilshofen (Alkofen) ab. Bitte bringe den <strong>ausgefüllten Mietvertrag</strong> und deinen <strong>Personalausweis</strong> (für ein Foto) mit.</p></div>
-        <div class="step" style="max-width:100%"><div class="step-num">4</div><h3>Gaudi haben</h3><p>Aufbauen, aufblasen, loshüpfen – und am nächsten Tag einfach wieder zurückbringen. Fertig!</p></div>
+        <div class="step" style="max-width:100%"><div class="step-num">1</div><h3 data-i18n="ablauf.s1.title">Anfragen</h3><p data-i18n="ablauf.s1.text">Schreib uns über das Kontaktformular oder ruf uns direkt an. Wir beraten dich gerne!</p></div>
+        <div class="step" style="max-width:100%"><div class="step-num">2</div><h3 data-i18n="ablauf.s2.title">Buchen</h3><p data-i18n="ablauf.s2.text">Wähle deine Wunsch-Hüpfburg und deinen Termin – wir bestätigen schnell und unkompliziert.</p></div>
+        <div class="step" style="max-width:100%"><div class="step-num">3</div><h3 data-i18n="ablauf.s3.title">Abholen</h3><p data-i18n="ablauf.s3.text">Hol die Burg und das Zubehör bei uns in Vilshofen (Alkofen) ab.</p></div>
+        <div class="step" style="max-width:100%"><div class="step-num">4</div><h3 data-i18n="ablauf.s4.title">Gaudi haben</h3><p data-i18n="ablauf.s4.text">Aufbauen, aufblasen, loshüpfen – und am nächsten Tag einfach wieder zurückbringen. Fertig!</p></div>
       </div>
     </div>
   </div>
@@ -716,8 +729,8 @@
   <div id="modal-warum" class="modal" role="dialog" aria-modal="true" aria-label="Warum HupfGaudi">
     <div class="modal-content modal-content--wide">
       <button class="modal-close" onclick="closeModal('modal-warum')">✕</button>
-      <h2 class="section-title">🌟 Warum HupfGaudi?</h2>
-      <p style="text-align:center;color:#666;margin-bottom:28px">Wir machen deinen Anlass unvergesslich – versprochen!</p>
+      <h2 class="section-title" data-i18n="warum.title">🌟 Warum HupfGaudi?</h2>
+      <p style="text-align:center;color:#666;margin-bottom:28px" data-i18n="warum.subtitle">Wir machen deinen Anlass unvergesslich – versprochen!</p>
       <div class="usp-grid">
         <div class="usp-item"><span class="usp-icon">🛡️</span><h3>EN 14960-1:2019 geprüft</h3><p>Alle Hüpfburgen erfüllen die Norm EN 14960-1:2019 – regelmäßig gereinigt und stets einsatzbereit. Sicherheit steht bei uns an erster Stelle!</p></div>
         <div class="usp-item"><span class="usp-icon">💶</span><h3>Faire Preise ab 75 €</h3><p>Tagesmieten ab nur 75 € – transparent kalkuliert ohne versteckte Zusatzkosten. Gebläse, Unterlegplane und Anleitung sind immer inklusive!</p></div>
@@ -733,7 +746,7 @@
   <div id="modal-impressum" class="modal" role="dialog" aria-modal="true" aria-label="Impressum">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('modal-impressum')">✕</button>
-      <h2 class="section-title">⚖️ Impressum, Datenschutz & AGB</h2>
+      <h2 class="section-title" data-i18n="impressum.title">⚖️ Impressum, Datenschutz & AGB</h2>
       <div style="text-align:center;margin-bottom:24px">
         <a href="impressum.html#impressum" class="bottom-btn" style="display:inline-block;margin:4px">📋 Impressum</a>
         <a href="impressum.html#datenschutz" class="bottom-btn" style="display:inline-block;margin:4px">🔒 Datenschutz</a>
@@ -751,7 +764,7 @@
 
   <!-- ═══════════ FOOTER ═══════════ -->
   <footer role="contentinfo">
-    <p style="font-size:1.2rem"><strong>HupfGaudi Vilshofen</strong> – Hüpfburgen-Verleih</p>
+    <p style="font-size:1.2rem"><strong>HupfGaudi Vilshofen</strong> – <span data-i18n="footer.tagline">Hüpfburgen-Verleih</span></p>
     <p style="margin-top:8px;opacity:.75">
       📍 Böcklbacher Str. 7, 94474 Vilshofen (Alkofen)
       &nbsp;|&nbsp;
@@ -760,12 +773,12 @@
       ✉️ <a href="mailto:hupfgaudi@gmail.com" style="color:var(--secondary)">hupfgaudi@gmail.com</a>
     </p>
     <div class="footer-links">
-      <a href="javascript:void(0)" onclick="openModal('modal-impressum')">Impressum</a>
-      <a href="impressum.html#datenschutz">Datenschutz</a>
-      <a href="impressum.html#agb">AGB</a>
-      <a href="javascript:void(0)" onclick="openModal('modal-kontakt')">Kontakt</a>
+      <a href="javascript:void(0)" onclick="openModal('modal-impressum')" data-i18n="footer.impressum">Impressum</a>
+      <a href="impressum.html#datenschutz" data-i18n="footer.datenschutz">Datenschutz</a>
+      <a href="impressum.html#agb" data-i18n="footer.agb">AGB</a>
+      <a href="javascript:void(0)" onclick="openModal('modal-kontakt')" data-i18n="footer.kontakt">Kontakt</a>
     </div>
-    <p style="margin-top:16px;font-size:0.8rem;opacity:.5">© <span id="currentYear"></span> HupfGaudi Vilshofen. Alle Rechte vorbehalten.</p>
+    <p style="margin-top:16px;font-size:0.8rem;opacity:.5">© <span id="currentYear"></span> HupfGaudi Vilshofen. <span data-i18n="footer.rechte">Alle Rechte vorbehalten.</span></p>
   </footer>
 
   <!-- ── WhatsApp Floating Button ── -->
@@ -879,11 +892,10 @@
       }
     });
 
-    // ── Verfügbarkeitsprüfung (SuperSaaS API) ──
+    // ── Verfügbarkeitsprüfung (via Backend-Proxy) ──
     const SUPERSAAS = {
       account: 'Hupfgaudi-Vilshofen',
       scheduleId: 795126,
-      apiKey: 'VClzqXLcmH6QLYs2Ksr_8A',
       prices: {
         'Ritterburg Hopsala': '75 €', 'Alien': '139 €', 'Popcornmaschine': '49 €', 'Zuckerwattenmaschine': '35 €', 'Ice Cream Roll Maschine': '49 €',
         'Einhorn Rosalie': '139 €', 'Feuerwehr': '149 €',
@@ -1020,15 +1032,8 @@
         const apiTo = endPlusOne.toISOString().split('T')[0];
 
         let res;
-        try {
-          res = await fetch('http://localhost:8081/api/bookings?from=' + fromDate + '&to=' + apiTo);
-        } catch(e) {
-          res = await fetch('https://www.supersaas.com/api/bookings.json'
-            + '?schedule_id=' + SUPERSAAS.scheduleId
-            + '&account=' + SUPERSAAS.account
-            + '&api_key=' + SUPERSAAS.apiKey
-            + '&from=' + fromDate + '&to=' + apiTo);
-        }
+        // Immer über Backend-Proxy (kein direkter SuperSaaS-Call = API-Key geschützt)
+        res = await fetch('http://localhost:8081/api/bookings?from=' + fromDate + '&to=' + apiTo);
         if (!res.ok) throw new Error('API Fehler');
         const bookings = await res.json();
 
@@ -1084,6 +1089,48 @@
 
     // ── Dynamisches Jahr ──
     document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // ── Mehrsprachigkeit ──
+    var LANG_FLAGS = { de: 'de', en: 'gb', cs: 'cz', pl: 'pl', ru: 'ru', es: 'es' };
+    var LANG_CODES = { de: 'DE', en: 'EN', cs: 'CS', pl: 'PL', ru: 'RU', es: 'ES' };
+    window._translations = null;
+    window._currentLang = localStorage.getItem('hupfgaudi_lang') || 'de';
+
+    function applyTranslations(lang) {
+      if (!window._translations || !window._translations[lang]) return;
+      var t = window._translations[lang];
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+      });
+      document.documentElement.lang = lang;
+      document.getElementById('lang-flag').src = 'https://flagcdn.com/w40/' + (LANG_FLAGS[lang] || 'de') + '.png';
+      document.getElementById('lang-code').textContent = LANG_CODES[lang] || 'DE';
+      window._currentLang = lang;
+      localStorage.setItem('hupfgaudi_lang', lang);
+    }
+
+    // Übersetzungen laden
+    fetch('translations.json').then(function(r) { return r.json(); }).then(function(data) {
+      window._translations = data;
+      applyTranslations(window._currentLang);
+    }).catch(function() {});
+
+    // Sprach-Umschalter
+    document.getElementById('lang-btn')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      document.getElementById('lang-switcher').classList.toggle('open');
+    });
+    document.querySelectorAll('#lang-dropdown button').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        applyTranslations(btn.dataset.lang);
+        document.getElementById('lang-switcher').classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      var sw = document.getElementById('lang-switcher');
+      if (sw && !sw.contains(e.target)) sw.classList.remove('open');
+    });
 
     // ── Scroll-Animation (respektiert prefers-reduced-motion) ──
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -1572,6 +1619,10 @@
         });
       }
 
+      // Nach dem dynamischen Rendern Übersetzungen erneut anwenden
+      if (window._translations && window._currentLang && typeof applyTranslations === 'function') {
+        applyTranslations(window._currentLang);
+      }
     } catch(e) { console.warn('products.json nicht geladen:', e); }
 
     // ── Lieferpreise aus settings.json laden ──
