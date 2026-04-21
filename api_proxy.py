@@ -1,5 +1,6 @@
 """
-CORS-Proxy für SuperSaaS API + E-Mail-Versand bei Kontaktanfragen.
+Booking-Backend + E-Mail-Versand bei Kontaktanfragen.
+Buchungen werden lokal in bookings.json gespeichert (keine SuperSaaS-Abhaengigkeit).
 Startet auf Port 8081.
 """
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -13,10 +14,12 @@ import smtplib
 import json
 import os
 import re
+import shutil
 import base64
 import uuid
 import secrets
 import hashlib
+import threading
 import time
 
 # .env laden
@@ -32,12 +35,7 @@ def load_env():
 
 load_env()
 
-SUPERSAAS_ACCOUNT = os.environ.get('SUPERSAAS_ACCOUNT', 'Hupfgaudi-Vilshofen')
-SUPERSAAS_API_KEY = os.environ.get('SUPERSAAS_API_KEY', '')
-SCHEDULE_ID = os.environ.get('SUPERSAAS_SCHEDULE_ID', '795126')
-
-if not SUPERSAAS_API_KEY:
-    print('⚠️  WARNUNG: SUPERSAAS_API_KEY fehlt in .env - SuperSaaS-Integration deaktiviert!')
+# SuperSaaS-Konstanten wurden entfernt. Buchungen laufen jetzt komplett ueber bookings.json.
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PRICES_FILE = os.path.join(BASE_DIR, 'prices.json')
@@ -51,6 +49,41 @@ CONFIRMED_FILE = os.path.join(BASE_DIR, 'confirmed_bookings.json')
 CONTRACTS_FILE = os.path.join(BASE_DIR, 'contracts.json')
 SLIDESHOW_FILE = os.path.join(BASE_DIR, 'slideshow.json')
 BLOCKED_DATES_FILE = os.path.join(BASE_DIR, 'blocked_dates.json')
+BOOKINGS_FILE = os.path.join(BASE_DIR, 'bookings.json')
+
+# Lock fuer alle Schreib-Zugriffe auf bookings.json
+BOOKINGS_LOCK = threading.Lock()
+
+def load_bookings():
+    """Liest bookings.json ein. Gibt leere Liste zurueck wenn nicht vorhanden."""
+    if not os.path.exists(BOOKINGS_FILE):
+        return []
+    try:
+        with open(BOOKINGS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+def save_bookings(items):
+    """Schreibt bookings.json + Backup (.bak). Thread-sicher."""
+    with BOOKINGS_LOCK:
+        if os.path.exists(BOOKINGS_FILE):
+            try:
+                shutil.copy2(BOOKINGS_FILE, BOOKINGS_FILE + '.bak')
+            except Exception:
+                pass
+        tmp = BOOKINGS_FILE + '.tmp'
+        with open(tmp, 'w', encoding='utf-8') as f:
+            json.dump(items, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, BOOKINGS_FILE)
+
+def next_booking_id(items):
+    """Neue eindeutige Booking-ID: millisekunden-timestamp, nicht kollidierend."""
+    bid = int(time.time() * 1000)
+    existing = {b.get('id') for b in items}
+    while bid in existing:
+        bid += 1
+    return bid
 
 SMTP_HOST = os.environ.get('SMTP_HOST', 'smtp.gmail.com')
 SMTP_PORT = int(os.environ.get('SMTP_PORT', '465'))
@@ -318,37 +351,192 @@ class ProxyHandler(SimpleHTTPRequestHandler):
         elif self.path.startswith('/api/blocked-dates'):
             if not self._require_auth(): return
             self._save_blocked_dates()
+        elif self.path == '/api/bookings' or self.path.startswith('/api/bookings?'):
+            if not self._require_auth(): return
+            self._create_booking_entry()
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+    def do_PUT(self):
+        if self.path.startswith('/api/bookings/'):
+            if not self._require_auth(): return
+            booking_id = self.path.split('/api/bookings/')[-1].split('?')[0]
+            self._update_booking_entry(booking_id)
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+    def do_DELETE(self):
+        if self.path.startswith('/api/bookings/'):
+            if not self._require_auth(): return
+            booking_id = self.path.split('/api/bookings/')[-1].split('?')[0]
+            self._delete_booking_entry(booking_id)
         else:
             self.send_response(404)
             self.end_headers()
 
     def do_OPTIONS(self):
         self.send_response(200)
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, X-Session-Token')
         self.end_headers()
 
-    # ── SuperSaaS Proxy ──
+    # ── Buchungen (lokale DB) ──
 
     def _proxy_bookings(self):
+        """Liest Buchungen aus bookings.json, filtert nach from/to-Zeitraum."""
         params = parse_qs(urlparse(self.path).query)
         from_date = params.get('from', [''])[0]
         to_date = params.get('to', [''])[0]
-        url = (f'https://www.supersaas.com/api/bookings.json'
-               f'?schedule_id={SCHEDULE_ID}'
-               f'&account={SUPERSAAS_ACCOUNT}'
-               f'&api_key={SUPERSAAS_API_KEY}'
-               f'&from={from_date}&to={to_date}')
-        self._fetch_and_respond(url)
+
+        items = load_bookings()
+
+        # Zeitraum-Filter: start <= to_date UND finish >= from_date (Ueberlappung)
+        def in_range(b):
+            if b.get('deleted'):
+                return False
+            start = (b.get('start') or '')[:10]
+            finish = (b.get('finish') or '')[:10]
+            if from_date and finish and finish < from_date:
+                return False
+            if to_date and start and start > to_date:
+                return False
+            return True
+
+        filtered = [b for b in items if in_range(b)]
+        body = json.dumps(filtered, ensure_ascii=False).encode('utf-8')
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json; charset=utf-8')
+        self.send_header('Content-Length', str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
     def _proxy_free(self):
+        """Berechnet freie Ressourcen ab from_date aus bookings.json + products.json."""
         params = parse_qs(urlparse(self.path).query)
         from_date = params.get('from', [''])[0]
-        url = (f'https://www.supersaas.com/api/free/{SCHEDULE_ID}.json'
-               f'?account={SUPERSAAS_ACCOUNT}'
-               f'&api_key={SUPERSAAS_API_KEY}'
-               f'&from={from_date}')
-        self._fetch_and_respond(url)
+
+        # Alle Produkt-Namen holen (Ressourcen)
+        try:
+            with open(PRODUCTS_FILE, 'r', encoding='utf-8') as f:
+                products = json.load(f)
+            all_res = [p.get('apiName') or p.get('name') for p in products if p.get('name')]
+        except Exception:
+            all_res = []
+
+        # Gebuchte Ressourcen am angefragten Tag
+        bookings = load_bookings()
+        booked_at_date = set()
+        for b in bookings:
+            if b.get('deleted'):
+                continue
+            start = (b.get('start') or '')[:10]
+            finish = (b.get('finish') or '')[:10]
+            if start and finish and start <= from_date <= finish:
+                booked_at_date.add(b.get('res_name'))
+
+        free = [{'res_name': r} for r in all_res if r not in booked_at_date]
+        body = json.dumps(free, ensure_ascii=False).encode('utf-8')
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json; charset=utf-8')
+        self.send_header('Content-Length', str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _json_response(self, status, payload):
+        body = json.dumps(payload, ensure_ascii=False).encode('utf-8')
+        self.send_response(status)
+        self.send_header('Content-Type', 'application/json; charset=utf-8')
+        self.send_header('Content-Length', str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _read_json_body(self):
+        length = int(self.headers.get('Content-Length', 0) or 0)
+        if length <= 0:
+            return None
+        raw = self.rfile.read(length)
+        try:
+            return json.loads(raw.decode('utf-8'))
+        except Exception:
+            return None
+
+    def _create_booking_entry(self):
+        """POST /api/bookings - neue Buchung anlegen (Dashboard)."""
+        data = self._read_json_body()
+        if not isinstance(data, dict):
+            return self._json_response(400, {'error': 'invalid JSON body'})
+
+        items = load_bookings()
+        new_id = data.get('id') or next_booking_id(items)
+        now_iso = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+
+        entry = {
+            'id': new_id,
+            'start': data.get('start', ''),
+            'finish': data.get('finish', data.get('start', '')),
+            'res_name': data.get('res_name', ''),
+            'full_name': data.get('full_name', ''),
+            'email': data.get('email', ''),
+            'mobile': data.get('mobile', ''),
+            'address': data.get('address', ''),
+            'field_1_r': data.get('field_1_r', ''),
+            'field_2_r': data.get('field_2_r', ''),
+            'price': data.get('price', 0),
+            'status': data.get('status', 100),
+            'status_message': data.get('status_message', 'Freigegeben'),
+            'created_on': data.get('created_on', now_iso),
+            'updated_on': now_iso,
+            'deleted': False,
+        }
+        # Zusaetzliche Felder aus data uebernehmen (z.B. created_by)
+        for k, v in data.items():
+            if k not in entry:
+                entry[k] = v
+
+        items.append(entry)
+        save_bookings(items)
+        return self._json_response(201, entry)
+
+    def _update_booking_entry(self, booking_id):
+        """PUT /api/bookings/<id> - Buchung updaten."""
+        data = self._read_json_body()
+        if not isinstance(data, dict):
+            return self._json_response(400, {'error': 'invalid JSON body'})
+
+        try:
+            target_id = int(booking_id)
+        except ValueError:
+            return self._json_response(400, {'error': 'invalid id'})
+
+        items = load_bookings()
+        for b in items:
+            if b.get('id') == target_id:
+                for k, v in data.items():
+                    if k == 'id':
+                        continue
+                    b[k] = v
+                b['updated_on'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+                save_bookings(items)
+                return self._json_response(200, b)
+        return self._json_response(404, {'error': 'booking not found'})
+
+    def _delete_booking_entry(self, booking_id):
+        """DELETE /api/bookings/<id> - Soft-Delete."""
+        try:
+            target_id = int(booking_id)
+        except ValueError:
+            return self._json_response(400, {'error': 'invalid id'})
+
+        items = load_bookings()
+        for b in items:
+            if b.get('id') == target_id:
+                b['deleted'] = True
+                b['updated_on'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+                save_bookings(items)
+                return self._json_response(200, {'ok': True, 'id': target_id})
+        return self._json_response(404, {'error': 'booking not found'})
 
     def _fetch_and_respond(self, url):
         try:
@@ -703,7 +891,7 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
 
-    # ── SuperSaaS Buchung anlegen ──
+    # ── Buchung aus Kontaktformular anlegen ──
 
     RESOURCE_MAP = {
         'Ritterburg Hopsala': 1151497,
@@ -733,34 +921,42 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                 return rid
         return None
 
-    def _create_supersaas_booking(self, resource_id, name, email, telefon, datum, untergrund, info):
-        """Erstellt eine einzelne Buchung in SuperSaaS."""
-        start = f'{datum} 08:00:00'
-        finish = f'{datum} 19:00:00'
+    def _create_supersaas_booking(self, resource_id, name, email, telefon, datum, untergrund, info, res_name=None):
+        """Legt eine Buchung in bookings.json an (frueher SuperSaaS-Call)."""
+        items = load_bookings()
+        new_id = next_booking_id(items)
+        now_iso = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 
-        payload = json.dumps({
-            'booking': {
-                'start': start,
-                'finish': finish,
-                'resource_id': resource_id,
-                'full_name': name,
-                'email': email,
-                'mobile': telefon,
-                'address': untergrund or 'Nicht angegeben',
-                'field_1_r': untergrund,
-                'field_2_r': info,
-            }
-        }).encode('utf-8')
+        # res_name aus resource_id ableiten, falls nicht explizit uebergeben
+        if not res_name:
+            for n, rid in getattr(self, 'RESOURCE_MAP', {}).items():
+                if rid == resource_id:
+                    res_name = n
+                    break
 
-        url = (f'https://www.supersaas.com/api/bookings.json'
-               f'?schedule_id={SCHEDULE_ID}'
-               f'&account={SUPERSAAS_ACCOUNT}'
-               f'&api_key={SUPERSAAS_API_KEY}')
-
-        req = urllib.request.Request(url, data=payload, method='POST')
-        req.add_header('Content-Type', 'application/json')
-        with urllib.request.urlopen(req) as response:
-            return response.read()
+        entry = {
+            'id': new_id,
+            'start': f'{datum}T08:00',
+            'finish': f'{datum}T19:00',
+            'resource_id': resource_id,
+            'res_name': res_name or '',
+            'full_name': name,
+            'email': email,
+            'mobile': telefon,
+            'address': untergrund or 'Nicht angegeben',
+            'field_1_r': untergrund or '',
+            'field_2_r': info or '',
+            'price': 0,
+            'status': 2,
+            'status_message': 'Freigabe steht noch aus',
+            'created_on': now_iso,
+            'updated_on': now_iso,
+            'created_by': 'Kontaktformular',
+            'deleted': False,
+        }
+        items.append(entry)
+        save_bookings(items)
+        return json.dumps(entry).encode('utf-8')
 
     def _create_booking(self):
         try:
@@ -799,14 +995,10 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                             resource_id, name, email, telefon, datum, untergrund, info
                         )
                         results.append(f'Huepfburg gebucht: {burg}')
-                        print(f'SuperSaaS Buchung: {burg} am {datum} fuer {name}')
-                    except urllib.error.HTTPError as e:
-                        err_body = e.read().decode('utf-8', errors='replace')
-                        results.append(f'Huepfburg-Fehler: {e} - {err_body}')
-                        print(f'SuperSaaS Fehler (Huepfburg): {e} - {err_body}')
+                        print(f'Buchung angelegt: {burg} am {datum} fuer {name}')
                     except Exception as e:
                         results.append(f'Huepfburg-Fehler: {e}')
-                        print(f'SuperSaaS Fehler (Huepfburg): {e}')
+                        print(f'Fehler (Huepfburg): {e}')
 
             # Extras buchen (Popcorn, Zuckerwatte, Icecream Roll)
             for extra in extras:
@@ -817,10 +1009,10 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                             resource_id, name, email, telefon, datum, untergrund, extra
                         )
                         results.append(f'Extra gebucht: {extra}')
-                        print(f'SuperSaaS Buchung: {extra} am {datum} fuer {name}')
+                        print(f'Buchung angelegt: {extra} am {datum} fuer {name}')
                     except Exception as e:
                         results.append(f'Extra-Fehler: {e}')
-                        print(f'SuperSaaS Fehler (Extra): {e}')
+                        print(f'Fehler (Extra): {e}')
 
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
@@ -956,25 +1148,25 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                 products = json.load(f)
             hupfburgen = [p for p in products if p.get('type') == 'hupfburg' and p.get('active')]
 
-            # Buchungen fürs Wochenende von SuperSaaS holen
+            # Buchungen fuers Wochenende aus bookings.json holen
             from_date = friday.isoformat()
             to_date = (sunday + timedelta(days=1)).isoformat()
             booked_names = set()
+            bookings = []
 
             try:
-                url = (f'https://www.supersaas.com/api/bookings.json'
-                       f'?schedule_id={SCHEDULE_ID}'
-                       f'&account={SUPERSAAS_ACCOUNT}'
-                       f'&api_key={SUPERSAAS_API_KEY}'
-                       f'&from={from_date}&to={to_date}')
-                req = urllib.request.Request(url)
-                with urllib.request.urlopen(req, timeout=5) as response:
-                    bookings = json.loads(response.read())
-                for b in bookings:
-                    if not b.get('deleted'):
-                        booked_names.add(b.get('res_name', ''))
+                all_items = load_bookings()
+                for b in all_items:
+                    if b.get('deleted'):
+                        continue
+                    start = (b.get('start') or '')[:10]
+                    finish = (b.get('finish') or '')[:10]
+                    if finish < from_date or start > to_date:
+                        continue
+                    bookings.append(b)
+                    booked_names.add(b.get('res_name', ''))
             except Exception as e:
-                print(f'Weekend-Deal: SuperSaaS nicht erreichbar ({e}), nutze leere Buchungsliste')
+                print(f'Weekend-Deal: bookings.json nicht lesbar ({e})')
 
             # Prüfe welche Tage (Fr/Sa/So) einzeln frei sind
             fri_booked = set()
@@ -1200,42 +1392,30 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             with open(ANFRAGEN_FILE, 'w', encoding='utf-8') as f:
                 json.dump(anfragen, f, ensure_ascii=False, indent=2)
 
-            # SuperSaaS Buchung auf "Freigegeben" (status 100) setzen
-            # Suche die Buchung anhand von Name + Datum
+            # Buchung(en) in bookings.json auf "Freigegeben" (status 100) setzen
+            # Match: Name + Datum (bei Mehrfach-Buchungen alle zugehoerigen freigeben)
             burg = anfrage.get('burg', '')
             datum = anfrage.get('datum', '')
-            if burg and datum:
-                resource_id = self._find_resource_id(burg)
-                if resource_id:
-                    try:
-                        # Buchungen für das Datum abrufen
-                        url = (f'https://www.supersaas.com/api/bookings.json'
-                               f'?schedule_id={SCHEDULE_ID}'
-                               f'&account={SUPERSAAS_ACCOUNT}'
-                               f'&api_key={SUPERSAAS_API_KEY}'
-                               f'&from={datum}&to={datum}')
-                        req = urllib.request.Request(url)
-                        with urllib.request.urlopen(req, timeout=5) as response:
-                            bookings = json.loads(response.read())
-
-                        # Buchung finden (Name + Datum)
-                        for b in bookings:
-                            if (b.get('full_name', '').lower() == anfrage.get('name', '').lower()
-                                    and not b.get('deleted')):
-                                # Status auf 100 (Freigegeben) setzen
-                                update_url = (f'https://www.supersaas.com/api/bookings/{b["id"]}.json'
-                                              f'?schedule_id={SCHEDULE_ID}'
-                                              f'&account={SUPERSAAS_ACCOUNT}'
-                                              f'&api_key={SUPERSAAS_API_KEY}')
-                                update_data = json.dumps({'booking': {'status': 100}}).encode('utf-8')
-                                update_req = urllib.request.Request(update_url, data=update_data, method='PUT')
-                                update_req.add_header('Content-Type', 'application/json')
-                                with urllib.request.urlopen(update_req, timeout=5) as resp:
-                                    pass
-                                print(f'SuperSaaS Buchung {b["id"]} freigegeben')
-                                break
-                    except Exception as e:
-                        print(f'SuperSaaS Freigabe Fehler: {e}')
+            if datum:
+                try:
+                    items = load_bookings()
+                    changed = 0
+                    for b in items:
+                        if b.get('deleted'):
+                            continue
+                        if not (b.get('start') or '').startswith(datum):
+                            continue
+                        if (b.get('full_name', '').lower() != anfrage.get('name', '').lower()):
+                            continue
+                        b['status'] = 100
+                        b['status_message'] = 'Freigegeben'
+                        b['updated_on'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+                        changed += 1
+                    if changed:
+                        save_bookings(items)
+                        print(f'{changed} Buchung(en) freigegeben: {anfrage.get("name")} am {datum}')
+                except Exception as e:
+                    print(f'Freigabe-Fehler bookings.json: {e}')
 
             print(f'Anfrage freigegeben: {anfrage.get("name")} - {burg}')
 

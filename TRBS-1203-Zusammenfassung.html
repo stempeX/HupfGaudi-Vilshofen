@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRBS 1203 – Kompakte Zusammenfassung</title>
+  <link rel="stylesheet" href="fonts/nunito.css" />
+  <style>
+    /* Google Fonts @import entfernt - lokale nunito.css wird stattdessen unten eingebunden */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', Arial, sans-serif;
+      color: #2c2c2c; line-height: 1.5;
+      max-width: 900px; margin: 0 auto;
+      padding: 30px 30px;
+      font-size: 14px;
+      background: #fafafa;
+    }
+
+    .header {
+      text-align: center; border-bottom: 4px solid #ff5a1f;
+      padding-bottom: 18px; margin-bottom: 26px;
+    }
+    .header .logo { font-size: 1.3rem; font-weight: 900; color: #ff5a1f; margin-bottom: 4px; }
+    .header .logo span { color: #ffcc00; }
+    .header h1 { font-size: 1.5rem; font-weight: 900; color: #1a1a2e; margin-bottom: 4px; }
+    .header p { font-size: .85rem; color: #666; }
+
+    h2 {
+      font-size: 1.05rem; font-weight: 800; color: #fff;
+      background: #ff5a1f; padding: 10px 16px;
+      border-radius: 8px; margin: 28px 0 14px;
+    }
+    h3 {
+      font-size: .98rem; font-weight: 800; color: #ff5a1f;
+      margin: 18px 0 8px;
+      border-left: 4px solid #ff5a1f;
+      padding-left: 10px;
+    }
+    h4 { font-size: .92rem; font-weight: 800; color: #1a1a2e; margin: 14px 0 6px; }
+
+    p { margin-bottom: 8px; font-size: .9rem; }
+    ul, ol { padding-left: 22px; margin-bottom: 10px; }
+    ul li, ol li { margin-bottom: 4px; font-size: .9rem; }
+
+    table {
+      width: 100%; border-collapse: collapse; margin: 10px 0 16px;
+      font-size: .85rem; background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    table th {
+      background: #ff5a1f; color: #fff; font-weight: 700;
+      padding: 9px 10px; text-align: left;
+    }
+    table td {
+      border: 1px solid #e5e5e5; padding: 8px 10px; vertical-align: top;
+    }
+    table tr:nth-child(even) { background: #fdf6f0; }
+    table td strong { color: #1a1a2e; }
+
+    .highlight {
+      background: #fff8e7; border-left: 5px solid #ffcc00;
+      padding: 14px 18px; margin: 14px 0;
+      border-radius: 0 8px 8px 0; font-size: .9rem;
+    }
+    .danger {
+      background: #fff3e0; border-left: 5px solid #cc0000;
+      padding: 14px 18px; margin: 14px 0;
+      border-radius: 0 8px 8px 0; font-size: .9rem;
+    }
+    .success {
+      background: #f1f8e9; border-left: 5px solid #4caf50;
+      padding: 14px 18px; margin: 14px 0;
+      border-radius: 0 8px 8px 0; font-size: .9rem;
+    }
+    .info {
+      background: #e3f2fd; border-left: 5px solid #2196f3;
+      padding: 14px 18px; margin: 14px 0;
+      border-radius: 0 8px 8px 0; font-size: .9rem;
+    }
+
+    .toc {
+      background: #fff; border: 2px solid #ff5a1f;
+      border-radius: 10px; padding: 18px 24px; margin-bottom: 24px;
+    }
+    .toc h3 { border: none; padding: 0; margin-bottom: 10px; }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: #ff5a1f; text-decoration: none; font-weight: 600; }
+    .toc a:hover { text-decoration: underline; }
+
+    .footer {
+      margin-top: 36px; padding-top: 16px;
+      border-top: 3px solid #ff5a1f; text-align: center;
+      font-size: .78rem; color: #888;
+    }
+    .footer strong { color: #ff5a1f; }
+
+    .kennzahl {
+      display: inline-block;
+      background: #ff5a1f; color: #fff;
+      padding: 3px 10px; border-radius: 12px;
+      font-weight: 700; font-size: .82rem;
+      margin: 0 2px;
+    }
+
+    .pillar {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px; margin: 16px 0;
+    }
+    .pillar .item {
+      background: #fff; border: 2px solid #ff5a1f;
+      border-radius: 10px; padding: 14px 16px;
+      text-align: center;
+    }
+    .pillar .item .num {
+      display: inline-block; width: 32px; height: 32px;
+      background: #ff5a1f; color: #fff;
+      border-radius: 50%; line-height: 32px;
+      font-weight: 800; font-size: 1rem;
+      margin-bottom: 8px;
+    }
+    .pillar .item strong { display: block; color: #1a1a2e; font-size: .95rem; margin-bottom: 4px; }
+    .pillar .item p { font-size: .82rem; color: #666; margin: 0; }
+
+    .check { color: #4caf50; font-weight: 800; }
+    .cross { color: #cc0000; font-weight: 800; }
+
+    .callout {
+      background: #fff; border: 2px solid #4caf50;
+      border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+    }
+    .callout h4 { color: #4caf50; margin-top: 0; }
+
+    @media print {
+      body { padding: 15px; font-size: 12px; background: #fff; }
+      h2 { break-after: avoid; }
+      table { break-inside: avoid; box-shadow: none; }
+      .toc a { color: #1a1a2e; }
+      .pillar { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">Hupf<span>Gaudi</span> Vilshofen</div>
+    <h1>TRBS 1203 – Kompakte Zusammenfassung</h1>
+    <p>Technische Regeln für Betriebssicherheit · Zur Prüfung befähigte Personen<br>
+    Ausgabe März 2019 · GMBl 2019 S. 262 · zuletzt geändert 2022</p>
+  </div>
+
+  <!-- Inhaltsverzeichnis -->
+  <div class="toc">
+    <h3>Inhalt auf einen Blick</h3>
+    <ol>
+      <li><a href="#section1">Was ist die TRBS 1203 &amp; für wen gilt sie?</a></li>
+      <li><a href="#section2">Die 3 Säulen der Befähigung</a></li>
+      <li><a href="#section3">Allgemeine Anforderungen (Abschnitt 2)</a></li>
+      <li><a href="#section4">Berufsausbildung – was zählt?</a></li>
+      <li><a href="#section5">Berufserfahrung – was muss man kennen?</a></li>
+      <li><a href="#section6">Zeitnahe berufliche Tätigkeit</a></li>
+      <li><a href="#section7">Spezielle Arbeitsmittel (Abschnitt 3)</a></li>
+      <li><a href="#section8">Prüfsachverständige (Abschnitt 4)</a></li>
+      <li><a href="#section9">Pflichten des Arbeitgebers</a></li>
+      <li><a href="#section10">Praxis-Check für dich als Hüpfburg-Prüfer</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. Anwendungsbereich -->
+  <h2 id="section1">1. Was ist die TRBS 1203 &amp; für wen gilt sie?</h2>
+
+  <p>Die TRBS 1203 konkretisiert <strong>§ 2 Absatz 6 BetrSichV</strong>. Sie beschreibt, welche Anforderungen eine Person erfüllen muss, um als „zur Prüfung befähigte Person" Arbeitsmittel nach §§ 14, 15 und 16 BetrSichV prüfen zu dürfen.</p>
+
+  <table>
+    <tr><th style="width:40%;">Was</th><th>Wer / Wofür</th></tr>
+    <tr><td><strong>Rechtliche Grundlage</strong></td><td>§ 2 Abs. 6 Betriebssicherheitsverordnung (BetrSichV)</td></tr>
+    <tr><td><strong>Zielgruppe</strong></td><td>Personen, die Arbeitsmittel prüfen sollen (= du für Hüpfburgen)</td></tr>
+    <tr><td><strong>Aufbau</strong></td><td>Abschnitt 2 = allgemein · Abschnitt 3 = spezielle Arbeitsmittel · Abschnitt 4 = Anhang-3-BetrSichV-Arbeitsmittel</td></tr>
+    <tr><td><strong>Status</strong></td><td>Vermutungswirkung: Wer die TRBS einhält, erfüllt die Anforderungen der Verordnung</td></tr>
+  </table>
+
+  <div class="info">
+    <strong>Wichtig:</strong> Die TRBS 1203 ist <em>keine</em> Verordnung, sondern eine technische Regel. Du kannst also auch einen anderen Weg wählen – musst aber mindestens die gleiche Sicherheit und den gleichen Gesundheitsschutz erreichen.
+  </div>
+
+  <!-- 2. Die 3 Säulen -->
+  <h2 id="section2">2. Die 3 Säulen der Befähigung</h2>
+
+  <p>Eine zur Prüfung befähigte Person erwirbt die notwendigen Kenntnisse durch <strong>drei kombinierte Voraussetzungen</strong>:</p>
+
+  <div class="pillar">
+    <div class="item">
+      <span class="num">1</span>
+      <strong>Berufsausbildung</strong>
+      <p>Einschlägige technische Ausbildung oder Studium</p>
+    </div>
+    <div class="item">
+      <span class="num">2</span>
+      <strong>Berufserfahrung</strong>
+      <p>Praktische Erfahrung mit vergleichbaren Arbeitsmitteln</p>
+    </div>
+    <div class="item">
+      <span class="num">3</span>
+      <strong>Zeitnahe Tätigkeit</strong>
+      <p>Aktuell im Prüfbereich tätig + regelmäßige Weiterbildung</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>Merke:</strong> Alle drei Säulen müssen zusammen erfüllt sein. Es reicht nicht, nur eine Ausbildung zu haben – ohne Erfahrung und aktuelle Tätigkeit fehlt die Qualifikation.
+  </div>
+
+  <!-- 3. Allgemeine Anforderungen -->
+  <h2 id="section3">3. Allgemeine Anforderungen (Abschnitt 2)</h2>
+
+  <h3>Was die befähigte Person leisten muss</h3>
+  <table>
+    <tr><th>Nr.</th><th>Fähigkeit</th></tr>
+    <tr><td>1</td><td>Abweichungen zwischen Ist- und Sollzustand erkennen, bewerten und dokumentieren</td></tr>
+    <tr><td>2</td><td>Gefährdungen beurteilen, die beim Einsatz des Arbeitsmittels auftreten</td></tr>
+    <tr><td>3</td><td>Art und Umfang der erforderlichen Prüfungen kennen (aus Gefährdungsbeurteilung)</td></tr>
+    <tr><td>4</td><td>Beurteilen können, ob die Prüfverfahren für die Prüfaufgabe geeignet sind</td></tr>
+    <tr><td>5</td><td>Die Prüfverfahren anwenden können</td></tr>
+    <tr><td>6</td><td>Alle Schutzmaßnahmen zur sicheren Durchführung kennen</td></tr>
+  </table>
+
+  <h3>Umfassende Prüfungen – Teamarbeit erlaubt</h3>
+  <div class="info">
+    Wenn eine Prüfung z. B. sowohl <strong>elektrische</strong> als auch <strong>hydraulische</strong> Kenntnisse erfordert, kann sich eine befähigte Person auf Prüfergebnisse weiterer qualifizierter Personen stützen. Mehrere Personen mit klar abgegrenzten Aufgaben sind ebenfalls möglich.
+  </div>
+
+  <!-- 4. Berufsausbildung -->
+  <h2 id="section4">4. Berufsausbildung – was zählt?</h2>
+
+  <p>Die befähigte Person muss eine für die Prüfaufgabe <strong>einschlägige technische Berufsausbildung</strong> abgeschlossen haben <em>oder</em> über eine andere technische Qualifikation verfügen, die sie für die Prüfaufgabe befähigt.</p>
+
+  <table>
+    <tr><th>Als Berufsausbildung gilt</th><th>Nachweis</th></tr>
+    <tr><td>Abgeschlossene technische Berufsausbildung (z. B. Elektriker)</td><td>Gesellenbrief / Abschlusszeugnis</td></tr>
+    <tr><td>Abgeschlossenes technisches Studium</td><td>Bachelor-/Master-/Diplomurkunde</td></tr>
+    <tr><td>Vergleichbare technische Qualifikation</td><td>Nachweis über Qualifikationsprüfung</td></tr>
+  </table>
+
+  <div class="success">
+    <strong>Für dich:</strong> Deine <strong>abgeschlossene Elektriker-Ausbildung</strong> ist eine einschlägige technische Berufsausbildung. Damit erfüllst du Säule 1 der TRBS 1203.
+  </div>
+
+  <!-- 5. Berufserfahrung -->
+  <h2 id="section5">5. Berufserfahrung – was muss man kennen?</h2>
+
+  <p>Praktische Erfahrung mit vergleichbaren Arbeitsmitteln über einen <strong>angemessenen Zeitraum</strong>. Die Person muss u. a. vertraut sein mit:</p>
+
+  <table>
+    <tr><th>Nr.</th><th>Kenntnisse</th></tr>
+    <tr><td>1</td><td>Vorschriftsmäßige Montage/Installation &amp; sichere Funktion des Arbeitsmittels (insbesondere Schutzeinrichtungen)</td></tr>
+    <tr><td>2</td><td>Schäden verursachende Einflüsse beim Gebrauch</td></tr>
+    <tr><td>3</td><td>Typische Schäden und daraus resultierende Gefährdungen für Beschäftigte</td></tr>
+    <tr><td>4</td><td>Außergewöhnliche Ereignisse mit schädigender Auswirkung</td></tr>
+    <tr><td>5</td><td>Erfahrungswerte aus der Prüfung vergleichbarer Arbeitsmittel</td></tr>
+  </table>
+
+  <div class="success">
+    <strong>Für dich:</strong> Als Betreiber von <strong>Hupfgaudi</strong> kennst du Aufbau, Funktion, typische Schäden (Risse, Nähte, Verschleiß) und die Gefahren aufblasbarer Spielgeräte aus der täglichen Praxis. Säule 2 erfüllt.
+  </div>
+
+  <!-- 6. Zeitnahe Tätigkeit -->
+  <h2 id="section6">6. Zeitnahe berufliche Tätigkeit</h2>
+
+  <h3>Was bedeutet „zeitnah"?</h3>
+  <ul>
+    <li>Tätigkeit im <strong>Umfeld der Prüfaufgabe</strong></li>
+    <li>Angemessene <strong>Weiterbildung</strong></li>
+    <li><strong>Mehrere Prüfungen pro Jahr</strong> durchführen oder beteiligt sein (Erhalt der Prüfpraxis)</li>
+    <li>Bei längerer Unterbrechung: erneut Erfahrung sammeln + Kenntnisse aktualisieren</li>
+  </ul>
+
+  <h3>Erforderliche Kenntnisse zum Stand der Technik</h3>
+  <table>
+    <tr><th>Nr.</th><th>Die Person muss können</th></tr>
+    <tr><td>1</td><td>Den <strong>Istzustand</strong> des Arbeitsmittels ermitteln</td></tr>
+    <tr><td>2</td><td>Istzustand mit dem <strong>Sollzustand</strong> (vom Arbeitgeber festgelegt) vergleichen</td></tr>
+    <tr><td>3</td><td>Die <strong>Abweichung</strong> zwischen Ist und Soll <strong>bewerten</strong></td></tr>
+  </table>
+
+  <div class="success">
+    <strong>Für dich:</strong> Du betreibst Hupfgaudi aktiv, führst Aufbauten und Prüfungen praktisch durch und kannst deine Kenntnisse durch Studium der EN 14960-1:2019 regelmäßig aktualisieren. Säule 3 erfüllt.
+  </div>
+
+  <!-- 7. Spezielle Arbeitsmittel -->
+  <h2 id="section7">7. Spezielle Arbeitsmittel (Abschnitt 3)</h2>
+
+  <p>Für bestimmte Arbeitsmittel gelten <strong>zusätzliche</strong> Anforderungen. Relevant bei Hüpfburgen ist vor allem Abschnitt 3.1 (elektrische Komponenten, wegen Gebläse).</p>
+
+  <h3>3.1 Arbeitsmittel mit elektrischen Komponenten</h3>
+  <table>
+    <tr><th style="width:30%;">Säule</th><th>Anforderung</th></tr>
+    <tr><td><strong>Berufsausbildung</strong></td><td>Elektrotechnische Berufsausbildung (z. B. Elektroniker, Systemelektroniker) oder Studium der Elektrotechnik oder vergleichbare Qualifikation</td></tr>
+    <tr><td><strong>Berufserfahrung</strong></td><td>Mindestens <span class="kennzahl">1 Jahr</span> praktische Erfahrung mit Errichtung, Zusammenbau oder Instandhaltung elektrischer Arbeitsmittel</td></tr>
+    <tr><td><strong>Zeitnahe Tätigkeit</strong></td><td>Reparatur, Service, Wartung, Prüfung oder Instandsetzung elektrischer Geräte/Betriebsmittel</td></tr>
+    <tr><td><strong>Weiterbildung</strong></td><td>Fachspezifische Schulungen oder Erfahrungsaustausch (auch innerbetrieblich möglich)</td></tr>
+  </table>
+
+  <div class="callout">
+    <h4>Perfekt für dich!</h4>
+    <p>Als <strong>ausgebildeter Elektriker</strong> mit Erfahrung an elektrischen Betriebsmitteln erfüllst du automatisch die Zusatzanforderungen nach 3.1. Das ist für das <strong>Gebläse deiner Hüpfburgen</strong> mit elektrischem Anschluss besonders wertvoll.</p>
+  </div>
+
+  <h3>3.2 Arbeitsmittel mit hydraulischen Komponenten</h3>
+  <ul>
+    <li>Technische Berufsausbildung (z. B. Mechatroniker) mit Hydraulik-Grundkenntnissen</li>
+    <li>Mind. 1 Jahr Erfahrung mit vergleichbaren hydraulischen Arbeitsmitteln</li>
+    <li>Gezielte Qualifizierung (z. B. Hydraulik-Schulungen)</li>
+  </ul>
+
+  <h3>3.3 Personenaufnahmemittel zum Heben mit Kranen</h3>
+  <ul>
+    <li>Metalltechnische Berufsausbildung (Industriemechaniker, Kfz-Mechatroniker)</li>
+    <li>Mind. 1 Jahr Erfahrung</li>
+  </ul>
+
+  <!-- 8. Prüfsachverständige -->
+  <h2 id="section8">8. Prüfsachverständige (Abschnitt 4)</h2>
+
+  <p>Für Arbeitsmittel nach <strong>Anhang 3 BetrSichV</strong> gelten deutlich höhere Anforderungen. Für dich nicht relevant, aber zum Überblick:</p>
+
+  <table>
+    <tr><th>Bereich</th><th>Ausbildung</th><th>Erfahrung</th></tr>
+    <tr><td>4.1 Krane</td><td>Ingenieur/vergleichbar</td><td>Mind. 3 Jahre, davon ½ Jahr bei Prüfsachverständigen</td></tr>
+    <tr><td>4.2 Flüssiggasanlagen</td><td>Anlagenmechaniker o. ä.</td><td>Mind. 1 Jahr</td></tr>
+    <tr><td>4.3 Veranstaltungstechnik</td><td>Ingenieur/vergleichbar</td><td>Mind. 3 Jahre, davon ½ Jahr bei Prüfsachverständigen</td></tr>
+  </table>
+
+  <div class="info">
+    <strong>Weiterbildung Prüfsachverständige:</strong> Alle <strong>3 Jahre</strong> Teilnahme an fachlichen Weiterbildungen oder Erfahrungsaustauschen zum aktuellen Stand der Technik. Hüpfburgen fallen <em>nicht</em> unter Anhang 3 BetrSichV – daher ist Abschnitt 4 für dich nicht relevant.
+  </div>
+
+  <!-- 9. Arbeitgeber-Pflichten -->
+  <h2 id="section9">9. Pflichten des Arbeitgebers</h2>
+
+  <p>Wichtig für dich – wenn du <strong>fremde</strong> Hüpfburgen prüfst, ist der <em>Auftraggeber</em> der Arbeitgeber im Sinne der BetrSichV. Wenn du <strong>eigene</strong> Geräte prüfst, bist du selbst „Arbeitgeber".</p>
+
+  <table>
+    <tr><th>Nr.</th><th>Pflicht</th></tr>
+    <tr><td>1</td><td>Ermitteln &amp; festlegen, welche Voraussetzungen die befähigte Person erfüllen muss</td></tr>
+    <tr><td>2</td><td>Sicherstellen, dass die Befähigung der Schwierigkeit/Komplexität der Prüfaufgabe angemessen ist</td></tr>
+    <tr><td>3</td><td>Sicherstellen, dass die Person dem Stand der Technik entsprechend prüft</td></tr>
+    <tr><td>4</td><td>Gewährleisten, dass das Arbeitsmittel als Ganzes geprüft wird (auch bei mehreren Prüfern)</td></tr>
+    <tr><td>5</td><td>Bei externen Prüfern: Verantwortung für die Qualifikation bleibt beim Arbeitgeber</td></tr>
+  </table>
+
+  <div class="highlight">
+    <strong>Nachweis-Tipp:</strong> Bei der Beauftragung können externe Nachweise (Zertifikate, Lehrgangsbescheinigungen) die gesicherte Einhaltung der Anforderungen bestätigen. Ein <strong>ISO 17024-Zertifikat</strong> ist dabei besonders stark.
+  </div>
+
+  <!-- 10. Praxis-Check -->
+  <h2 id="section10">10. Praxis-Check für dich als Hüpfburg-Prüfer</h2>
+
+  <div class="callout">
+    <h4>So erfüllst du die TRBS 1203 für Hüpfburg-Prüfungen</h4>
+    <table style="margin-top: 10px;">
+      <tr><th style="width:28%;">Säule</th><th>Dein Nachweis</th><th>Status</th></tr>
+      <tr>
+        <td><strong>Berufsausbildung</strong></td>
+        <td>Abgeschlossene Elektriker-Ausbildung (Gesellenbrief)</td>
+        <td><span class="check">Erfüllt</span></td>
+      </tr>
+      <tr>
+        <td><strong>Berufserfahrung</strong></td>
+        <td>Aktiver Betrieb Hupfgaudi Vilshofen, tägliche Praxis mit Hüpfburgen</td>
+        <td><span class="check">Erfüllt</span></td>
+      </tr>
+      <tr>
+        <td><strong>Zeitnahe Tätigkeit</strong></td>
+        <td>Laufender Verleihbetrieb + Studium der EN 14960-1:2019 &amp; TRBS 1203</td>
+        <td><span class="check">Erfüllt</span></td>
+      </tr>
+      <tr>
+        <td><strong>Elektro-Komponente (3.1)</strong></td>
+        <td>Elektriker-Ausbildung deckt Gebläse-Prüfung ab</td>
+        <td><span class="check">Erfüllt</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Was du dokumentieren solltest</h3>
+  <ol>
+    <li><strong>Gesellenbrief / Ausbildungszeugnis</strong> als Elektriker (kopieren, ablegen)</li>
+    <li><strong>Gewerbeanmeldung</strong> Hupfgaudi als Nachweis der zeitnahen Tätigkeit</li>
+    <li><strong>Kaufbeleg der EN 14960-1:2019</strong> sowie die TRBS 1203 als Weiterbildungsnachweis</li>
+    <li><strong>Prüfprotokolle</strong> aller durchgeführten Inspektionen (eigene und fremde Geräte)</li>
+    <li><strong>Fortbildungen</strong> dokumentieren (Seminare, Eigenstudium, Fachliteratur)</li>
+  </ol>
+
+  <h3>Was zu beachten ist</h3>
+  <ul>
+    <li><span class="check">✓</span> Bei mehreren Prüfungen pro Jahr bleibt deine Prüfpraxis erhalten</li>
+    <li><span class="check">✓</span> Bei längeren Pausen: Kenntnisse aktualisieren und Erfahrungen neu sammeln</li>
+    <li><span class="check">✓</span> Stand der Technik regelmäßig verfolgen (Normenänderungen, neue Erkenntnisse)</li>
+    <li><span class="cross">✗</span> Keine „Genehmigung" durch Behörde – du wirst als befähigte Person <em>benannt</em>, nicht zugelassen</li>
+  </ul>
+
+  <div class="danger">
+    <strong>Wichtiger Hinweis:</strong> Die Verantwortung für die korrekte Einhaltung liegt bei dir selbst (eigene Geräte) oder beim Auftraggeber (fremde Geräte). Prüfungen müssen <strong>zuverlässig und sorgfältig</strong> nach Stand der Technik erfolgen – Fehler können haftungsrechtlich relevant werden.
+  </div>
+
+  <h3>Gute Kombination für maximale Rechtssicherheit</h3>
+  <div class="pillar">
+    <div class="item">
+      <span class="num">A</span>
+      <strong>TRBS 1203</strong>
+      <p>Erfüllt allgemeine Anforderungen der BetrSichV</p>
+    </div>
+    <div class="item">
+      <span class="num">B</span>
+      <strong>EN 14960-1:2019</strong>
+      <p>Hüpfburg-spezifisches Fachwissen</p>
+    </div>
+    <div class="item">
+      <span class="num">C</span>
+      <strong>Prüfprotokolle</strong>
+      <p>Systematische Dokumentation jeder Prüfung</p>
+    </div>
+  </div>
+
+  <!-- Fußzeile -->
+  <div class="footer">
+    <strong>Hupf<span style="color:#ffcc00;">Gaudi</span> Vilshofen</strong> &nbsp;|&nbsp;
+    Christoph Gutsmidl &nbsp;|&nbsp;
+    Böcklbacher Str. 7, 94474 Vilshofen (Alkofen) &nbsp;|&nbsp;
+    Tel. +49 151 28861367 &nbsp;|&nbsp;
+    hupfgaudi@gmail.com
+    <br>
+    Diese Zusammenfassung basiert auf TRBS 1203 (Ausgabe März 2019, GMBl 2019 S. 262, zuletzt geändert/berichtigt 2022). Die vollständige Technische Regel ist verbindlich.
+  </div>
+
+</body>
+</html>

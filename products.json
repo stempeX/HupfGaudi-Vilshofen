@@ -215,23 +215,53 @@
     ]
   },
   {
-    "id": "pawpatrol",
-    "name": "Paw Patrol",
-    "displayName": "Paw Patrol Hüpfburg",
-    "apiName": "Paw Patrol",
+    "id": "reiterhof",
+    "name": "Reiterhof",
+    "displayName": "Reiterhof Hüpfburg",
+    "apiName": "Reiterhof",
     "type": "hupfburg",
-    "description": "Die Fellfreunde sind da! Perfekt für kleine Paw Patrol Fans.",
-    "dimensions": "",
-    "weight": "",
+    "description": "Galoppier in dein Abenteuer! Exklusives HupfGaudi-Design mit liebevollem Pferde-Motiv und integrierter Rutsche – gibt's nur bei uns!",
+    "dimensions": "4,0 × 3,0 × 3,3 m",
+    "weight": "ca. 90 kg",
     "age": "3–12 Jahre",
-    "feature": "",
-    "priceWeekday": 149,
-    "priceWeekend": 149,
-    "saveWeekend": 298,
-    "color": "#14b8a6",
-    "image": "",
+    "feature": "Exklusiv-Design & Rutsche",
+    "priceWeekday": 95,
+    "priceWeekend": 228,
+    "saveWeekend": 57,
+    "color": "#60a5fa",
+    "image": "img/reiterhof.jpg",
     "featured": false,
     "active": false,
-    "images": []
+    "comingSoon": true,
+    "comingSoonLabel": "Bald verfügbar – voraussichtlich ab Juli 2026",
+    "images": [
+      "img/reiterhof.jpg"
+    ],
+    "exclusive": true
+  },
+  {
+    "id": "rennauto",
+    "name": "Rennauto",
+    "displayName": "Rennauto Hüpfburg",
+    "apiName": "Rennauto",
+    "type": "hupfburg",
+    "description": "Auf die Plätze, fertig, LOS! Exklusives HupfGaudi-Design mit Formel-1-Feeling und integrierter Rutsche – ein echtes Unikat!",
+    "dimensions": "4,0 × 3,0 × 3,3 m",
+    "weight": "ca. 90 kg",
+    "age": "3–12 Jahre",
+    "feature": "Exklusiv-Design & Rutsche",
+    "priceWeekday": 95,
+    "priceWeekend": 228,
+    "saveWeekend": 57,
+    "color": "#ef4444",
+    "image": "img/rennauto.jpg",
+    "featured": false,
+    "active": false,
+    "comingSoon": true,
+    "comingSoonLabel": "Bald verfügbar – voraussichtlich ab Juli 2026",
+    "images": [
+      "img/rennauto.jpg"
+    ],
+    "exclusive": true
   }
 ]

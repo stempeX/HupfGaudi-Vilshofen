@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /anfragen.json
+Disallow: /contracts.json
+Disallow: /confirmed_bookings.json
+Disallow: /blocked_dates.json
+Disallow: /settings.json
+Disallow: /.env
+
+# KI-Crawler dürfen, aber nicht zum Training
+User-agent: GPTBot
+Disallow: /api/
+
+User-agent: CCBot
+Disallow: /api/
+
+Sitemap: https://www.hupfgaudi-vilshofen.de/sitemap.xml

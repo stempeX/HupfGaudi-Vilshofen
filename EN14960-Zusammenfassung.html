@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DIN EN 14960-1:2019 – Kompakte Zusammenfassung</title>
+  <link rel="stylesheet" href="fonts/nunito.css" />
+  <style>
+    /* Google Fonts @import entfernt - lokale nunito.css wird stattdessen unten eingebunden */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', Arial, sans-serif;
+      color: #2c2c2c; line-height: 1.5;
+      max-width: 900px; margin: 0 auto;
+      padding: 30px 30px;
+      font-size: 14px;
+      background: #fafafa;
+    }
+
+    .header {
+      text-align: center; border-bottom: 4px solid #ff5a1f;
+      padding-bottom: 18px; margin-bottom: 26px;
+    }
+    .header .logo { font-size: 1.3rem; font-weight: 900; color: #ff5a1f; margin-bottom: 4px; }
+    .header .logo span { color: #ffcc00; }
+    .header h1 { font-size: 1.5rem; font-weight: 900; color: #1a1a2e; margin-bottom: 4px; }
+    .header p { font-size: .85rem; color: #666; }
+
+    h2 {
+      font-size: 1.05rem; font-weight: 800; color: #fff;
+      background: #ff5a1f; padding: 10px 16px;
+      border-radius: 8px; margin: 28px 0 14px;
+    }
+    h3 {
+      font-size: .98rem; font-weight: 800; color: #ff5a1f;
+      margin: 18px 0 8px;
+      border-left: 4px solid #ff5a1f;
+      padding-left: 10px;
+    }
+    h4 { font-size: .92rem; font-weight: 800; color: #1a1a2e; margin: 14px 0 6px; }
+
+    p { margin-bottom: 8px; font-size: .9rem; }
+    ul, ol { padding-left: 22px; margin-bottom: 10px; }
+    ul li, ol li { margin-bottom: 4px; font-size: .9rem; }
+
+    table {
+      width: 100%; border-collapse: collapse; margin: 10px 0 16px;
+      font-size: .85rem; background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    table th {
+      background: #ff5a1f; color: #fff; font-weight: 700;
+      padding: 9px 10px; text-align: left;
+    }
+    table td {
+      border: 1px solid #e5e5e5; padding: 8px 10px; vertical-align: top;
+    }
+    table tr:nth-child(even) { background: #fdf6f0; }
+    table td strong { color: #1a1a2e; }
+
+    .highlight {
+      background: #fff8e7; border-left: 5px solid #ffcc00;
+      padding: 14px 18px; margin: 14px 0;
+      border-radius: 0 8px 8px 0; font-size: .9rem;
+    }
+    .danger {
+      background: #fff3e0; border-left: 5px solid #cc0000;
+      padding: 14px 18px; margin: 14px 0;
+      border-radius: 0 8px 8px 0; font-size: .9rem;
+    }
+    .success {
+      background: #f1f8e9; border-left: 5px solid #4caf50;
+      padding: 14px 18px; margin: 14px 0;
+      border-radius: 0 8px 8px 0; font-size: .9rem;
+    }
+    .info {
+      background: #e3f2fd; border-left: 5px solid #2196f3;
+      padding: 14px 18px; margin: 14px 0;
+      border-radius: 0 8px 8px 0; font-size: .9rem;
+    }
+
+    .toc {
+      background: #fff; border: 2px solid #ff5a1f;
+      border-radius: 10px; padding: 18px 24px; margin-bottom: 24px;
+    }
+    .toc h3 { border: none; padding: 0; margin-bottom: 10px; }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: #ff5a1f; text-decoration: none; font-weight: 600; }
+    .toc a:hover { text-decoration: underline; }
+
+    .footer {
+      margin-top: 36px; padding-top: 16px;
+      border-top: 3px solid #ff5a1f; text-align: center;
+      font-size: .78rem; color: #888;
+    }
+    .footer strong { color: #ff5a1f; }
+
+    .kennzahl {
+      display: inline-block;
+      background: #ff5a1f; color: #fff;
+      padding: 3px 10px; border-radius: 12px;
+      font-weight: 700; font-size: .82rem;
+      margin: 0 2px;
+    }
+
+    .check { color: #4caf50; font-weight: 800; }
+    .cross { color: #cc0000; font-weight: 800; }
+
+    @media print {
+      body { padding: 15px; font-size: 12px; background: #fff; }
+      h2 { break-after: avoid; }
+      table { break-inside: avoid; box-shadow: none; }
+      .toc a { color: #1a1a2e; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">Hupf<span>Gaudi</span> Vilshofen</div>
+    <h1>DIN EN 14960-1:2019 – Kompakte Zusammenfassung</h1>
+    <p>Aufblasbare Spielgeräte · Sicherheitstechnische Anforderungen und Prüfverfahren</p>
+  </div>
+
+  <!-- Inhaltsverzeichnis -->
+  <div class="toc">
+    <h3>Inhalt auf einen Blick</h3>
+    <ol>
+      <li><a href="#section1">Anwendungsbereich &amp; Geltungsbereich</a></li>
+      <li><a href="#section2">Wichtige Begriffe</a></li>
+      <li><a href="#section3">Werkstoffe – Anforderungen</a></li>
+      <li><a href="#section4">Verankerung</a></li>
+      <li><a href="#section5">Konstruktive Festigkeit &amp; Luftdruck</a></li>
+      <li><a href="#section6">Fangstellen – Kopf, Kleidung, Finger</a></li>
+      <li><a href="#section7">Gebläse &amp; Elektrik</a></li>
+      <li><a href="#section8">Aufstellung &amp; Sicherheitsabstände</a></li>
+      <li><a href="#section9">Begrenzungswände</a></li>
+      <li><a href="#section10">Rutschen &amp; Auslaufteil</a></li>
+      <li><a href="#section11">Herstellerinformationen</a></li>
+      <li><a href="#section12">Inspektion &amp; Wartung</a></li>
+      <li><a href="#section13">Kennzeichnung &amp; Dokumentation</a></li>
+      <li><a href="#section14">Prüfkörper im Überblick</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. Anwendungsbereich -->
+  <h2 id="section1">1. Anwendungsbereich &amp; Geltungsbereich</h2>
+
+  <table>
+    <tr><th style="width:40%;">Gilt für</th><th>Details</th></tr>
+    <tr><td><strong>Zielgruppe</strong></td><td>Kinder bis 14 Jahre (einzeln oder mehrere)</td></tr>
+    <tr><td><strong>Hauptbetätigungen</strong></td><td>Springen und Rutschen</td></tr>
+    <tr><td><strong>Gerätearten</strong></td><td>Hüpfburg, Flachbett, Hüpf-Rutsch-Kombination, Rutsche, Hindernisparcours, Springberg, Mehrzweck-Spielcenter, umschlossene Geräte</td></tr>
+  </table>
+
+  <div class="danger">
+    <strong>Nicht anwendbar für:</strong> Wassergeräte, privates Spielzeug, Tragluftbauten, Rettungsgeräte oder Geräte, bei denen Springen/Rutschen nicht die Hauptbetätigung ist.
+  </div>
+
+  <!-- 2. Begriffe -->
+  <h2 id="section2">2. Die wichtigsten Begriffe</h2>
+
+  <table>
+    <tr><th style="width:32%;">Begriff</th><th>Bedeutung</th></tr>
+    <tr><td><strong>Controller</strong></td><td>Person/Firma, die Verantwortung für Überwachung, Inspektion und Wartung trägt (= du als Verleiher)</td></tr>
+    <tr><td><strong>Betreiber</strong></td><td>Person, die das Spielgerät vor Ort bedient</td></tr>
+    <tr><td><strong>Prüfstelle</strong></td><td>Organisation oder Einzelperson mit Fachkenntnis für Prüfungen (= du als befähigte Person)</td></tr>
+    <tr><td><strong>Freie Fallhöhe</strong></td><td>Größter lotrechter Abstand von der Körperunterstützung zur Aufprallfläche</td></tr>
+    <tr><td><strong>Freie Seite</strong></td><td>Außenseite ohne stützende Wand</td></tr>
+    <tr><td><strong>Aufprallfläche</strong></td><td>Fläche, die die freien Seiten umgibt (mind. 1,2 m)</td></tr>
+    <tr><td><strong>Fangstelle</strong></td><td>Gefahrenstelle, an der Körper/Kleidung hängen bleiben kann</td></tr>
+    <tr><td><strong>Freiraum</strong></td><td>Raum um das Gerät, in dem der Benutzer erzwungene Bewegungen ausführt</td></tr>
+  </table>
+
+  <!-- 3. Werkstoffe -->
+  <h2 id="section3">3. Werkstoffe – Anforderungen</h2>
+
+  <h3>Textilien</h3>
+  <table>
+    <tr><th>Eigenschaft</th><th>Mindestwert</th><th>Prüfnorm</th></tr>
+    <tr><td>Reißfestigkeit</td><td><span class="kennzahl">350 N</span></td><td>Anhang E</td></tr>
+    <tr><td>Zugfestigkeit</td><td><span class="kennzahl">1.850 N</span></td><td>EN ISO 1421</td></tr>
+    <tr><td>Haftfestigkeit</td><td><span class="kennzahl">100 N</span></td><td>EN ISO 2411</td></tr>
+    <tr><td>Entflammbarkeit</td><td>schwer entflammbar</td><td>–</td></tr>
+  </table>
+
+  <h3>Fäden &amp; Nähte</h3>
+  <ul>
+    <li>Zugfestigkeit Fäden: <span class="kennzahl">mind. 88 N</span>, verrottungsbeständig</li>
+    <li>Stichart: Kettenstich</li>
+    <li>Stichlänge: <span class="kennzahl">3 – 8 mm</span></li>
+  </ul>
+
+  <h3>Seile &amp; Netze</h3>
+  <table>
+    <tr><th>Bauteil</th><th>Anforderung</th></tr>
+    <tr><td>Seildurchmesser</td><td>18 – 45 mm</td></tr>
+    <tr><td>Schwingungsweite</td><td>max. 20 % des Abstandes der Befestigungspunkte</td></tr>
+    <tr><td>Kletternetze</td><td>Seildurchmesser mind. 12 mm, sicher befestigt</td></tr>
+    <tr><td>Maschenweite (ab 1 m Höhe)</td><td>max. 30 mm (damit Füße keinen Halt finden)</td></tr>
+    <tr><td>Monofile Kunststoffseile</td><td><span class="cross">Nicht erlaubt</span></td></tr>
+  </table>
+
+  <!-- 4. Verankerung -->
+  <h2 id="section4">4. Verankerung</h2>
+
+  <div class="highlight">
+    <strong>Kernregel:</strong> Jedes aufblasbare Spielgerät muss <strong>mindestens 6 Verankerungspunkte</strong> haben. Jeder Punkt muss einer Kraft von <strong>1.600 N</strong> standhalten.
+  </div>
+
+  <h3>Pfähle – Mindestmaße</h3>
+  <table>
+    <tr><th>Merkmal</th><th>Wert</th></tr>
+    <tr><td>Mindestlänge</td><td><span class="kennzahl">380 mm</span></td></tr>
+    <tr><td>Mindestdurchmesser</td><td><span class="kennzahl">16 mm</span></td></tr>
+    <tr><td>Winkel zum Boden</td><td>30° – 45° entgegen der Kraftrichtung</td></tr>
+    <tr><td>Max. über Boden</td><td>25 mm</td></tr>
+    <tr><td>Oberes Ende</td><td>abgerundet</td></tr>
+  </table>
+
+  <h3>Berechnung der Verankerungspunkte (Anhang A)</h3>
+  <table>
+    <tr><th>Parameter</th><th>Wert</th></tr>
+    <tr><td>Windkoeffizient C<sub>w</sub></td><td>1,5</td></tr>
+    <tr><td>Luftdichte ρ</td><td>1,24 kg/m³</td></tr>
+    <tr><td>Max. Windgeschwindigkeit V</td><td>11,1 m/s (Beaufort 6)</td></tr>
+    <tr><td>Formel Kraft F</td><td>F = C<sub>w</sub> × (ρ/2) × V² × A</td></tr>
+    <tr><td>Anzahl Verankerungspunkte</td><td>(F / 1.600 N) × 1,5 → aufrunden</td></tr>
+  </table>
+
+  <div class="info">
+    <strong>Max. Windgeschwindigkeit für Betrieb im Freien:</strong> 38 km/h (Beaufort 5). Bei stärkerem Wind: Betrieb einstellen!
+  </div>
+
+  <!-- 5. Konstruktive Festigkeit -->
+  <h2 id="section5">5. Konstruktive Festigkeit &amp; Luftdruck</h2>
+
+  <table>
+    <tr><th>Gerätebereich</th><th>Mindestdruck</th><th>Maximaldruck</th></tr>
+    <tr><td>Konstruktionsteile (Wände, Türme)</td><td><span class="kennzahl">1 kPa</span> (100 mm WS)</td><td>–</td></tr>
+    <tr><td>Spielfläche Springberg</td><td>ausreichend gegen Grundberührung</td><td><span class="kennzahl">0,25 kPa</span> (25 mm WS)</td></tr>
+    <tr><td>Umgebender Prallschutz Springberg</td><td><span class="kennzahl">1 kPa</span> (100 mm WS)</td><td>–</td></tr>
+  </table>
+
+  <h3>Weitere Anforderungen</h3>
+  <ul>
+    <li>Begrenzungswände müssen senkrecht sein: <strong>90° ± 5°</strong></li>
+    <li>Tiefstpunkt auf Plattform: max. <strong>33 %</strong> der Breite des angrenzenden Elements</li>
+    <li>Spielflächen müssen das Gewicht des schwersten Benutzers <strong>ohne Grundberührung</strong> tragen</li>
+  </ul>
+
+  <!-- 6. Fangstellen -->
+  <h2 id="section6">6. Fangstellen – Die 3 großen Gefahren</h2>
+
+  <h3>6.1 Fangstellen Kopf / Hals</h3>
+  <table>
+    <tr><th>Öffnung</th><th>Anforderung</th></tr>
+    <tr><td>Vollständig umschlossen (&gt; 600 mm über Plattform)</td><td>Prüfkörper C (Torso) oder E (kleiner Kopf) darf nicht durchgehen – <em>außer</em> auch Prüfkörper D (großer Kopf) geht durch</td></tr>
+    <tr><td>Teilweise umschlossen / V-förmig</td><td>Prüfung nach D.2.2 (3 Winkelbereiche)</td></tr>
+    <tr><td>Nicht starre Teile (Seile)</td><td>Dürfen sich nicht überlappen und Öffnungen bilden</td></tr>
+  </table>
+
+  <h3>6.2 Fangstellen Kleidung / Haar</h3>
+  <ul>
+    <li>Keine Spalten oder V-förmige Öffnungen im Freiraum</li>
+    <li>Keine vorstehenden Teile</li>
+    <li>Rutschen: <strong>Knebelprüfung</strong> nach D.3 bestehen</li>
+    <li>Spindeln/drehende Teile: kein Aufwickeln möglich</li>
+  </ul>
+
+  <h4>Freiraum – Zylinder-Maße</h4>
+  <table>
+    <tr><th>Nutzung</th><th>Radius α</th><th>Höhe h</th></tr>
+    <tr><td>stehend</td><td>1.000 mm</td><td>1.800 mm</td></tr>
+    <tr><td>sitzend</td><td>1.000 mm</td><td>1.500 mm</td></tr>
+    <tr><td>hängend</td><td>500 mm</td><td>300 mm oben / 1.800 mm unten</td></tr>
+  </table>
+
+  <h3>6.3 Fangstellen Finger</h3>
+  <table>
+    <tr><th>Prüfung</th><th>Anforderung</th></tr>
+    <tr><td>8-mm-Rundstab (30 N)</td><td>Darf nicht durch Mindestquerschnitt gehen <em>– oder –</em></td></tr>
+    <tr><td>25-mm-Rundstab (30 N)</td><td>Muss auch durchgehen (ohne andere Fangstelle)</td></tr>
+  </table>
+
+  <h3>6.4 Fangstellen ganzer Körper</h3>
+  <div class="highlight">
+    Angrenzende aufgeblasene Flächen müssen <strong>mindestens 120 mm Abstand</strong> haben, wenn die Öffnung <strong>tiefer als 200 mm</strong> ist.
+  </div>
+
+  <h4>Aufblasbare Tunnel &amp; Hindernisse</h4>
+  <table>
+    <tr><th>Element</th><th>Anforderung</th></tr>
+    <tr><td>Tunnel ≤ 75 cm Länge</td><td>Gilt als Hindernis</td></tr>
+    <tr><td>Tunnel 75 cm – 2,0 m</td><td>Innendurchmesser ≥ 50 cm</td></tr>
+    <tr><td>Tunnel &gt; 2,0 m</td><td>Innendurchmesser ≥ 75 cm</td></tr>
+    <tr><td>Hindernis</td><td>Länge max. 75 cm, Eingangs-Ø mind. 40 cm</td></tr>
+  </table>
+
+  <!-- 7. Gebläse -->
+  <h2 id="section7">7. Gebläse &amp; Elektrik</h2>
+
+  <table>
+    <tr><th>Anforderung</th><th>Wert</th></tr>
+    <tr><td>Schutzart</td><td><span class="kennzahl">IP23B</span> nach EN 60529 (mit 8-mm-Rundstab statt 12-mm-Prüffinger)</td></tr>
+    <tr><td>Abstand zu Wandseite</td><td>mind. 1,2 m</td></tr>
+    <tr><td>Abstand zu freier Seite</td><td>mind. 2,5 m</td></tr>
+    <tr><td>Abstand innerhalb Gerät (zu Spielfläche)</td><td>mind. 2,5 m</td></tr>
+    <tr><td>Schutzgitter</td><td>Ein- und Austritt geschützt</td></tr>
+    <tr><td>Zugänglichkeit</td><td>Nicht leicht für Öffentlichkeit</td></tr>
+  </table>
+
+  <div class="danger">
+    <strong>Als Elektriker wichtig für dich:</strong> Elektrische Betriebsmittel müssen nationalen Normen entsprechen. Steuer- und Regeleinrichtungen nicht leicht zugänglich. Kabel sicher gegen Benutzerzugriff.
+  </div>
+
+  <!-- 8. Aufstellung -->
+  <h2 id="section8">8. Aufstellung &amp; Sicherheitsabstände</h2>
+
+  <table>
+    <tr><th>Kriterium</th><th>Wert</th></tr>
+    <tr><td>Max. Schräge Aufstellbereich</td><td><span class="kennzahl">5 %</span> in jede Richtung</td></tr>
+    <tr><td>Aufprallfläche freie Seite</td><td>mind. 1,2 m (bei fester Aufstellfläche ohne Aufsicht: 1,5 m)</td></tr>
+    <tr><td>Max. freie Fallhöhe an freier Seite</td><td>630 mm unbelastet / 600 mm belastet</td></tr>
+    <tr><td>Kritische Fallhöhe Aufprallfläche</td><td>mind. 630 mm nach EN 1177</td></tr>
+    <tr><td>Zaun: Abstand Wandseite</td><td>mind. 1,8 m</td></tr>
+    <tr><td>Zaun: Abstand freie Seite</td><td>mind. 3,5 m</td></tr>
+    <tr><td>Zugangsbreite</td><td>1,0 m</td></tr>
+  </table>
+
+  <h3>Freier Bereich um das Gerät</h3>
+  <table>
+    <tr><th>Seite</th><th>Mindestabstand</th></tr>
+    <tr><td>Seiten mit Wand</td><td>1,8 m</td></tr>
+    <tr><td>Freie Seiten</td><td>3,5 m</td></tr>
+    <tr><td>Formel (Höhe/2 der höchsten Plattform)</td><td>Größe des freien Bereichs</td></tr>
+  </table>
+
+  <h3>Stufen / Rampen – Betreten/Verlassen</h3>
+  <ul>
+    <li>Breite: überlappend über gesamte Öffnungsbreite</li>
+    <li>Tiefe Trittfläche: mind. <strong>1,5-fache Höhe</strong> der angrenzenden Plattform</li>
+    <li>Springberg-Prallschutz: Trittfläche mind. <strong>1,6 m</strong> oder 50 % der Spielflächenhöhe (je höher)</li>
+  </ul>
+
+  <h3>Ausgänge bei umschlossenen Geräten</h3>
+  <ul>
+    <li>Ausgänge durch Symbole kennzeichnen (immer sichtbar)</li>
+    <li>Bei &gt; 15 Benutzern: mehrere Ausgänge</li>
+    <li>Max. Entfernung Benutzer–Ausgang: <strong>5 m</strong></li>
+  </ul>
+
+  <!-- 9. Begrenzungswände -->
+  <h2 id="section9">9. Begrenzungswände – Höhen</h2>
+
+  <table>
+    <tr><th>Plattformhöhe</th><th>Wandhöhe</th><th>Überdachung</th></tr>
+    <tr><td>&lt; 0,6 m</td><td>keine erforderlich</td><td>–</td></tr>
+    <tr><td>0,6 – 3,0 m</td><td>mind. Körpergröße Benutzer<br>(1,8 m für alle ausreichend)</td><td>nicht nötig</td></tr>
+    <tr><td>3,0 – 6,0 m</td><td>mind. 1,25 × Körpergröße<br><em>oder</em> Überdachung</td><td>alternativ</td></tr>
+    <tr><td>&gt; 6,0 m</td><td>erforderlich</td><td><span class="check">zwingend</span></td></tr>
+  </table>
+
+  <div class="info">
+    <strong>Überdachung:</strong> Mindestinnenhöhe 0,75 m (von Plattform bis Unterseite Dach).
+  </div>
+
+  <h3>Schrägen / Rutschen-Wandhöhen (Gefälle &gt; 30°)</h3>
+  <table>
+    <tr><th>Bereich</th><th>Wandhöhe</th></tr>
+    <tr><td>Erster Meter am oberen Ende</td><td>mind. Körpergröße Benutzer</td></tr>
+    <tr><td>Restliche Meter</td><td>mind. 50 % Körpergröße</td></tr>
+    <tr><td>Schräge &gt; 6,0 m</td><td>Wände + Überdachung (75 cm Innenhöhe)</td></tr>
+  </table>
+
+  <!-- 10. Rutschen -->
+  <h2 id="section10">10. Rutschen – Auslaufteil</h2>
+
+  <table>
+    <tr><th>Parameter</th><th>Wert</th></tr>
+    <tr><td>Durchschnittliche Neigung Auslaufteil</td><td>max. <span class="kennzahl">10°</span></td></tr>
+    <tr><td>Länge Auslaufteil</td><td>mind. 50 % der Plattformhöhe, min. 300 mm</td></tr>
+    <tr><td>Anschlagwand vorhanden?</td><td>+ 50 cm zur Auslauflänge</td></tr>
+    <tr><td>Höhe Anschlagwand</td><td>mind. Körpergröße Benutzer</td></tr>
+    <tr><td>Seitliche Begrenzungswände</td><td>mind. 50 % Körpergröße</td></tr>
+  </table>
+
+  <!-- 11. Herstellerinfo -->
+  <h2 id="section11">11. Herstellerinformationen</h2>
+
+  <h3>Vorabinformation (vor Auftragsannahme)</h3>
+  <ul>
+    <li>Freiraumhöhe &amp; erforderliche Fläche</li>
+    <li>Anforderungen an Böden</li>
+    <li>Gesamtpackmaß &amp; Gewicht</li>
+    <li>Altersgruppe / Körpergrößenbereich + max. Nutzerzahl</li>
+    <li>Bescheinigung der Normkonformität</li>
+  </ul>
+
+  <h3>Aufbauanleitung</h3>
+  <ul>
+    <li>Geräteliste, Verankerungsart und -anzahl</li>
+    <li>Max. Windgeschwindigkeit</li>
+    <li>Anforderungen Aufstellort, max. Neigung</li>
+    <li>Menschenmengenkontrolle</li>
+    <li>Typ &amp; Größe Gebläse</li>
+  </ul>
+
+  <h3>Betriebsinformationen – 16 Pflichtpunkte</h3>
+  <table>
+    <tr><th style="width:50%;">Thema</th><th>Anforderung</th></tr>
+    <tr><td>Beaufsichtigung</td><td>ständig erforderlich</td></tr>
+    <tr><td>Zugang</td><td>geregelt und sicher</td></tr>
+    <tr><td>Körpergröße Benutzer</td><td>max. laut Konstruktion</td></tr>
+    <tr><td>Nutzerzahl</td><td>konstruktionsbedingt begrenzt</td></tr>
+    <tr><td>Schuhe</td><td>ausziehen</td></tr>
+    <tr><td>Harte/spitze Gegenstände</td><td>entfernen</td></tr>
+    <tr><td>Brillen</td><td>abnehmen, sofern möglich</td></tr>
+    <tr><td>Essen/Trinken/Kaugummi</td><td>verboten</td></tr>
+    <tr><td>Eingang</td><td>freihalten</td></tr>
+    <tr><td>Klettern/Hängen an Wänden</td><td>verboten</td></tr>
+    <tr><td>Saltos/Purzelbäume</td><td>verboten</td></tr>
+    <tr><td>Große/kleine Benutzer</td><td>trennen</td></tr>
+    <tr><td>Pfeife/Signalgeber</td><td>für Betreiber erforderlich</td></tr>
+    <tr><td>Gebläse-Tanken</td><td>Gerät evakuieren</td></tr>
+  </table>
+
+  <!-- 12. Inspektion -->
+  <h2 id="section12">12. Inspektion &amp; Wartung</h2>
+
+  <h3>Routine-Inspektion (bei jedem Aufbau)</h3>
+  <ol>
+    <li>Ist der Aufstellungsort geeignet?</li>
+    <li>Sind alle Verankerungen sicher und an richtiger Stelle?</li>
+    <li>Sind Zubehörteile (stoßdämpfende Matten etc.) an richtiger Stelle?</li>
+    <li>Gewebe/Nähte ohne wesentliche Löcher/Risse?</li>
+    <li>Richtiges Gebläse?</li>
+    <li>Luftdruck ausreichend für stabilen Stand?</li>
+    <li>Keine freiliegenden elektrischen Teile, Kabel unbeschädigt?</li>
+    <li>Stecker, Fassungen, Schalter unbeschädigt?</li>
+    <li>Anschlussrohr und Gebläse fest verbunden?</li>
+    <li>Gebläse sicher befestigt, Schutzgitter intakt?</li>
+  </ol>
+
+  <h3>Jährliche Inspektion (durch Prüfstelle)</h3>
+  <ol>
+    <li>Vorherige Prüfberichte und Bescheinigungen</li>
+    <li>Identifizierung Gerät &amp; Gebläse (Seriennummern)</li>
+    <li>Verankerungssystem: Verschleiß, Risse, Abrieb</li>
+    <li>Erdanker/Ballast: Art &amp; Anzahl normkonform</li>
+    <li>Aufblasbare Konstruktion: Verschleiß, Risse im Gewebe</li>
+    <li>Wände/Türme: sichere Befestigung, Geradheit</li>
+    <li>Luftdruck ausreichend</li>
+    <li>Innere Verbindungen: Verschleiß, Zerreißen</li>
+    <li>Nähte Flachbett und Übergänge Wand/Turm</li>
+    <li>Schutzgitter Gebläse (Ein-/Austritt)</li>
+    <li>Antriebsrad und Gebläsegehäuse</li>
+    <li>Elektrische Leitungen und Betriebsmittel</li>
+    <li>Tankdeckel (bei Benzinmotor-Gebläsen)</li>
+  </ol>
+
+  <h3>Wartung</h3>
+  <table>
+    <tr><th>Routinemäßig</th><th>Wartungsreparaturen</th></tr>
+    <tr><td>Reinigen des Spielgeräts</td><td>Abgenutzte/defekte Teile ersetzen</td></tr>
+    <tr><td>Schmutz/Verunreinigungen entfernen</td><td>Risse/sich auflösende Nähte reparieren</td></tr>
+    <tr><td>Gebläse auf Rost prüfen</td><td>Löcher und Schnitte reparieren</td></tr>
+    <tr><td>Lufteintritt Gebläse reinigen</td><td>Schadhafte Konstruktionsteile austauschen</td></tr>
+  </table>
+
+  <div class="danger">
+    <strong>Wichtig:</strong> Änderungen an sicherheitsrelevanten Teilen nur nach Rücksprache mit Hersteller/Lieferer <em>oder einer befähigten Person</em> (= du!) Gerät erst nach Inspektion und Freigabe wieder verwenden.
+  </div>
+
+  <!-- 13. Kennzeichnung -->
+  <h2 id="section13">13. Kennzeichnung &amp; Dokumentation</h2>
+
+  <h3>Kennzeichnung Spielgerät – Pflichtangaben</h3>
+  <ul>
+    <li>Typ und Größe des erforderlichen Gebläses</li>
+    <li>Höchstmögliche Benutzergröße</li>
+    <li>Größtmögliche Anzahl der Benutzer</li>
+    <li>Eindeutige Kenn-Nummer(n)</li>
+    <li>Herstelljahr</li>
+    <li>Name &amp; Anschrift Lieferer/Hersteller/Importeur</li>
+    <li>Nummer und Datum der Norm (EN 14960-1:2019)</li>
+  </ul>
+
+  <h3>Kennzeichnung Gebläse – Pflichtangaben</h3>
+  <ul>
+    <li>Typ und Größe</li>
+    <li>Eindeutige Kenn-Nummer</li>
+    <li>Herstelljahr</li>
+    <li>Name &amp; Anschrift Lieferer/Hersteller</li>
+    <li>Nummer und Datum der Norm</li>
+  </ul>
+
+  <h3>Dokumentation (muss der Controller vorhalten)</h3>
+  <ol>
+    <li>Informationen vom Lieferer/Hersteller</li>
+    <li>Bescheinigungen über Inspektion und Prüfung</li>
+    <li>Protokolle über Inspektionen</li>
+    <li>Protokolle über Wartungen</li>
+    <li>Protokolle über Änderungen</li>
+    <li>Unfallberichte</li>
+  </ol>
+
+  <div class="success">
+    <strong>Tipp für Hupfgaudi:</strong> Du hast bereits ein Prüfprotokoll-Template (Pruefprotokoll_Huepfburg.docx) und die TRBS 1203. Damit deckst du die Punkte 2 und 3 optimal ab.
+  </div>
+
+  <!-- 14. Prüfkörper -->
+  <h2 id="section14">14. Prüfkörper im Überblick</h2>
+
+  <table>
+    <tr><th>Prüfkörper</th><th>Maße</th><th>Zweck</th><th>Prüfkraft</th></tr>
+    <tr><td><strong>E – kleiner Kopf</strong></td><td>Ø 100/130 mm, 100 mm tief</td><td>Kopffangstellen vollständig umschlossene Öffnungen</td><td>222 N</td></tr>
+    <tr><td><strong>C – Torso</strong></td><td>89 × 157 mm, 100 mm tief</td><td>Kopffangstellen (Körper rutscht durch)</td><td>222 N</td></tr>
+    <tr><td><strong>D – großer Kopf</strong></td><td>Ø 200/230 mm, 100 mm tief</td><td>Kopffangstellen (muss durchgehen wenn C oder E durchgehen)</td><td>222 N</td></tr>
+    <tr><td><strong>Teilweise/V-förmig</strong></td><td>T-Form mit Schulter</td><td>Hals-/Kopffangstellen in V-Öffnungen</td><td>222 N</td></tr>
+    <tr><td><strong>Knebel + Kette</strong></td><td>Kugel Ø 25 mm, Kette Ø 3,6 mm</td><td>Kleidungsfangstellen (Knebelprüfung)</td><td>50 N</td></tr>
+    <tr><td><strong>8-mm-Rundstab</strong></td><td>Ø 8 mm, Länge 100 mm</td><td>Fingerfangstellen (klein)</td><td>30 N</td></tr>
+    <tr><td><strong>25-mm-Rundstab</strong></td><td>Ø 25 mm, Länge 100 mm</td><td>Fingerfangstellen (groß, wenn 8-mm durch)</td><td>30 N</td></tr>
+  </table>
+
+  <div class="highlight">
+    <strong>Für die Praxis:</strong> Für eine regelkonforme Prüfung benötigst du mindestens die 3 Kopfprüfkörper (C, D, E), den T-förmigen Prüfkörper für V-Öffnungen, die Knebelprüfvorrichtung und die beiden Rundstäbe (8 mm und 25 mm).
+  </div>
+
+  <h3>Anhang B – Beaufort-Skala (Auszug relevant für Betrieb)</h3>
+  <table>
+    <tr><th>Stärke</th><th>Beschreibung</th><th>km/h</th><th>Betrieb?</th></tr>
+    <tr><td>0–4</td><td>Windstille – mäßige Brise</td><td>&lt; 28</td><td><span class="check">OK</span></td></tr>
+    <tr><td>5</td><td>frische Brise</td><td>29–38</td><td><span class="check">Grenze – max. erlaubt!</span></td></tr>
+    <tr><td>6</td><td>starker Wind</td><td>39–49</td><td><span class="cross">STOPP</span></td></tr>
+    <tr><td>≥ 7</td><td>steifer Wind und mehr</td><td>≥ 50</td><td><span class="cross">STOPP + abbauen</span></td></tr>
+  </table>
+
+  <!-- Fußzeile -->
+  <div class="footer">
+    <strong>Hupf<span style="color:#ffcc00;">Gaudi</span> Vilshofen</strong> &nbsp;|&nbsp;
+    Christoph Gutsmidl &nbsp;|&nbsp;
+    Böcklbacher Str. 7, 94474 Vilshofen (Alkofen) &nbsp;|&nbsp;
+    Tel. +49 151 28861367 &nbsp;|&nbsp;
+    hupfgaudi@gmail.com
+    <br>
+    Diese Zusammenfassung basiert auf DIN EN 14960-1:2020-04 (EN 14960-1:2019) — Aufblasbare Spielgeräte – Teil 1: Sicherheitstechnische Anforderungen und Prüfverfahren. Die vollständige Norm ist verbindlich.
+  </div>
+
+</body>
+</html>

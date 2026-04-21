@@ -48,10 +48,5 @@
     "priceWeekday": 49,
     "priceWeekend": 65,
     "saveWeekend": 82
-  },
-  "Paw Patrol": {
-    "priceWeekday": 149,
-    "priceWeekend": 149,
-    "saveWeekend": 298
   }
 }

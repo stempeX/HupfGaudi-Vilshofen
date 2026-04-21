@@ -6,6 +6,9 @@ __pycache__/
 anfragen.json
 contracts.json
 confirmed_bookings.json
+bookings.json
+bookings.json.bak
+bookings.json.tmp
 
 # Upload-Bilder (werden vom Server generiert)
 img/*.jpg
@@ -20,6 +23,13 @@ img/*.webp
 !img/burg2.png
 !img/logo.svg
 !img/logo_cartoon.png
+!img/reiterhof.jpg
+!img/rennauto.jpg
+!img/flags/
+
+# WhatsApp-Quelldateien im Projekt-Root
+IMG-*.jpg
+IMG-*.jpeg
 
 # Test-Dateien
 test-sperrtage.html
