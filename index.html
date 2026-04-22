@@ -1296,15 +1296,10 @@
       const prevBtn     = lightbox.querySelector('.lightbox-prev');
       const nextBtn     = lightbox.querySelector('.lightbox-next');
 
-      // Galerie-Bilder pro Hüpfburg (nur Meerjungfrau hat mehrere)
-      const galleries = {
-        'Meerjungfrau Hüpfburg': [
-          'https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9abdbab3-65f9-4fb0-846a-997c09765c65/l0,t135,w1080,h1080/image-768x768.png',
-          'https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/210a3679-d53d-48b6-a2ad-e636a034cf9b/image-384x480.png',
-          'https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/80b6afa0-3a2e-43c8-88c2-bfff27dcbdbd/image-384x480.png',
-          'https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/4bbbf281-df0a-4b45-801a-993d319d029d/image-384x480.png'
-        ]
-      };
+      // Galerien werden dynamisch aus products.json gefuellt
+      // Klick auf ein Card-Bild -> alle images[] des Produkts als Galerie verwenden
+      // Jede Card bekommt dazu data-gallery="pipe|separated|urls" vom Renderer gesetzt
+      const galleries = {};
 
       let currentGallery = [];
       let currentIndex = 0;
@@ -1347,14 +1342,23 @@
         const alt = img.alt || '';
         lightboxCap.textContent = alt;
 
-        // Prüfe ob es eine Galerie für dieses Bild gibt
-        const galleryKey = Object.keys(galleries).find(k => alt.includes(k));
-        if (galleryKey) {
-          currentGallery = galleries[galleryKey];
+        // 1) Pro-Card-Galerie: data-gallery Attribut auf <img> oder parent .combo-card
+        let galleryList = null;
+        const card = img.closest('[data-gallery]') || (img.dataset.gallery ? img : null);
+        if (card && card.dataset.gallery) {
+          galleryList = card.dataset.gallery.split('|').filter(Boolean);
+        }
+        // 2) Fallback: statische galleries (Legacy)
+        if (!galleryList) {
+          const galleryKey = Object.keys(galleries).find(k => alt.includes(k));
+          if (galleryKey) galleryList = galleries[galleryKey];
+        }
+
+        if (galleryList && galleryList.length > 1) {
+          currentGallery = galleryList;
           currentIndex = 0;
           prevBtn.style.display = 'flex';
           nextBtn.style.display = 'flex';
-          // Dots erstellen
           lightboxDots.innerHTML = '';
           currentGallery.forEach((_, i) => {
             const dot = document.createElement('span');
@@ -1502,31 +1506,55 @@
       if (!res.ok) return;
       const products = await res.json();
 
-      const hupfburgen = products.filter(p => p.type === 'hupfburg' && (p.active || p.comingSoon));
+      // Sichtbar sind: aktive Produkte + inaktive mit Grund (inactiveReason) + Legacy-comingSoon
+      const hupfburgen = products.filter(p => p.type === 'hupfburg' && (p.active || p.inactiveReason || p.comingSoon));
       const extras = products.filter(p => p.type === 'equipment' && p.active);
 
       // 1. Hüpfburg-Karten rendern
       const grid = document.getElementById('preise');
       if (grid && hupfburgen.length) {
         grid.innerHTML = hupfburgen.map(p => {
-          const isComing = !p.active && p.comingSoon;
-          const badge = isComing
-            ? '<div class="combo-badge" style="background:linear-gradient(135deg,#60a5fa,#3b82f6)">🚧 Bald verfügbar</div>'
+          // Status-Bestimmung
+          const isInactive = !p.active;
+          const reason = p.inactiveReason || (p.comingSoon ? 'coming_soon' : null);
+          const isComingSoon = isInactive && reason === 'coming_soon';
+          const isUnavailable = isInactive && reason === 'unavailable';
+
+          // Top-Badge (Bestseller / Coming-Soon / Nicht verfügbar)
+          const badge = isComingSoon
+            ? '<div class="combo-badge" style="background:linear-gradient(135deg,#60a5fa,#3b82f6)">🚧 Bald im Sortiment</div>'
+            : isUnavailable
+            ? '<div class="combo-badge" style="background:linear-gradient(135deg,#9ca3af,#4b5563)">❌ Momentan nicht verfügbar</div>'
             : (p.featured ? '<div class="combo-badge">⭐ Bestseller</div>' : '');
+
           const exclusiveBadge = p.exclusive
             ? '<div class="combo-badge" style="background:linear-gradient(135deg,#a855f7,#ec4899);top:auto;bottom:12px;right:12px;left:auto"><span data-i18n="badge.unikat">✨ Unikat · Exklusiv-Design</span></div>'
             : '';
-          const cta = isComing
+
+          // Call-to-Action / Hinweis
+          const cta = isComingSoon
             ? '<span class="combo-cta" style="background:#94a3b8;cursor:not-allowed;pointer-events:none">🚧 Noch nicht buchbar</span>'
+            : isUnavailable
+            ? '<span class="combo-cta" style="background:#9ca3af;cursor:not-allowed;pointer-events:none">❌ Aktuell nicht buchbar</span>'
             : '<a href="#verfuegbarkeit" class="combo-cta">Jetzt buchen</a>';
-          const comingHint = isComing && p.comingSoonLabel
-            ? '<p style="color:#3b82f6;font-weight:700;font-size:.9rem;margin-top:6px">📅 ' + p.comingSoonLabel + '</p>'
+
+          // Hinweis-Text unter der Beschreibung
+          const comingHint = isComingSoon
+            ? '<p style="color:#3b82f6;font-weight:700;font-size:.9rem;margin-top:6px">📅 ' + (p.comingSoonLabel || 'Bald im Sortiment verfügbar') + '</p>'
+            : isUnavailable
+            ? '<p style="color:#b91c1c;font-weight:700;font-size:.9rem;margin-top:6px">⚠️ Diese Hüpfburg ist aktuell nicht buchbar</p>'
+            : '';
+          const gallery = Array.isArray(p.images) && p.images.length ? p.images : (p.image ? [p.image] : []);
+          const galleryAttr = gallery.length > 1 ? ' data-gallery="' + gallery.join('|').replace(/"/g, '&quot;') + '"' : '';
+          const galleryHint = gallery.length > 1
+            ? '<span class="combo-gallery-hint" style="position:absolute;top:50px;right:10px;background:rgba(0,0,0,.62);color:#fff;padding:4px 9px;border-radius:16px;font-size:.72rem;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:5;pointer-events:none;display:inline-flex;align-items:center;gap:4px;backdrop-filter:blur(2px)">📷 ' + gallery.length + ' Bilder</span>'
             : '';
           return `
-          <div class="combo-card${p.featured && !isComing ? ' combo-card--featured' : ''}${isComing ? ' combo-card--coming' : ''}" data-product="${p.name}">
+          <div class="combo-card${p.featured && !isInactive ? ' combo-card--featured' : ''}${isInactive ? ' combo-card--coming' : ''}" data-product="${p.name}"${galleryAttr} style="position:relative${isInactive ? ';opacity:.9' : ''}">
             ${badge}
             ${exclusiveBadge}
             <img src="${p.image}" alt="${p.displayName}" class="combo-img card-img" loading="lazy" />
+            ${galleryHint}
             <div class="combo-info">
               <h3>${p.displayName}</h3>
               <p>${p.description}</p>

@@ -38,11 +38,17 @@
     "saveWeekend": 99,
     "color": "#10b981",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9139d95d-2272-4b9a-8d67-c8d38ae06c48/image.png",
-    "featured": false,
-    "active": true,
     "images": [
-      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9139d95d-2272-4b9a-8d67-c8d38ae06c48/image.png"
-    ]
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9139d95d-2272-4b9a-8d67-c8d38ae06c48/image.png",
+      "img/f7ebf3cf.jpg",
+      "img/b2d65dde.jpg",
+      "img/e87a3e98.jpg",
+      "img/a8218753.jpg",
+      "img/73466a96.jpg",
+      "img/62f42f0a.jpg"
+    ],
+    "featured": false,
+    "active": true
   },
   {
     "id": "einhorn",
@@ -79,14 +85,21 @@
     "feature": "Groß & mit Rutsche",
     "priceWeekday": 149,
     "priceWeekend": 348,
+    "priceZutaten": 0,
     "saveWeekend": 99,
     "color": "#ef4444",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/552882bf-eacf-4b68-8d9b-aba392b2099b/image.png",
-    "featured": false,
-    "active": true,
     "images": [
-      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/552882bf-eacf-4b68-8d9b-aba392b2099b/image.png"
-    ]
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/552882bf-eacf-4b68-8d9b-aba392b2099b/image.png",
+      "img/3ab6c2ef.jpg",
+      "img/d8348bc4.jpg",
+      "img/0e3d40d6.jpg",
+      "img/11faf2b1.jpg",
+      "img/961d9331.jpg",
+      "img/14e8c510.jpg"
+    ],
+    "featured": false,
+    "active": true
   },
   {
     "id": "fussballstar",
@@ -112,7 +125,7 @@
   },
   {
     "id": "meerjungfrau",
-    "name": "Meerjungfrau",
+    "name": "Arielle",
     "displayName": "Meerjungfrau Hüpfburg",
     "apiName": "Arielle",
     "type": "hupfburg",
@@ -123,17 +136,19 @@
     "feature": "Kletterturm, Tunnel & Rutsche",
     "priceWeekday": 219,
     "priceWeekend": 497,
+    "priceZutaten": 0,
     "saveWeekend": 160,
     "color": "#06b6d4",
     "image": "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9abdbab3-65f9-4fb0-846a-997c09765c65/l0,t135,w1080,h1080/image-768x768.png",
-    "featured": true,
-    "active": true,
     "images": [
       "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/9abdbab3-65f9-4fb0-846a-997c09765c65/l0,t135,w1080,h1080/image-768x768.png",
-      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/210a3679-d53d-48b6-a2ad-e636a034cf9b/image-384x480.png",
       "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/80b6afa0-3a2e-43c8-88c2-bfff27dcbdbd/image-384x480.png",
-      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/4bbbf281-df0a-4b45-801a-993d319d029d/image-384x480.png"
-    ]
+      "https://hupfgaudi-vilshofen.de/wp-content/uploads/go-x/u/4bbbf281-df0a-4b45-801a-993d319d029d/image-384x480.png",
+      "img/3a571180.jpg",
+      "img/893fd8d6.jpg"
+    ],
+    "featured": true,
+    "active": true
   },
   {
     "id": "hochzeit",
@@ -220,24 +235,24 @@
     "displayName": "Reiterhof Hüpfburg",
     "apiName": "Reiterhof",
     "type": "hupfburg",
-    "description": "Galoppier in dein Abenteuer! Exklusives HupfGaudi-Design mit liebevollem Pferde-Motiv und integrierter Rutsche – gibt's nur bei uns!",
+    "description": "Galoppier in dein Abenteuer! Liebevolles Pferde-Motiv mit integrierter Rutsche.",
     "dimensions": "4,0 × 3,0 × 3,3 m",
     "weight": "ca. 90 kg",
     "age": "3–12 Jahre",
     "feature": "Exklusiv-Design & Rutsche",
     "priceWeekday": 95,
     "priceWeekend": 228,
+    "priceZutaten": 0,
     "saveWeekend": 57,
     "color": "#60a5fa",
     "image": "img/reiterhof.jpg",
-    "featured": false,
-    "active": false,
-    "comingSoon": true,
-    "comingSoonLabel": "Bald verfügbar – voraussichtlich ab Juli 2026",
     "images": [
       "img/reiterhof.jpg"
     ],
-    "exclusive": true
+    "featured": false,
+    "active": false,
+    "exclusive": true,
+    "inactiveReason": "coming_soon"
   },
   {
     "id": "rennauto",
@@ -245,23 +260,23 @@
     "displayName": "Rennauto Hüpfburg",
     "apiName": "Rennauto",
     "type": "hupfburg",
-    "description": "Auf die Plätze, fertig, LOS! Exklusives HupfGaudi-Design mit Formel-1-Feeling und integrierter Rutsche – ein echtes Unikat!",
+    "description": "Auf die Plätze, fertig, LOS! Formel-1-Feeling mit integrierter Rutsche.",
     "dimensions": "4,0 × 3,0 × 3,3 m",
     "weight": "ca. 90 kg",
     "age": "3–12 Jahre",
     "feature": "Exklusiv-Design & Rutsche",
     "priceWeekday": 95,
     "priceWeekend": 228,
+    "priceZutaten": 0,
     "saveWeekend": 57,
     "color": "#ef4444",
     "image": "img/rennauto.jpg",
-    "featured": false,
-    "active": false,
-    "comingSoon": true,
-    "comingSoonLabel": "Bald verfügbar – voraussichtlich ab Juli 2026",
     "images": [
       "img/rennauto.jpg"
     ],
-    "exclusive": true
+    "featured": false,
+    "active": false,
+    "exclusive": true,
+    "inactiveReason": "coming_soon"
   }
 ]

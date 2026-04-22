@@ -24,7 +24,7 @@
     "priceWeekend": 348,
     "saveWeekend": 99
   },
-  "Meerjungfrau": {
+  "Arielle": {
     "priceWeekday": 219,
     "priceWeekend": 497,
     "saveWeekend": 160
@@ -48,5 +48,15 @@
     "priceWeekday": 49,
     "priceWeekend": 65,
     "saveWeekend": 82
+  },
+  "Reiterhof": {
+    "priceWeekday": 95,
+    "priceWeekend": 228,
+    "saveWeekend": 57
+  },
+  "Rennauto": {
+    "priceWeekday": 95,
+    "priceWeekend": 228,
+    "saveWeekend": 57
   }
 }

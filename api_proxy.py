@@ -1097,10 +1097,19 @@ class ProxyHandler(SimpleHTTPRequestHandler):
         try:
             content_length = int(self.headers.get('Content-Length', 0))
             body = self.rfile.read(content_length)
-            settings = json.loads(body)
+            new_settings = json.loads(body)
+            # Bestehende Settings laden und mergen (verhindert Datenverlust)
+            existing = {}
+            if os.path.exists(SETTINGS_FILE):
+                try:
+                    with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+                        existing = json.load(f)
+                except Exception:
+                    existing = {}
+            existing.update(new_settings)
             with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
-                json.dump(settings, f, ensure_ascii=False, indent=2)
-            print(f'Settings aktualisiert')
+                json.dump(existing, f, ensure_ascii=False, indent=2)
+            print(f'Settings aktualisiert (merged, {len(existing)} Felder)')
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
