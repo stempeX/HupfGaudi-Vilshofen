@@ -9,6 +9,7 @@ confirmed_bookings.json
 bookings.json
 bookings.json.bak
 bookings.json.tmp
+price_history.json
 
 # Upload-Bilder (werden vom Server generiert)
 img/*.jpg

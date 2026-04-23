@@ -350,7 +350,7 @@ for hdr, items in [
         'Mindestens 1,8 m freier Platz rund um die Hüpfburg.',
     ]),
     ('Vorbereitung & Aufblasen', [
-        'Aufbau bei starkem Wind oder Niederschlag ist zu unterlassen.',
+        'Aufbau bei Windgeschwindigkeiten ab 39 km/h (Beaufort 6) oder Niederschlag ist zu unterlassen.',
         'Niemand darf die Hüpfburg betreten, bevor sie vollständig aufgeblasen ist.',
         'Aufsichtsperson beobachtet den gesamten Füllvorgang.',
         'Gebläse darf während der gesamten Nutzungszeit nicht abgeschaltet werden.',

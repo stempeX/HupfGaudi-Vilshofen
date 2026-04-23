@@ -50,6 +50,7 @@ CONTRACTS_FILE = os.path.join(BASE_DIR, 'contracts.json')
 SLIDESHOW_FILE = os.path.join(BASE_DIR, 'slideshow.json')
 BLOCKED_DATES_FILE = os.path.join(BASE_DIR, 'blocked_dates.json')
 BOOKINGS_FILE = os.path.join(BASE_DIR, 'bookings.json')
+PRICE_HISTORY_FILE = os.path.join(BASE_DIR, 'price_history.json')
 
 # Lock fuer alle Schreib-Zugriffe auf bookings.json
 BOOKINGS_LOCK = threading.Lock()
@@ -294,6 +295,9 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._get_weekend_deal()
         elif self.path.startswith('/api/blocked-dates'):
             self._get_blocked_dates()
+        elif self.path.startswith('/api/price-history'):
+            if not self._require_auth(): return
+            self._get_price_history()
         elif self.path.startswith('/api/check-session'):
             self.send_response(200 if self._is_authenticated() else 401)
             self.send_header('Content-Type', 'application/json')
@@ -1136,6 +1140,25 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
 
+    def _get_price_history(self):
+        """GET /api/price-history - liefert alle Preisaenderungen (Admin-geschuetzt)."""
+        try:
+            history = []
+            if os.path.exists(PRICE_HISTORY_FILE):
+                with open(PRICE_HISTORY_FILE, 'r', encoding='utf-8') as f:
+                    history = json.load(f)
+            body = json.dumps(history, ensure_ascii=False).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode())
+
     # ── Wochenendangebot ──
 
     def _get_weekend_deal(self):
@@ -1655,6 +1678,49 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             content_length = int(self.headers.get('Content-Length', 0))
             body = self.rfile.read(content_length)
             products = json.loads(body)
+
+            # Preisaenderungen gegen alten Zustand vergleichen und in Historie festhalten
+            try:
+                old_products = []
+                if os.path.exists(PRODUCTS_FILE):
+                    with open(PRODUCTS_FILE, 'r', encoding='utf-8') as f:
+                        old_products = json.load(f)
+                old_by_id = {p.get('id'): p for p in old_products}
+                history_entries = []
+                now_iso = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+                for p in products:
+                    old_p = old_by_id.get(p.get('id'))
+                    if not old_p:
+                        continue
+                    for field in ('priceWeekday', 'priceWeekend', 'priceZutaten'):
+                        old_v = old_p.get(field, 0) or 0
+                        new_v = p.get(field, 0) or 0
+                        if old_v != new_v:
+                            history_entries.append({
+                                'timestamp': now_iso,
+                                'product_id': p.get('id'),
+                                'product_name': p.get('displayName') or p.get('name'),
+                                'field': field,
+                                'old_value': old_v,
+                                'new_value': new_v,
+                                'delta': new_v - old_v,
+                            })
+                if history_entries:
+                    history = []
+                    if os.path.exists(PRICE_HISTORY_FILE):
+                        try:
+                            with open(PRICE_HISTORY_FILE, 'r', encoding='utf-8') as f:
+                                history = json.load(f)
+                        except Exception:
+                            history = []
+                    # Neue oben anfuegen (chronologisch neueste zuerst)
+                    history = history_entries + history
+                    with open(PRICE_HISTORY_FILE, 'w', encoding='utf-8') as f:
+                        json.dump(history, f, ensure_ascii=False, indent=2)
+                    print(f'{len(history_entries)} Preisaenderung(en) in Historie aufgezeichnet')
+            except Exception as e:
+                print(f'Preishistorie-Fehler (nicht kritisch): {e}')
+
             with open(PRODUCTS_FILE, 'w', encoding='utf-8') as f:
                 json.dump(products, f, ensure_ascii=False, indent=2)
             # prices.json auch synchronisieren
