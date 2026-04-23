@@ -1553,7 +1553,7 @@
           <div class="combo-card${p.featured && !isInactive ? ' combo-card--featured' : ''}${isInactive ? ' combo-card--coming' : ''}" data-product="${p.name}"${galleryAttr} style="position:relative${isInactive ? ';opacity:.9' : ''}">
             ${badge}
             ${exclusiveBadge}
-            <img src="${p.image}" alt="${p.displayName}" class="combo-img card-img" loading="lazy" />
+            <img src="${p.image}" alt="${p.displayName}" class="combo-img card-img" loading="lazy"${p.imageBackground ? ' style="background:' + p.imageBackground + '"' : ''} />
             ${galleryHint}
             <div class="combo-info">
               <h3>${p.displayName}</h3>
