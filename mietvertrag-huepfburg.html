@@ -224,7 +224,7 @@
       <li>sie <strong>trocken und gereinigt</strong> wurde</li>
       <li>optional: ein kurzer <strong>Videobeweis</strong> des gereinigten Zustands (empfohlen)</li>
     </ul>
-    <p style="font-size:.85rem;color:#666;margin-top:8px">Die Rückerstattung erfolgt bar bei Übergabe oder innerhalb von <strong>14 Tagen</strong> nach Rückgabe.</p>
+    <p style="font-size:.85rem;color:#666;margin-top:8px">Die Rückerstattung erfolgt <strong>sofort nach erbrachtem Videobeweis</strong> bei der Rückgabe (bar oder per Sofort-Überweisung).</p>
   </div>
 
   <!-- 5. KAUTIONSREGELUNG -->
@@ -236,7 +236,7 @@
     <li>Beschädigungen an der Mietsache</li>
     <li>Beschädigungen an der Mietsache</li>
   </ul>
-  <p>Die Kaution (<!-- PREIS:kaution:huepfburg -->150 €) wird vollständig zurückerstattet, wenn die Hüpfburg sauber, trocken und besenrein zurückgegeben wurde. Die Rückerstattung erfolgt bar bei Übergabe oder innerhalb von <strong>14 Tagen</strong> nach Rückgabe per Überweisung.</p>
+  <p>Die Kaution (<!-- PREIS:kaution:huepfburg -->150 €) wird vollständig zurückerstattet, wenn die Hüpfburg sauber, trocken und besenrein zurückgegeben wurde und der Videobeweis (siehe §18a) erbracht ist. Die Rückerstattung erfolgt <strong>sofort nach Sichtung des Videobeweises</strong> – bar bei Übergabe oder per Sofort-Überweisung.</p>
 
   <div class="highlight-box">
     <div class="field"><label><strong>Gesamtmietkosten:</strong></label><input class="dinput" id="c-gesamt" style="max-width:120px;font-weight:700" type="number"><span style="font-weight:700;margin-left:8px">€ (inkl. MwSt.)</span></div>
@@ -368,7 +368,7 @@
     <li><strong>§9 Mängelrechte:</strong> Mängel sind unverzüglich anzuzeigen. Eine Kündigung ist erst nach erfolgloser Mängelbeseitigung zulässig.</li>
     <li><strong>§10 Haftung:</strong> Der Mieter haftet für Schäden, die durch unsachgemäße Nutzung entstehen. Die Haftung des Vermieters für Personenschäden sowie für Vorsatz und grobe Fahrlässigkeit bleibt unberührt. Eine entsprechende Versicherung wird empfohlen.</li>
     <li><strong>§11 Vertragslaufzeit:</strong> Das Mietverhältnis wird befristet geschlossen und endet automatisch. Kündigung bedarf der Textform (E-Mail).</li>
-    <li><strong>§12 Kaution:</strong> Je Mietsache ist eine Kaution von <!-- PREIS:kaution:huepfburg -->150 € bei Abholung zu hinterlegen. Rückerstattung innerhalb von 14 Tagen bei sauberer Rückgabe.</li>
+    <li><strong>§12 Kaution:</strong> Je Mietsache ist eine Kaution von <!-- PREIS:kaution:huepfburg -->150 € bei Abholung zu hinterlegen. Rückerstattung erfolgt sofort nach erbrachtem Videobeweis und sauberer Rückgabe.</li>
     <li><strong>§13 Rückgabe:</strong> Mietsache in ordnungsgemäßem Zustand zurückgeben. Bei Überschreitung der Mietdauer: tagesanteiliger Betrag.</li>
   </ul>
 
@@ -683,6 +683,61 @@
       btn.textContent = '📧 Mietvertrag digital absenden';
     }
   }
+
+  // ── Vorbefüllung aus URL-Parametern (Aufruf aus Dashboard) ──
+  (function prefillFromUrl() {
+    const p = new URLSearchParams(window.location.search);
+    if (![...p.keys()].length) return;
+    const setVal = (id, val) => {
+      if (val == null || val === '') return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      // Bei <select>: passende Option finden (case-insensitive, fallback unverändert)
+      if (el.tagName === 'SELECT') {
+        const target = String(val).toLowerCase();
+        for (const opt of el.options) {
+          if (opt.value.toLowerCase() === target || opt.textContent.toLowerCase().includes(target)) {
+            el.value = opt.value; return;
+          }
+        }
+      } else {
+        el.value = val;
+      }
+    };
+    const fill = () => {
+      setVal('c-name', p.get('name'));
+      setVal('c-strasse', p.get('strasse'));
+      setVal('c-ort', p.get('ort'));
+      setVal('c-telefon', p.get('telefon'));
+      setVal('c-email', p.get('email'));
+      setVal('c-modell', p.get('modell'));
+      setVal('c-datum-start', p.get('datum_start'));
+      setVal('c-datum-ende', p.get('datum_ende') || p.get('datum_start'));
+      setVal('c-preis', p.get('preis'));
+      // Lieferung intelligent setzen
+      const lief = (p.get('lieferung') || '').toLowerCase();
+      const sel = document.getElementById('c-lieferung');
+      if (sel && lief) {
+        sel.value = lief.includes('lieferung') || lief.includes('🚚') ? 'lieferung' : 'selbstabholung';
+      }
+    };
+    // Falls Modell-Dropdown noch nicht befüllt (lädt async aus products.json), retry
+    fill();
+    let tries = 0;
+    const t = setInterval(() => {
+      const s = document.getElementById('c-modell');
+      if (!s || s.options.length > 1 || ++tries > 20) {
+        fill();
+        clearInterval(t);
+        // Druckhinweis oben einblenden
+        if (![...p.keys()].length) return;
+        const banner = document.createElement('div');
+        banner.style.cssText = 'background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 18px;margin:16px;border-radius:6px;font-size:.95rem';
+        banner.innerHTML = '📄 <strong>Vorbefüllt aus Dashboard-Buchung.</strong> Du kannst den Vertrag prüfen, ergänzen und mit <strong>Strg+P</strong> drucken.';
+        document.body.insertBefore(banner, document.body.firstChild);
+      }
+    }, 200);
+  })();
   </script>
 
 </body>

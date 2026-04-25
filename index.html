@@ -95,7 +95,7 @@
       { "@type": "Question", "name": "Liefern Sie auch?",
         "acceptedAnswer": { "@type": "Answer", "text": "Aktuell bieten wir Selbstabholung in Vilshofen (Alkofen) an. Sprechen Sie uns auf Lieferoptionen an." }},
       { "@type": "Question", "name": "Gibt es eine Kaution?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Ja, bei Abholung wird eine Kaution erhoben: 150 € für Hüpfburgen, 100 € für Popcornmaschine, 100 € für Zuckerwattemaschine. Alle Kautionen werden bei sauberer Rückgabe vollständig erstattet. Bei verschmutzter Rückgabe berechnen wir 25 € Reinigungsgebühr pro Gerät." }}
+        "acceptedAnswer": { "@type": "Answer", "text": "Ja, bei Abholung wird eine Kaution erhoben: 150 € für Hüpfburgen, 50 € für Partyzubehör (Popcornmaschine, Zuckerwattemaschine, Icecream Roll). Alle Kautionen werden bei sauberer Rückgabe vollständig erstattet. Bei verschmutzter Rückgabe berechnen wir 25 € Reinigungsgebühr pro Gerät." }}
     ]
   }
   </script>
@@ -647,7 +647,7 @@
         <details class="faq-item"><summary>Liefern Sie die Hüpfburg auch zu uns?</summary><p>Aktuell bieten wir einen Selbstabholer-Service an. Die Abholung erfolgt bequem bei uns in Vilshofen (Alkofen). Bei Bedarf sprich uns gerne auf Lieferoptionen an!</p></details>
         <details class="faq-item"><summary>Sind die Hüpfburgen für draußen und drinnen geeignet?</summary><p>Ja! Alle unsere Burgen sind sowohl für den Innen- als auch Außenbereich geeignet. Gemäß DIN EN 14960-1:2019 muss der Betrieb bei Windgeschwindigkeiten ab 39 km/h (Beaufort 6) eingestellt werden.</p></details>
         <details class="faq-item"><summary>Wie lange im Voraus muss ich buchen?</summary><p>Wir empfehlen mindestens 2–3 Wochen im Voraus zu buchen, besonders in der Hauptsaison Mai–September. Kurzfristige Anfragen nehmen wir gerne entgegen – Verfügbarkeit vorausgesetzt.</p></details>
-        <details class="faq-item"><summary>Gibt es eine Kaution?</summary><p>Ja! <strong>Hüpfburgen: 150 €</strong> – Rückerstattung bei sauberer und besenreiner Rückgabe mit Videobeweis. <strong>Extras (Popcorn / Zuckerwatte / Icecream Roll): je 100 €</strong> – Rückerstattung bei sauberer, gereinigter Rückgabe. Bei verschmutzter Rückgabe: <strong>25 € Reinigungsgebühr pro Gerät</strong>.</p></details>
+        <details class="faq-item"><summary>Gibt es eine Kaution?</summary><p>Ja! <strong>Hüpfburgen: 150 €</strong> – Rückerstattung bei sauberer und besenreiner Rückgabe mit Videobeweis. <strong>Partyzubehör (Popcorn / Zuckerwatte / Icecream Roll): 50 €</strong> – Rückerstattung bei sauberer, gereinigter Rückgabe. Bei verschmutzter Rückgabe: <strong>25 € Reinigungsgebühr pro Gerät</strong>.</p></details>
       </div>
 
       <h3 style="text-align:center;color:var(--dark);margin:28px 0 16px;font-size:1.1rem">🎉 Partyzubehör</h3>
@@ -728,7 +728,7 @@
                 <label class="form-legal-check"><input type="checkbox" id="datenschutz-accept" required> <span data-i18n="form.legal.datenschutz">Ich habe die <a href="impressum.html#datenschutz" target="_blank" style="color:var(--primary);font-weight:700">Datenschutzerklärung</a> gelesen und willige ein, dass meine Daten zur Bearbeitung meiner Anfrage verarbeitet werden. *</span></label>
                 <label class="form-legal-check"><input type="checkbox" id="agb-accept" required> <span data-i18n="form.legal.agb">Ich habe den Mietvertrag, die AGB und Widerrufsbelehrung gelesen und akzeptiere diese. *</span></label>
                 <label class="form-legal-check"><input type="checkbox" id="ausweis-accept"> <span data-i18n="form.legal.ausweis">Ich willige ein, dass bei Abholung ein Foto meines Personalausweises zur Identitätssicherung angefertigt wird.</span></label>
-                <label class="form-legal-check"><input type="checkbox" id="kaution-accept" required> <span data-i18n="form.legal.kaution">Ich bringe zur Abholung eine Kaution von 150 € (Hüpfburg) bzw. 100 € (Partyzubehör) in bar mit. *</span></label>
+                <label class="form-legal-check"><input type="checkbox" id="kaution-accept" required> <span data-i18n="form.legal.kaution">Ich bringe zur Abholung eine Kaution von 150 € (Hüpfburg) bzw. 50 € (Partyzubehör) in bar mit. *</span></label>
               </div>
             </div>
             <div class="form-submit"><button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;" data-i18n="form.submit">🎉 Jetzt verbindlich buchen</button></div>
@@ -1088,8 +1088,8 @@
         const apiTo = endPlusOne.toISOString().split('T')[0];
 
         let res;
-        // Immer über Backend-Proxy (kein direkter SuperSaaS-Call = API-Key geschützt)
-        res = await fetch('http://localhost:8081/api/bookings?from=' + fromDate + '&to=' + apiTo);
+        // Cache-Buster damit Browser die API-Antwort nie cached
+        res = await fetch('http://localhost:8081/api/bookings?from=' + fromDate + '&to=' + apiTo + '&_=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) throw new Error('API Fehler');
         const bookings = await res.json();
 
@@ -1100,10 +1100,12 @@
 
         bookings.forEach(b => {
           if (b.deleted) return;
-          const bStart = new Date(b.start);
-          const bEnd   = new Date(b.finish);
-          // Prüfe ob die Buchung irgendeinen Tag im Zeitraum überlappt
-          if (bStart <= rangeEnd && bEnd >= rangeStart) {
+          // Datum-only-Vergleich (YYYY-MM-DD ist lexikografisch sortierbar)
+          const bStartDate = (b.start || '').slice(0, 10);
+          const bEndDate   = (b.finish || b.start || '').slice(0, 10);
+          if (!bStartDate) return;
+          // Überlappung mit angefragtem Zeitraum?
+          if (bStartDate <= toDate && bEndDate >= fromDate) {
             bookedNames.add(b.res_name);
           }
         });
@@ -1157,7 +1159,11 @@
       var t = window._translations[lang];
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
         var key = el.getAttribute('data-i18n');
-        if (t[key]) el.textContent = t[key];
+        if (t[key]) {
+          // HTML erlauben wenn Übersetzung Tags enthält (z.B. Links in Datenschutz-Checkboxen)
+          if (/<[a-z][\s\S]*?>/i.test(t[key])) el.innerHTML = t[key];
+          else el.textContent = t[key];
+        }
       });
       document.documentElement.lang = lang;
       document.getElementById('lang-flag').src = 'img/flags/' + (LANG_FLAGS[lang] || 'de') + '.png';

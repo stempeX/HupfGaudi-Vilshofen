@@ -35,7 +35,11 @@ def load_env():
 
 load_env()
 
-# SuperSaaS-Konstanten wurden entfernt. Buchungen laufen jetzt komplett ueber bookings.json.
+# SuperSaaS-Sync (optional) - Buchungen aus SuperSaaS werden bei Bedarf in bookings.json gemerged.
+# Wenn SUPERSAAS_API_KEY in .env gesetzt ist, kann ueber /api/sync-supersaas synchronisiert werden.
+SUPERSAAS_API_KEY = os.environ.get('SUPERSAAS_API_KEY', '')
+SUPERSAAS_ACCOUNT = os.environ.get('SUPERSAAS_ACCOUNT', 'Hupfgaudi-Vilshofen')
+SUPERSAAS_SCHEDULE_ID = os.environ.get('SUPERSAAS_SCHEDULE_ID', '795126')
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PRICES_FILE = os.path.join(BASE_DIR, 'prices.json')
@@ -358,6 +362,9 @@ class ProxyHandler(SimpleHTTPRequestHandler):
         elif self.path == '/api/bookings' or self.path.startswith('/api/bookings?'):
             if not self._require_auth(): return
             self._create_booking_entry()
+        elif self.path.startswith('/api/sync-supersaas'):
+            if not self._require_auth(): return
+            self._sync_supersaas()
         else:
             self.send_response(404)
             self.end_headers()
@@ -541,6 +548,82 @@ class ProxyHandler(SimpleHTTPRequestHandler):
                 save_bookings(items)
                 return self._json_response(200, {'ok': True, 'id': target_id})
         return self._json_response(404, {'error': 'booking not found'})
+
+    def _sync_supersaas(self):
+        """POST /api/sync-supersaas - holt SuperSaaS-Buchungen und merged sie in bookings.json."""
+        if not SUPERSAAS_API_KEY:
+            return self._json_response(400, {'error': 'SUPERSAAS_API_KEY fehlt in .env'})
+        try:
+            from datetime import datetime, timedelta
+            today = datetime.now().date()
+            # Sync-Fenster: 30 Tage zurueck bis 12 Monate vor
+            from_date = (today - timedelta(days=30)).isoformat()
+            to_date = (today + timedelta(days=365)).isoformat()
+            url = (f'https://www.supersaas.com/api/bookings.json'
+                   f'?schedule_id={SUPERSAAS_SCHEDULE_ID}'
+                   f'&account={SUPERSAAS_ACCOUNT}'
+                   f'&api_key={SUPERSAAS_API_KEY}'
+                   f'&from={from_date}&to={to_date}')
+            req = urllib.request.Request(url)
+            with urllib.request.urlopen(req, timeout=15) as response:
+                raw = response.read().decode('utf-8', errors='replace')
+            ss_data = json.loads(raw)
+            ss_items = ss_data if isinstance(ss_data, list) else ss_data.get('bookings', [])
+
+            # Merge: bestehende Buchungen per ID indexieren
+            local = load_bookings()
+            local_by_id = {b.get('id'): b for b in local}
+            added, updated = 0, 0
+            now_iso = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+
+            for ss in ss_items:
+                ss_id = ss.get('id')
+                if ss_id is None:
+                    continue
+                # SuperSaaS Buchungs-Felder normalisieren auf unser bookings.json-Schema
+                merged = {
+                    'id': ss_id,
+                    'start': ss.get('start', ''),
+                    'finish': ss.get('finish', ss.get('start', '')),
+                    'res_name': ss.get('res_name', ''),
+                    'full_name': ss.get('full_name', ''),
+                    'email': ss.get('email', ''),
+                    'mobile': ss.get('mobile', ''),
+                    'address': ss.get('address', ''),
+                    'field_1_r': ss.get('field_1_r', ''),
+                    'field_2_r': ss.get('field_2_r', ''),
+                    'price': ss.get('price', 0),
+                    'status': ss.get('status', 100),
+                    'status_message': ss.get('status_message', 'Freigegeben'),
+                    'created_on': ss.get('created_on', now_iso),
+                    'updated_on': ss.get('updated_on', now_iso),
+                    'created_by': ss.get('created_by', 'SuperSaaS'),
+                    'deleted': bool(ss.get('deleted', False)),
+                    'source': 'supersaas',
+                }
+                if ss_id in local_by_id:
+                    # Lokale Aenderungen behalten - nur ueberschreiben wenn nicht 'manual'
+                    existing = local_by_id[ss_id]
+                    if existing.get('source') == 'manual':
+                        continue
+                    existing.update(merged)
+                    updated += 1
+                else:
+                    local.append(merged)
+                    added += 1
+
+            save_bookings(local)
+            print(f'SuperSaaS-Sync: {added} neu, {updated} aktualisiert ({len(ss_items)} aus SuperSaaS)')
+            return self._json_response(200, {
+                'ok': True, 'added': added, 'updated': updated,
+                'total_supersaas': len(ss_items), 'total_local': len(local)
+            })
+        except urllib.error.HTTPError as e:
+            try: msg = e.read().decode('utf-8', errors='replace')[:200]
+            except: msg = str(e)
+            return self._json_response(502, {'error': f'SuperSaaS-Fehler {e.code}: {msg}'})
+        except Exception as e:
+            return self._json_response(500, {'error': f'Sync-Fehler: {e}'})
 
     def _fetch_and_respond(self, url):
         try:
@@ -1824,6 +1907,13 @@ class ProxyHandler(SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
+        # Verhindert Browser-Cache fuer dynamische API-Antworten und HTML-Seiten,
+        # damit Code-/Daten-Aenderungen sofort wirksam sind.
+        path = (self.path or '').split('?')[0]
+        if path.startswith('/api/') or path.endswith('.html') or path == '/' or path == '':
+            self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            self.send_header('Pragma', 'no-cache')
+            self.send_header('Expires', '0')
         super().end_headers()
 
 

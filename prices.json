@@ -58,5 +58,15 @@
     "priceWeekday": 95,
     "priceWeekend": 228,
     "saveWeekend": 57
+  },
+  "Sprizzer": {
+    "priceWeekday": 25,
+    "priceWeekend": 60,
+    "saveWeekend": 15
+  },
+  "Kindersitzgarnitur mit UV Schutz": {
+    "priceWeekday": 15,
+    "priceWeekend": 40,
+    "saveWeekend": 5
   }
 }

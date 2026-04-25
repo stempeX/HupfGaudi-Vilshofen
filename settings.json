@@ -14,7 +14,7 @@
   "schadenHupfburgIrreparabel": 1500,
   "schadenProfiIrreparabel": 8000,
   "schadenGeblaese": 300,
-  "reinigungHupfburg": 49,
+  "reinigungHupfburg": 50,
   "reinigungPartyzubehoer": 25,
   "verspaetungProStunde": 20,
   "fristWiderruf": 14,
@@ -24,5 +24,9 @@
   "fristDatenspeicher": 10,
   "fristAbholung": 1.5,
   "fristAngebot": 5,
-  "mindestalter": 18
+  "mindestalter": 18,
+  "reinigungHupfburgMax": 100,
+  "reinigungHupfburgLabel": "Starke Verschmutzung (Matsch/Essen/Getränke)",
+  "trocknungsgebuehr": 100,
+  "schadenHupfburgIrreparabelMax": 5000
 }

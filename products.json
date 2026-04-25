@@ -277,5 +277,52 @@
     "active": false,
     "exclusive": true,
     "inactiveReason": "coming_soon"
+  },
+  {
+    "id": "sprizzer",
+    "name": "Sprizzer",
+    "displayName": "Sprizzer",
+    "apiName": "Sprizzer",
+    "type": "equipment",
+    "description": "Sprizzer ist ein mechanisches System zur Zubereitung von Aperetif und wurde entwickelt, um den Aperitif-Service einfacher und effizienter zu machen.",
+    "dimensions": "",
+    "weight": "",
+    "age": "",
+    "feature": "",
+    "priceWeekday": 25,
+    "priceWeekend": 60,
+    "priceZutaten": 0,
+    "saveWeekend": 15,
+    "color": "#3b82f6",
+    "image": "img/8fc6206f.webp",
+    "images": [
+      "img/8fc6206f.webp"
+    ],
+    "featured": false,
+    "active": true
+  },
+  {
+    "id": "kindersitzgarniturmituvschutz",
+    "name": "Kindersitzgarnitur mit UV Schutz",
+    "displayName": "Kindersitzgarnitur mit UV Schutz",
+    "apiName": "Kindersitzgarnitur mit UV Schutz",
+    "type": "equipment",
+    "description": "Durch den einfachen Auf- und Abbau ist die Sitzgruppe jederzeit leicht zu transportieren und somit perfekt geeignet für den Einsatz im heimischen Garten oder Event.",
+    "dimensions": "",
+    "weight": "",
+    "age": "",
+    "feature": "",
+    "priceWeekday": 15,
+    "priceWeekend": 40,
+    "priceZutaten": 0,
+    "saveWeekend": 5,
+    "color": "#3b82f6",
+    "image": "img/0daea0b6.png",
+    "images": [
+      "img/0daea0b6.png"
+    ],
+    "featured": false,
+    "active": false,
+    "inactiveReason": "coming_soon"
   }
 ]

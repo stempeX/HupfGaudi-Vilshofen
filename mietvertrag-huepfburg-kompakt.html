@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mietvertrag (Kurzfassung) – HupfGaudi Vilshofen</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="fonts/nunito.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Nunito', Arial, sans-serif;
+      max-width: 800px; margin: 0 auto;
+      padding: 20px; color: #1e293b;
+      font-size: 13px; line-height: 1.4;
+    }
+    h1 {
+      color: #ff5a1f; text-align: center;
+      font-size: 1.5rem; margin: 0 0 4px;
+    }
+    .sub { text-align: center; color: #64748b; font-size: .85rem; margin-bottom: 14px; }
+    h2 {
+      font-size: 1rem; color: #ff5a1f;
+      margin: 16px 0 6px; padding-bottom: 3px;
+      border-bottom: 2px solid #ff5a1f;
+    }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; margin: 6px 0; }
+    .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px 14px; margin: 6px 0; }
+    .field { display: flex; flex-direction: column; gap: 2px; }
+    .field label { font-size: .72rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; }
+    .dinput {
+      width: 100%; padding: 6px 9px;
+      border: 1px solid #cbd5e1; border-radius: 5px;
+      font-family: inherit; font-size: .92rem;
+      background: #fff;
+    }
+    .dinput[readonly], .dinput.locked { background: #f8fafc; color: #1e293b; }
+    .box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0; border-radius: 6px;
+      padding: 10px 12px; margin: 8px 0;
+    }
+    .box-warn { background: #fef3c7; border-color: #fbbf24; }
+    .box-info { background: #dbeafe; border-color: #60a5fa; }
+    ul.compact { margin: 4px 0 4px 18px; padding: 0; }
+    ul.compact li { margin: 2px 0; }
+    .accept-list label {
+      display: flex; gap: 8px; align-items: flex-start;
+      padding: 6px 0; font-size: .88rem;
+    }
+    .accept-list input[type="checkbox"] { margin-top: 3px; }
+    .accept-list a { color: #ff5a1f; font-weight: 700; }
+    .signatures {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+      margin-top: 30px; page-break-inside: avoid;
+    }
+    .signatures .sig-block { text-align: center; }
+    .signatures .sig-line {
+      border-bottom: 1px solid #1e293b;
+      height: 40px; margin-bottom: 4px;
+    }
+    .signatures .sig-block p {
+      font-size: .78rem; color: #64748b; margin: 0;
+    }
+    .price-box {
+      background: linear-gradient(135deg, #ff5a1f, #ffcc00);
+      color: #fff; padding: 10px 14px; border-radius: 6px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin: 8px 0;
+    }
+    .price-box strong { font-size: 1.4rem; }
+    .print-btn {
+      position: fixed; bottom: 20px; right: 20px;
+      background: #ff5a1f; color: #fff;
+      border: none; border-radius: 50px;
+      padding: 12px 22px; font-weight: 700;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.2);
+      font-family: inherit; font-size: .95rem;
+      z-index: 99;
+    }
+    .banner {
+      background: #fef3c7; border-left: 4px solid #f59e0b;
+      padding: 10px 14px; margin: 0 0 12px;
+      border-radius: 4px; font-size: .85rem;
+    }
+    @media print {
+      body { padding: 12mm; max-width: none; font-size: 11px; }
+      h1 { font-size: 1.3rem; }
+      h2 { font-size: .95rem; margin: 10px 0 4px; }
+      .print-btn, .banner { display: none !important; }
+      .dinput { border: none; border-bottom: 1px solid #1e293b; border-radius: 0; padding: 2px 4px; background: #fff !important; }
+      input[type="checkbox"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .box { background: #fff !important; border: 1px solid #cbd5e1; }
+      .price-box { background: #fff !important; color: #1e293b !important; border: 1px solid #ff5a1f; }
+      /* Leere Inputs zeigen keinen Platzhalter beim Drucken */
+      input::placeholder, select::placeholder, textarea::placeholder { color: transparent !important; }
+      input::-webkit-input-placeholder { color: transparent !important; }
+      /* Datum-Inputs: leere zeigen kein "tt.mm.jjjj" */
+      input[type="date"]:not([data-has-value])::-webkit-datetime-edit { color: transparent !important; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">🖨️ Drucken / PDF</button>
+
+<h1>Mietvertrag Hüpfburg – Kurzfassung</h1>
+<p class="sub">HupfGaudi™ Vilshofen · Christoph & Yasmin Gutsmidl · Böcklbacher Str. 7, 94474 Vilshofen · Tel. 0151/28861367</p>
+
+<!-- 1. MIETER -->
+<h2>1. Mieter</h2>
+<div class="row">
+  <div class="field"><label>Name, Vorname *</label><input class="dinput" id="c-name" required></div>
+  <div class="field"><label>Geburtsdatum</label><input class="dinput" id="c-geburt" type="date"></div>
+</div>
+<div class="row">
+  <div class="field"><label>Straße + Nr. *</label><input class="dinput" id="c-strasse" required></div>
+  <div class="field"><label>PLZ + Ort *</label><input class="dinput" id="c-ort" required></div>
+</div>
+<div class="row">
+  <div class="field"><label>Telefon *</label><input class="dinput" id="c-telefon" type="tel" required></div>
+  <div class="field"><label>E-Mail *</label><input class="dinput" id="c-email" type="email" required></div>
+</div>
+
+<!-- 2. MIETGEGENSTAND -->
+<h2>2. Mietgegenstand & Termine</h2>
+<div class="row">
+  <div class="field"><label>Hüpfburg / Modell *</label><input class="dinput" id="c-modell" required></div>
+  <div class="field"><label>Aufstelluntergrund</label><input class="dinput" id="c-untergrund" placeholder="z. B. Rasen, Pflaster"></div>
+</div>
+<div class="row-3">
+  <div class="field"><label>Abholung / Lieferung *</label><input class="dinput" id="c-datum-start" type="date" required></div>
+  <div class="field"><label>Rückgabe *</label><input class="dinput" id="c-datum-ende" type="date" required></div>
+  <div class="field"><label>Art</label>
+    <select class="dinput" id="c-lieferung">
+      <option value="selbstabholung">🚗 Selbstabholung</option>
+      <option value="lieferung">🚚 Lieferung</option>
+    </select>
+  </div>
+</div>
+<div class="field" style="margin-top:6px"><label>Veranstaltungsadresse (falls abweichend)</label><input class="dinput" id="c-vadresse"></div>
+
+<div class="cost-table" style="margin:8px 0;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden">
+  <div class="cost-row" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0">
+    <span>Mietpreis Hüpfburg</span>
+    <span><input class="dinput" id="c-preis" type="number" style="width:90px;text-align:right;font-weight:700" placeholder="0"> €</span>
+  </div>
+  <div class="cost-row" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid #e2e8f0">
+    <span>Lieferung <small style="color:#64748b">(optional)</small></span>
+    <span><input class="dinput" id="c-preis-lieferung" type="number" style="width:90px;text-align:right" placeholder="0"> €</span>
+  </div>
+  <div class="cost-row" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#fef3c7;border-bottom:1px solid #fbbf24">
+    <span><strong>Kaution</strong> <small style="color:#78350f">(in bar bei Abholung, sofortige Erstattung nach Videobeweis)</small></span>
+    <span><input class="dinput" id="c-kaution" type="number" value="150" style="width:90px;text-align:right;font-weight:700"> €</span>
+  </div>
+  <div class="cost-row" style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:linear-gradient(135deg,#ff5a1f,#ffcc00);color:#fff">
+    <strong style="font-size:1.05rem">Gesamtpreis bei Abholung</strong>
+    <strong style="font-size:1.4rem" id="c-gesamtpreis">0 €</strong>
+  </div>
+</div>
+
+<!-- 3. AKZEPTANZ -->
+<h2>3. Bestätigung des Mieters</h2>
+<p style="font-size:.88rem;color:#475569;margin:4px 0 8px">
+  Mit meiner Unterschrift bestätige ich, dass ich die folgenden Dokumente
+  <strong>vollständig gelesen, verstanden und akzeptiert</strong> habe.
+  Diese sind unter <strong>www.hupfgaudi-vilshofen.de</strong> einsehbar:
+</p>
+<div class="accept-list">
+  <label><input type="checkbox" id="c-acc-vertrag" required> <span><strong>Vollständigen Mietvertrag</strong> inkl. Nutzungs- und Sicherheitsbestimmungen <a href="mietvertrag-huepfburg.html" target="_blank">(öffnen)</a></span></label>
+  <label><input type="checkbox" id="c-acc-agb" required> <span><strong>AGB</strong>, <strong>Stornierungsbedingungen</strong> und <strong>Schadenspauschalen</strong> <a href="impressum.html#agb" target="_blank">(öffnen)</a></span></label>
+  <label><input type="checkbox" id="c-acc-datenschutz" required> <span><strong>Datenschutzerklärung</strong> und <strong>Widerrufsbelehrung</strong> <a href="impressum.html#datenschutz" target="_blank">(öffnen)</a></span></label>
+  <label><input type="checkbox" id="c-acc-haftung" required> <span><strong>Haftungsübernahme</strong> (Aufsichtspflicht, Schäden, Personenverletzungen) und <strong>Sicherheitshinweise</strong> (Wind ab 39 km/h Stopp, keine Schuhe, Aufsicht usw.)</span></label>
+  <label><input type="checkbox" id="c-acc-video" required> <span><strong>Videobeweis-Pflicht bei Rückgabe</strong> – ohne Video wird die Kaution einbehalten + Pauschalen kommen on top.</span></label>
+  <label><input type="checkbox" id="c-acc-ausweis"> <span>Ich bin damit einverstanden, dass bei Abholung ein <strong>Foto meines Ausweises</strong> gemacht wird (freiwillig).</span></label>
+</div>
+
+<!-- 4. UNTERSCHRIFT -->
+<h2>4. Unterschriften</h2>
+<p style="font-size:.85rem;color:#475569;margin:4px 0">
+  Mit Unterschrift werden alle oben akzeptierten Bedingungen rechtsverbindlich. Vertrag in 2-facher Ausfertigung – je 1 Mieter und Vermieter.
+</p>
+<div class="signatures">
+  <div class="sig-block">
+    <div class="sig-line"></div>
+    <p>Datum + Unterschrift <strong>Mieter</strong></p>
+  </div>
+  <div class="sig-block">
+    <div class="sig-line"></div>
+    <p>Datum + Unterschrift <strong>Vermieter</strong></p>
+  </div>
+</div>
+
+<p style="font-size:.7rem;color:#94a3b8;margin-top:30px;text-align:center">
+  HupfGaudi™ ist eine beim DPMA angemeldete Wortmarke (Az. 30 2026 221 765.6).
+  Vollständiger Mietvertrag, AGB, Datenschutz: www.hupfgaudi-vilshofen.de
+</p>
+
+<script>
+  // Vorbefüllung aus URL-Parametern (Aufruf aus Dashboard)
+  (function() {
+    const p = new URLSearchParams(window.location.search);
+    if (![...p.keys()].length) return;
+    const map = {
+      'c-name': 'name', 'c-strasse': 'strasse', 'c-ort': 'ort',
+      'c-telefon': 'telefon', 'c-email': 'email',
+      'c-modell': 'modell', 'c-datum-start': 'datum_start',
+      'c-datum-ende': 'datum_ende', 'c-preis': 'preis',
+      'c-untergrund': 'untergrund'
+    };
+    Object.entries(map).forEach(([id, key]) => {
+      const v = p.get(key);
+      const el = document.getElementById(id);
+      if (el && v) el.value = v;
+    });
+    // Lieferung
+    const lief = (p.get('lieferung') || '').toLowerCase();
+    const sel = document.getElementById('c-lieferung');
+    if (sel && lief) sel.value = lief.includes('lieferung') || lief.includes('🚚') ? 'lieferung' : 'selbstabholung';
+
+    // Banner
+    const banner = document.createElement('div');
+    banner.className = 'banner';
+    banner.innerHTML = '📄 <strong>Vorbefüllt aus Dashboard.</strong> Felder prüfen, ggf. ergänzen, dann <strong>Strg+P</strong> oder Drucken-Button unten rechts.';
+    document.body.insertBefore(banner, document.body.children[1]);
+  })();
+
+  // Gesamtpreis automatisch berechnen
+  function updateGesamtpreis() {
+    const preis = parseFloat(document.getElementById('c-preis').value) || 0;
+    const lief  = parseFloat(document.getElementById('c-preis-lieferung').value) || 0;
+    const kaut  = parseFloat(document.getElementById('c-kaution').value) || 0;
+    const gesamt = preis + lief + kaut;
+    document.getElementById('c-gesamtpreis').textContent = gesamt.toLocaleString('de-DE') + ' €';
+  }
+  ['c-preis','c-preis-lieferung','c-kaution'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateGesamtpreis);
+  });
+  // Lieferung-Auto-Pauschale: wenn 'lieferung' gewählt → 100 € vorschlagen
+  document.getElementById('c-lieferung').addEventListener('change', (e) => {
+    const liefField = document.getElementById('c-preis-lieferung');
+    if (e.target.value === 'lieferung' && (!liefField.value || liefField.value === '0')) {
+      liefField.value = '100';
+    } else if (e.target.value === 'selbstabholung') {
+      liefField.value = '';
+    }
+    updateGesamtpreis();
+  });
+  // Initial nach URL-Vorbefüllung berechnen
+  setTimeout(updateGesamtpreis, 50);
+
+  // Leere Felder beim Drucken wirklich leer lassen (date/select Quirks neutralisieren)
+  function _markFilled() {
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+      if (el.value && el.value.trim() !== '') el.dataset.hasValue = '1';
+      else delete el.dataset.hasValue;
+    });
+  }
+  document.addEventListener('input', _markFilled);
+  document.addEventListener('change', _markFilled);
+  window.addEventListener('beforeprint', () => {
+    _markFilled();
+    // Leere date/number-Inputs temporär in leere Text-Inputs verwandeln,
+    // damit kein "tt.mm.jjjj" / "0" gedruckt wird
+    document.querySelectorAll('input[type="date"], input[type="number"]').forEach(el => {
+      if (!el.value) {
+        el.dataset._origType = el.type;
+        el.type = 'text';
+        el.value = '';
+      }
+    });
+    // Leere Selects: zeige nichts
+    document.querySelectorAll('select').forEach(el => {
+      if (!el.value || el.value === '') {
+        el.dataset._origDisplay = el.style.display;
+        el.style.display = 'none';
+      }
+    });
+  });
+  window.addEventListener('afterprint', () => {
+    document.querySelectorAll('input[data-_orig-type], input[data-_origtype]').forEach(el => {
+      el.type = el.dataset._origType || 'text';
+      delete el.dataset._origType;
+    });
+    document.querySelectorAll('select').forEach(el => {
+      if ('_origDisplay' in el.dataset) {
+        el.style.display = el.dataset._origDisplay;
+        delete el.dataset._origDisplay;
+      }
+    });
+  });
+  _markFilled();
+</script>
+
+</body>
+</html>
